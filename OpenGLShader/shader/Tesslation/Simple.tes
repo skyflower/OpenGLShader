@@ -1,0 +1,9 @@
+#version 400
+layout(triangles, equal_spacing, ccw)in;
+
+void main()
+{
+	//gl_Position = gl_in[0].gl_Position;
+	//gl_Position = vec4(gl_TessCoord.xyz, 1.0);
+	gl_Position = vec4(gl_TessCoord.xyz, 1.0);
+}

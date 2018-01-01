@@ -1,0 +1,12 @@
+﻿  main.cpp
+  正在生成代码
+  1 of 2267 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    35 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+SOIL.lib(SOIL.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(SOIL.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Release\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(image_helper.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_helper.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Release\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(stb_image_aug.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Release\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(image_DXT.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_DXT.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Release\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+  OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Release\OpenGLShader.exe
+  OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Release\OpenGLShader.pdb (Full PDB)

@@ -1,0 +1,4 @@
+﻿  WaterWave.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\waterwave.cpp(127): warning C4018: “<”: 有符号/无符号不匹配
+  OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.exe
+  OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.pdb (Full PDB)
