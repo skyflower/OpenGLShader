@@ -13,8 +13,8 @@ CSphere::CSphere(float radis, int slide, int stacks):C3DModel()
 	m_nIndexBufObj = -1;
 	m_pTexture = nullptr;
 	m_pIndex = nullptr;
-	m_nNormalMatrixIndex = -1;
-	m_nModelViewMatrixIndex = -1;
+	//m_nNormalMatrixIndex = -1;
+	//m_nModelViewMatrixIndex = -1;
 
 	Init(radis, slide, stacks);
 }
@@ -159,9 +159,7 @@ void CSphere::InitDisplayBuffer()
 	
 	SetVertexAttrib(VERTEXATTRIB);
 	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
-	m_nNormalMatrixIndex = glGetUniformLocation(m_pShader->GetProgram(), "NM");
-	m_nModelViewMatrixIndex = glGetUniformLocation(m_pShader->GetProgram(), "MV");
+	SetShaderProgram(m_pShader->GetProgram());
 }
 
 void CSphere::Draw()
@@ -178,14 +176,8 @@ void CSphere::Draw()
 	{
 		m_pTexture->Bind();
 	}
-	mat4f modelView = GetModel();
-	mat4f tmp = modelView *m_fMVPMatrix;
-	mat4f normalMatrix = modelView.Transposition().inverse();
-	//TestShader(tmp);
-	
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
-	glUniformMatrix4fv(m_nNormalMatrixIndex, 1, GL_FALSE, &normalMatrix[0][0]);
-	glUniformMatrix4fv(m_nModelViewMatrixIndex, 1, GL_FALSE, &modelView[0][0]);
+
+	SetTransformMatrix();
 
 	SetVertexAttrib(ATTRIBPOINTER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

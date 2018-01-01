@@ -46,15 +46,10 @@ void CPolygonTess::Draw()
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//utils::CheckError(__FILE__, __FUNCTION__, __LINE__);
-	mat4f modelMatrix = C3DModel::GetModel();
-	mat4f tmp =  modelMatrix * m_fMVPMatrix;
-	//Log << "modelMatrix \n" << modelMatrix << "\n";
-	//Log << "m_fMVPMatrix \n" << m_fMVPMatrix << "\n";
+	
+	SetTransformMatrix();
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBuffer);
 
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
-	//TestShader(tmp);
 	SetVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
 	//glDrawArrays(GL_QUADS, 0, m_nPointCount);
 	//glPatchParameteri(GL_PATCH_VERTICES, 3);
@@ -163,11 +158,9 @@ void CPolygonTess::Init()
 
 	//m_pShader = new CShader(5, path);
 	m_pShader = new CShader("./shader/Tesslation/Simple.vs", "./shader/Tesslation/Simple.fs");
-	//utils::CheckError(__FILE__, __FUNCTION__, __LINE__);
 	SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
-	
 
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	SetShaderProgram(m_pShader->GetProgram());
 }
 
 void CPolygonTess::SetVertexAttrib(AttribType type)

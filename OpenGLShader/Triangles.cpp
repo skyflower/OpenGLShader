@@ -129,7 +129,7 @@ void CTriangle::InitDisplayBuffer()
 		}
 	}
 	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	SetShaderProgram(m_pShader->GetProgram());
 	m_nSurfaceLocation = glGetSubroutineUniformLocation(m_pShader->GetProgram(), GL_FRAGMENT_SHADER, "U_SurfaceColor");
 
 	GLuint AmbientIndex = glGetSubroutineIndex(m_pShader->GetProgram(), GL_FRAGMENT_SHADER, "Ambient");
@@ -142,7 +142,6 @@ void CTriangle::InitDisplayBuffer()
 
 void CTriangle::Draw()
 {
-	mat4f tmp = GetModel() * m_fMVPMatrix;
 	
 	if (m_pShader)
 	{
@@ -153,7 +152,7 @@ void CTriangle::Draw()
 		m_pTexture->Bind();
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 	SetVertexAttrib(ATTRIBPOINTER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	if (m_bInstanced == true)

@@ -55,9 +55,7 @@ void CPointSprite::Draw()
 		m_pTexture->Bind();
 	}
 
-	mat4f tmp = C3DModel::GetModel() *m_fMVPMatrix;
-
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 
 	//glDrawArrays(GL_QUADS, 0, m_nPointCount);
 	glDrawArrays(GL_QUADS, 0, 4);
@@ -113,7 +111,7 @@ void CPointSprite::Init()
 	
 	m_pShader = new CShader("./shader/PointSpriteSSBO.vs", "./shader/PointSpriteSSBO.fs");
 
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	SetShaderProgram(m_pShader->GetProgram());
 	
 	//delete[]Array;
 	//Array = nullptr;

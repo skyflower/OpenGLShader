@@ -129,9 +129,9 @@ void CParticleEmit::Draw()
 
 	SetVertexAttrib(m_pShader, CDrawable::AttribType::ATTRIBPOINTER);
 
-	mat4f tmp = C3DModel::GetModel();// *m_fMVPMatrix;
+	//mat4f tmp = C3DModel::GetModel();// *m_fMVPMatrix;
 
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 
 	//glDrawArrays(GL_QUADS, 0, m_nPointCount);
 	//glDrawArrays(GL_POINTS, 0, m_nPointCountInBuffer);// m_nPointCount);
@@ -304,7 +304,7 @@ void CParticleEmit::Init()
 
 	m_pShader = new CShader("./shader/TFO/Simple.vs", "./shader/TFO/Simple.fs", "./shader/TFO/Simple.gs");
 
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	SetShaderProgram(m_pShader->GetProgram());
 
 	m_nTexLocation = glGetUniformLocation(m_pShader->GetProgram(), "U_MainTexture");
 

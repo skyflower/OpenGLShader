@@ -41,7 +41,7 @@ private:
 
 	CTexture *m_pTexture;
 	CShader *m_pShader;
-	GLuint m_nModelMatrixLocation;
+	//GLuint m_nModelMatrixLocation;
 
 	GLuint m_nVertexBufferObj;
 	

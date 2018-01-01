@@ -37,19 +37,13 @@ private:
 	
 	void SetVertexAttrib(AttribType type);
 	
-
 	std::vector<CVertexData> *m_data;
-
-	//GLuint m_nSSBOProgram;
 
 	CTexture *m_pTexture;
 	CShader *m_pShader;
 
 	GLuint m_nVertexBufferObj;
-	
-	//GLuint m_nMVPLocation;
-	//mat4f m_fMVPMatrix;
-	//vec3f m_fTrans[3];
+
 };
 
 

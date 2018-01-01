@@ -100,10 +100,8 @@ void CParticleCube::Draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);// GL_ONE_MINUS_SRC_ALPHA);
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_nSSBOProgram);
-
-	mat4f tmp = C3DModel::GetModel();// *m_fMVPMatrix;
 	
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 	
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferObj);
 	//glDrawElements(GL_QUADS, m_nIndexCount, GL_UNSIGNED_INT, 0);
@@ -197,7 +195,7 @@ void CParticleCube::Init()
 
 	m_nTexLocation = glGetUniformLocation(m_nCSShader, "U_MainTexture");
 
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	SetShaderProgram(m_pShader->GetProgram());
 	
 }
 

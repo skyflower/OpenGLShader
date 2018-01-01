@@ -177,6 +177,8 @@ public:
             result += (bNeg == false ? tmpValue : -tmpValue);
             bNeg = !bNeg;
         }
+		delete[]tmpList;
+		tmpList = nullptr;
         return result;
     }
 	CMatrix<N - 1, M - 1, type> reduceDimension()

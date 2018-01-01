@@ -40,18 +40,15 @@ public:
 private:
 	void ResetState();
 	void SetVertexAttrib(AttribType type);
+
 	std::vector<CVertexData> *m_data;
 	std::vector<unsigned int> *m_pIndex;
 
 	CShader* m_pShader;
 
-
 	CTexture *m_pTexture;
 	GLuint m_nParamLocation;
 	vec4f m_fParam;
-	GLuint m_nModelMatrixLocation;
-	GLuint m_nViewMatrixLocation;
-	
 
 	GLuint m_nVertexBufferObj;
 	GLuint m_nIndexBufferObj;

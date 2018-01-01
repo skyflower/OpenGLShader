@@ -11,7 +11,7 @@ CTextureTest::CTextureTest():C3DModel()
 	m_pShader = nullptr;
 	m_nVertexBufferObj = -1;
 	m_pTexture = nullptr;
-	m_nModelMatrixLocation = -1;
+	//m_nModelMatrixLocation = -1;
 
 	Init();
 }
@@ -89,8 +89,7 @@ void CTextureTest::InitDisplayBuffer()
 	
 	SetVertexAttrib(VERTEXATTRIB);
 	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
-	m_nModelMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "modelMatrix");
+	SetShaderProgram(m_pShader->GetProgram());
 }
 
 void CTextureTest::Draw()
@@ -103,12 +102,7 @@ void CTextureTest::Draw()
 	{
 		m_pTexture->Bind();
 	}
-	mat4f modelMatrix = GetModel();
-	mat4f tmp = modelMatrix *m_fMVPMatrix;
-
-	//TestShader(tmp);
-	glUniformMatrix4fv(m_nModelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 
 	SetVertexAttrib(ATTRIBPOINTER);
 	

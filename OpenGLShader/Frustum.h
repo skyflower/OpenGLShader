@@ -28,11 +28,7 @@ public:
 	void Init(CVector<6, float> &rhs);
 	virtual void Draw();
 	virtual void Update(float duration);
-	//void SetRotate(float AngleX, float AngleY, float AngleZ);
-	//void SetTranslate(float x, float y, float z);
-	//void SetScale(float x, float y, float z);
-	//void SetMatrix(mat4f& ModelMatrix, mat4f& ViewMatrix, mat4f& ProjectionMatrix);
-	//mat4f GetModel();
+	
 	void TestShader(mat4f model);
 private:
 	//void InitShaderProgram();

@@ -6,6 +6,7 @@
 #include "Texure.h"
 #include "shader.h"
 #include "VertexData.h"
+#include <memory>
 
 
 class C3DModel :
@@ -17,7 +18,7 @@ public:
 
 	virtual void Draw() = 0;
 	virtual void Update(float Duration) = 0;
-	virtual void SetMatrix(mat4f & ModelMatrix, mat4f & ViewMatrix, mat4f & ProjectionMatrix);
+	virtual void SetMatrix(mat4f & ViewMatrix, mat4f & ProjectionMatrix);
 
 	virtual void SetScale(float x, float y, float z);
 	virtual void SetRotate(float AngleX, float AngleY, float AngleZ);
@@ -29,16 +30,24 @@ public:
 	virtual vec3f GetRotate();
 	virtual vec3f GetTranslate();
 
-	mat4f GetModel();
-protected:
-	GLuint m_nMVPLocation;
-	mat4f m_fMVPMatrix;
-	//mat4f m_fModelMatrix;
-	//mat4f m_fViewMatrix;
-	//mat4f m_fProjectionMatrix;
-private:
+	void SetShaderProgram(GLuint program);
 
+	void SetTransformMatrix();
+
+	mat4f GetModel();
+	mat4f GetViewMatrix();
+	mat4f GetProjectionMatrix();
+
+private:
+	GLuint m_nMVPLocation;
+	mat4f m_fProjectionMatrix;
+
+	GLuint m_nModelMatrixLocation;
+	GLuint m_nViewMatrixLocation;
 	
+	mat4f m_fViewMatrix;
+
 	vec3f m_fTrans[3];
+	GLuint m_nShaderProgram;
 };
 

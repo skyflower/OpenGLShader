@@ -16,8 +16,7 @@ CWaterWave::CWaterWave() :C3DModel()
 	m_pTexture = nullptr;
 	
 	m_nIndexBufferObj = -1;
-	m_nModelMatrixLocation = -1;
-	m_nViewMatrixLocation = -1;
+	
 	m_nParamLocation = -1;
 	m_fParam[0] = 0;
 	m_fParam[1] = 0.2;
@@ -157,18 +156,11 @@ void CWaterWave::InitDisplayBuffer()
 	m_pShader = new CShader("./shader/waterwaveTwo.vs", "./shader/waterwaveTwo.fs");
 	SetVertexAttrib(VERTEXATTRIB);
 	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
-	m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
-	m_nModelMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "modelMatrix");
-	m_nViewMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "viewMatrix");
-	
+	SetShaderProgram(m_pShader->GetProgram());
 }
 
 void CWaterWave::Draw()
 {
-	mat4f modelMatrix = GetModel();
-	mat4f tmp = modelMatrix * m_fMVPMatrix;
-	
 	if (m_pShader)
 	{
 		m_pShader->Bind();
@@ -179,18 +171,16 @@ void CWaterWave::Draw()
 	}
 	//TestShader(tmp);
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
-	glUniformMatrix4fv(m_nModelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
-	glUniformMatrix4fv(m_nViewMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
-	
+
+	SetTransformMatrix();
 	
 	glUniform4fv(m_nParamLocation, 1, &m_fParam[0]);
 
 	SetVertexAttrib(ATTRIBPOINTER);
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferObj);
-	
 	
 	glDrawElements(GL_TRIANGLES, m_pIndex->size(), GL_UNSIGNED_INT, 0);
 	

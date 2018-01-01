@@ -45,8 +45,8 @@ private:
 
 	GLuint m_nVertexBufferObj;
 	GLuint m_nIndexBufObj;
-	GLuint m_nNormalMatrixIndex;
-	GLuint m_nModelViewMatrixIndex;
+	//GLuint m_nNormalMatrixIndex;
+	//GLuint m_nModelViewMatrixIndex;
 };
 
 

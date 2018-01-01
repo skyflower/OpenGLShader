@@ -92,16 +92,15 @@ void CFrustum::Init(CVector<6, float>& rhs)
 
 void CFrustum::Draw()
 {
-	mat4f tmp = GetModel();
 	glUseProgram(m_pShader->GetProgram());
 	
 	//TestShader(tmp);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferID);
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferID);
 	if (m_pShader)
 	{
-		GLuint count = 3;
+		size_t count = 3;
 		GLuint offset = 0;
 		m_pShader->SetAttribPointer(&count, GL_FLOAT, GL_FALSE, sizeof(float) * 3 , &offset);
 	}
@@ -167,11 +166,7 @@ void CFrustum::InitShaderProgram(float *points,size_t PointCount, GLubyte *index
 	{
 		Log << __FUNCTION__ << "  " << __LINE__ << " glGetError: " << glGetError() << "\n";
 	}*/
-	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
-	if (m_nMVPLocation == -1)
-	{
-		Log << __FUNCTION__ << "  " << __LINE__ << " glGetError: " << glGetError() << "\n";
-	}
+
+	SetShaderProgram(m_pShader->GetProgram());
 }
 

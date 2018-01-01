@@ -144,7 +144,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	for (size_t i = 0; i < pModelVec->size(); ++i)
 	{
 		C3DModel *&p = *(pModelVec->data() + i);
-		p->SetMatrix(IdentityMatrix, IdentityMatrix, ProjectionMatrix);
+		p->SetMatrix(IdentityMatrix, ProjectionMatrix);
 	}
 
 	ShowWindow(hwnd, SW_SHOW);

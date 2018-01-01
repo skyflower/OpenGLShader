@@ -15,7 +15,7 @@ CLightTest::CLightTest() :C3DModel()
 	
 	m_pTexture = nullptr;
 	//m_nLightModelLocation = 0;
-	m_nNormalMatrixLocation = 0;
+	//m_nNormalMatrixLocation = 0;
 	m_nLightTypeLocation = 0;
 	
 	m_nIndexBufferObj = -1;
@@ -149,8 +149,9 @@ void CLightTest::InitDisplayBuffer()
 	SetVertexAttrib(VERTEXATTRIB);
 	
 	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
-	m_nNormalMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "NM");
+	SetShaderProgram(m_pShader->GetProgram());
+	
+	//m_nNormalMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "NM");
 	//m_nLightModelLocation = glGetUniformLocation(m_pShader->GetProgram(), "V_LightModel");
 	// nLightType
 	m_nLightTypeLocation = glGetUniformLocation(m_pShader->GetProgram(), "nLightType");
@@ -162,7 +163,7 @@ void CLightTest::InitDisplayBuffer()
 
 void CLightTest::Draw()
 {
-	mat4f tmp = GetModel();//*  m_fMVPMatrix;
+	//mat4f tmp = GetModel();//*  m_fMVPMatrix;
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	if (m_pShader)
 	{
@@ -173,11 +174,11 @@ void CLightTest::Draw()
 		m_pTexture->Bind();
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
 
-	//tmp = tmp * m_fMVPMatrix;
-	mat4f NormalMatrix = tmp.inverse().Transposition();
-	glUniformMatrix4fv(m_nNormalMatrixLocation, 1, GL_FALSE, &NormalMatrix[0][0]);
+	SetTransformMatrix();
+
+	//mat4f NormalMatrix = tmp.inverse().Transposition();
+	//glUniformMatrix4fv(m_nNormalMatrixLocation, 1, GL_FALSE, &NormalMatrix[0][0]);
 	//TestShader(NormalMatrix);
 	//TestFragmentShader();
 	//Log << "NormalMatrix * tmp \n";

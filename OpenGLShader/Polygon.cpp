@@ -87,8 +87,9 @@ void CPolygon::InitDisplayBuffer()
 	m_pShader = new CShader("./shader/UI.vs", "./shader/UI.fs");
 	
 	SetVertexAttrib(VERTEXATTRIB);
+	SetShaderProgram(m_pShader->GetProgram());
 	
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	//m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
 }
 
 void CPolygon::Draw()
@@ -102,11 +103,7 @@ void CPolygon::Draw()
 		m_pTexture->Bind();
 	}
 	
-	mat4f tmp = GetModel() *m_fMVPMatrix;
-
-	//TestShader(tmp);
-	
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmp[0][0]);
+	SetTransformMatrix();
 
 	SetVertexAttrib(ATTRIBPOINTER);
 	

@@ -5,7 +5,7 @@ attribute vec2 texCoord;
 attribute vec3 color;
 
 uniform mat4 MVP;
-uniform mat4 NM;
+uniform mat4 normalMatrix;
 
 varying vec3 V_Normal;
 varying vec4 V_WorldPos;
@@ -20,7 +20,8 @@ void main()
 	vec3 tmpLightDirection = vec3(1.0, -0.5, -0.5) - LightPos.xyz;
 	V_LightDirection = tmpLightDirection;
 	V_SpotAngle = 10 * 3.1415926 / 180;
-    V_Normal = normal * mat3(NM);
+	mat3 NM = transpose(inverse(mat3(normalMatrix)));
+    V_Normal = normal * NM;
     gl_Position = vec4(pos, 1.0) * MVP;
     
 	V_TexCoord = texCoord;

@@ -12,8 +12,6 @@ CObjModel::CObjModel() :C3DModel()
 {
 	m_pVertex = nullptr;
 	
-	m_nMVPLocation = -1;
-	
 	m_nVertexBufferObj = -1;
 	
 	m_nVertexArrayID = -1;
@@ -235,8 +233,7 @@ void CObjModel::InitDisplayBuffer()
 	
 	InitVerexArrayBuffer();
 	
-	m_nNormalMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "NM");
-	m_nMVPLocation = glGetUniformLocation(m_pShader->GetProgram(), "MVP");
+	SetShaderProgram(m_pShader->GetProgram());
 
 }
 
@@ -250,16 +247,12 @@ void CObjModel::Draw()
 	{
 		m_pTexture->Bind();
 	}
-	
-	mat4f tmpModelMatrix = GetModel();
-	
-	glUniformMatrix4fv(m_nNormalMatrixLocation, 1, GL_FALSE, &tmpModelMatrix[0][0]);
-	//mat4f tmpMatrix = tmpModelMatrix;
 
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmpModelMatrix[0][0]);
+	SetTransformMatrix();
+
 	//glUniform1i(m_nTexCoordLocation, 0);
+
 	glBindVertexArray(m_nVertexArrayID);
-	
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferObj);
 	glDrawElements(GL_TRIANGLES, m_pIndex->size(), GL_UNSIGNED_INT, 0);

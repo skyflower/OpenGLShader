@@ -51,7 +51,7 @@ private:
 	//GLuint m_nOffsetLocation;
 	//GLuint m_nOffsetBufferObj;
 	//GLuint m_nLightModelLocation;
-	GLuint m_nNormalMatrixLocation;
+	//GLuint m_nNormalMatrixLocation;
 	GLuint m_nLightTypeLocation;
 	
 	//GLuint m_nSurfaceLocation;
