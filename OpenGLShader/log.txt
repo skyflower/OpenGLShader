@@ -3,5 +3,4 @@ OpenGL Version:	4.5.13397 Compatibility Profile Context 0
 GLSL Version:	4.40
 Compiler Error :
 Compiler Error :
-CShader::SetShaderAttrib  229	GetLocation: normal  Failed
-CShader::SetShaderAttrib  229	GetLocation: normal  Failed
+Compiler Error :

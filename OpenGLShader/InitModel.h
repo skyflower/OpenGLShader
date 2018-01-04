@@ -22,7 +22,6 @@
 #include "PointSprite.h"
 #include "ParticleCube.h"
 #include "ParticleGS.h"
-#include "ParticleTFO.h"
 #include "ParticleEmit.h"
 #include "CPolygonTesslation.h"
 #include "LightModelTest.h"
@@ -45,7 +44,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	CPointSprite *pPointSprite = nullptr;
 	CParticleCube *pParticleCube = nullptr;
 	CParticleGS *pParticleGS = nullptr;
-	CParticleTFO *pParticleTFO = nullptr;
+	
 	CParticleEmit *pParticleEmit = nullptr;
 	CPolygonTess *pPolygonTess = nullptr;
 	CLightTest *pLightTest = nullptr;
@@ -85,7 +84,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pParticleCube);
 	}
 
-	//pParticleGS = new CParticleGS;
+	pParticleGS = new CParticleGS;
 	if (pModelVec && pParticleGS)
 	{
 		pModelVec->push_back(pParticleGS);
@@ -96,13 +95,6 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	if (pModelVec && pPolygonTess)
 	{
 		pModelVec->push_back(pPolygonTess);
-	}
-
-	//pParticleTFO
-	//pParticleTFO = new CParticleTFO;
-	if (pModelVec && pParticleTFO)
-	{
-		pModelVec->push_back(pParticleTFO);
 	}
 
 	//pParticleEmit = new CParticleEmit;
@@ -141,8 +133,8 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pSphere);
 	}
 
-	pWaterWave = new CWaterWave;
-	pWaterWave->InitTexture("./res/image/xiongxiang.jpg");
+	//pWaterWave = new CWaterWave;
+	//pWaterWave->InitTexture("./res/image/xiongxiang.jpg");
 	if (pWaterWave && pModelVec)
 	{
 		pModelVec->push_back(pWaterWave);

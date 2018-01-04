@@ -66,6 +66,7 @@ void CLightTest::Init()
 	{
 		m_data = new std::vector<CVertexData>(Length);
 	}
+	CVertexData *pData = m_data->data();
 	CVertexData tmpData;
 	//float tmpY = 1.66;
 	//float tmpX = 2.21;//0.5
@@ -78,7 +79,7 @@ void CLightTest::Init()
 
 	tmpData.m_fTex[0] = 0.0f;
 	tmpData.m_fTex[1] = 0.0f;
-	(*m_data)[0] = tmpData;
+	pData[0] = tmpData;
 
 	tmpData.m_fPos[0] = -0.5;
 	tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
@@ -86,7 +87,7 @@ void CLightTest::Init()
 
 	tmpData.m_fTex[0] = 0.0f;
 	tmpData.m_fTex[1] = 1.0f;
-	(*m_data)[1] = tmpData;
+	pData[1] = tmpData;
 
 	tmpData.m_fPos[0] = 0.5;
 	tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
@@ -94,33 +95,7 @@ void CLightTest::Init()
 
 	tmpData.m_fTex[0] = 1.0f;
 	tmpData.m_fTex[1] = 1.0f;
-	(*m_data)[2] = tmpData;
-
-	//tmpData.m_fPos[0] = 0.5;
-	//tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
-	//tmpData.m_fPos[2] = -0.5f;
-	//
-
-	//tmpData.m_fTex[0] = 1.0f;
-	//tmpData.m_fTex[1] = 0.0f;
-	//(*m_data)[3] = tmpData;
-
-
-	//tmpData.m_fPos[0] = -0.5;
-	//tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
-	//tmpData.m_fPos[2] = 0.5f;
-
-	//tmpData.m_fTex[0] = 0.0f;
-	//tmpData.m_fTex[1] = 1.0f;
-	//(*m_data)[4] = tmpData;
-
-	//tmpData.m_fPos[0] = 0.5;
-	//tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
-	//tmpData.m_fPos[2] = 0.5f;
-
-	//tmpData.m_fTex[0] = 1.0f;
-	//tmpData.m_fTex[1] = 1.0f;
-	//(*m_data)[5] = tmpData;
+	pData[2] = tmpData;
 
 	InitDisplayBuffer();
 }
@@ -163,7 +138,6 @@ void CLightTest::InitDisplayBuffer()
 
 void CLightTest::Draw()
 {
-	//mat4f tmp = GetModel();//*  m_fMVPMatrix;
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	if (m_pShader)
 	{
@@ -176,17 +150,13 @@ void CLightTest::Draw()
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
 
 	SetTransformMatrix();
+	mat4f modelMatrix = GetModel();
+	TestShader(modelMatrix);
 
-	//mat4f NormalMatrix = tmp.inverse().Transposition();
-	//glUniformMatrix4fv(m_nNormalMatrixLocation, 1, GL_FALSE, &NormalMatrix[0][0]);
-	//TestShader(NormalMatrix);
-	//TestFragmentShader();
-	//Log << "NormalMatrix * tmp \n";
-	//Log << (NormalMatrix * tmp) << "\n";
 	//glUniform1i(m_nLightModelLocation, 0xF);
 	//  1 : parallel light   2 : direction light  3 : spot light
 	glUniform1i(m_nLightTypeLocation, 3);
-	//utils::CheckError(__FUNCTION__, __FILE__, __LINE__);
+	
 	SetVertexAttrib(ATTRIBPOINTER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
@@ -216,7 +186,7 @@ void CLightTest::Update(float duration)
 	if (initFlag)
 	{
 		//SetScale(4.414, 3.3118, 1);
-		SetScale(1.5, 1.5, 1.5);
+		//SetScale(1.5, 1.5, 1.5);
 		SetRotate(90 * 3.1415926 / 180, 0, 0);
 		initFlag = false;
 	}
@@ -246,6 +216,8 @@ void CLightTest::TestShader(mat4f model)
 	{
 		return;
 	}
+	//mat3f normalMatrix = model.reduceDimension();
+	//normalMatrix = normalMatrix.inverse().Transposition();
 	//Log << "GetModel << \t" << GetModel();
 	//Log << "m_fMVPMatrix << \t" << m_fMVPMatrix;
 	Log << "CLightTest EndMatrix\n" << model << "\n";
@@ -253,7 +225,7 @@ void CLightTest::TestShader(mat4f model)
 	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
 	{
 		CVertexData *p = m_data->data() + i;
-		vec3f tmp(p->m_fNormal, 3);
+		vec3f tmp(p->m_fPos, 3);
 		vec4f tmpTwo(tmp, 1.0);
 		tmpTwo = tmpTwo * model;
 		Log << tmpTwo << "\n";

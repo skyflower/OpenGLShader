@@ -13,8 +13,6 @@ CSphere::CSphere(float radis, int slide, int stacks):C3DModel()
 	m_nIndexBufObj = -1;
 	m_pTexture = nullptr;
 	m_pIndex = nullptr;
-	//m_nNormalMatrixIndex = -1;
-	//m_nModelViewMatrixIndex = -1;
 
 	Init(radis, slide, stacks);
 }

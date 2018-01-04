@@ -162,7 +162,6 @@
     <ClCompile Include="ParticleCube.cpp" />
     <ClCompile Include="ParticleEmit.cpp" />
     <ClCompile Include="ParticleGS.cpp" />
-    <ClCompile Include="ParticleTFO.cpp" />
     <ClCompile Include="PointSprite.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -189,7 +188,6 @@
     <ClInclude Include="ParticleCube.h" />
     <ClInclude Include="ParticleEmit.h" />
     <ClInclude Include="ParticleGS.h" />
-    <ClInclude Include="ParticleTFO.h" />
     <ClInclude Include="PointSprite.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="Sphere.h" />

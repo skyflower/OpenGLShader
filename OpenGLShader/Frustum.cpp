@@ -95,7 +95,7 @@ void CFrustum::Draw()
 	glUseProgram(m_pShader->GetProgram());
 	
 	//TestShader(tmp);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferID);
+	
 	SetTransformMatrix();
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferID);
 	if (m_pShader)
@@ -108,7 +108,7 @@ void CFrustum::Draw()
 	//glVertexAttribPointer(m_nPosLocation, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferID);
 	//glDrawArrays(GL_LINES, 0, m_nCount);
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferID);
 	
@@ -125,7 +125,7 @@ void CFrustum::Update(float duration)
 	static bool initFlag = true;
 	if (initFlag)
 	{
-		SetScale(0.1, 0.1, 0.3);
+		SetScale(0.1, 0.1, 0.1);
 		initFlag = false;
 	}
 	if (zTranslate > 2 * 3.1415026)
@@ -159,14 +159,7 @@ void CFrustum::InitShaderProgram(float *points,size_t PointCount, GLubyte *index
 	m_pShader = new CShader("./shader/Frustum.vs", "./shader/Frustum.fs");
 	const char *tmpName = "pos";
 	m_pShader->SetShaderAttrib(1, &tmpName);
-	//m_nProgram = utils::CreateGPUProgram("./shader/Frustum.vs", "./shader/Frustum.fs");
-	/*
-	m_nPosLocation = glGetAttribLocation(m_nProgram, "pos");
-	if (m_nPosLocation == -1)
-	{
-		Log << __FUNCTION__ << "  " << __LINE__ << " glGetError: " << glGetError() << "\n";
-	}*/
-
+	
 	SetShaderProgram(m_pShader->GetProgram());
 }
 

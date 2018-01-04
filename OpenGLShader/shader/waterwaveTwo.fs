@@ -53,5 +53,5 @@ void main( )
 	                      vECposition),normal));
 	if( LightIntensity < 0.1 )
 		LightIntensity = 0.1;
-	gl_FragColor = vec4( LightIntensity*uColor.rgb, uColor.a );
+	gl_FragColor = vec4(0.1, 0.4, 0.7, 1.0);//vec4( LightIntensity*uColor.rgb, uColor.a );
 }

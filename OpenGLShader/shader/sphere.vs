@@ -10,7 +10,7 @@ varying vec3 v_pos;
 
 void main()
 {
-	mat3 NM = transpose(inverse(mat3(normalMatrix)));
+	mat3 NM = transpose(inverse(mat3(modelMatrix)));
 	v_normal = normal * NM;
 	
     gl_Position = vec4(pos.x, pos.y, pos.z, 1.0)* MVP;

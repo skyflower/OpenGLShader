@@ -60,6 +60,7 @@ CParticleTFO::~CParticleTFO()
 void CParticleTFO::InitTexture(const char * filepath)
 {
 	m_pTexture = CTexture::LoadTexture(filepath);
+	SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
 }
 
 void CParticleTFO::Draw()
@@ -102,7 +103,7 @@ void CParticleTFO::Update(float duration)
 		//SetScale(4.41828, 3.3137, 1);
 		initFlag = false;
 	}
-	//AddRotate(0, zTranslate, zTranslate);
+	AddRotate(0, zTranslate, zTranslate);
 }
 
 GLuint CParticleTFO::GetShaderProgram()
@@ -138,7 +139,7 @@ void CParticleTFO::Init()
 	m_pPoints[2].m_fPos[3] = 1;
 
 
-	m_pShader = new CShader("./shader/TFO/Simple.vs", "./shader/TFO/Simple.fs");
+	m_pShader = new CShader("./shader/TFO/Simple.vs", "./shader/TFO/Simple.fs", "./shader/TFO/Simple.gs");
 
 	SetShaderProgram(m_pShader->GetProgram());
 
@@ -163,7 +164,6 @@ void CParticleTFO::Init()
 	glEnableVertexAttribArray(m_nPosTfoLocation);
 	glVertexAttribPointer(m_nPosTfoLocation, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex_SSBO_Two), 0);
 	
-
 	glDrawArrays(GL_TRIANGLES, 0, m_nPointCount);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -179,7 +179,6 @@ void CParticleTFO::Init()
 	}
 	glUnmapBuffer(GL_ARRAY_BUFFER);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 
 void CParticleTFO::SetVertexAttrib(AttribType type)
