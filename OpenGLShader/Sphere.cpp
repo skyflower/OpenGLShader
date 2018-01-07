@@ -200,7 +200,7 @@ void CSphere::Draw()
 
 void CSphere::Update(float duration)
 {
-	static float speed = 0.001;
+	static float speed = 0.0005;
 	double zTranslate = duration * speed;
 	static bool initFlag = true;
 	if (initFlag)

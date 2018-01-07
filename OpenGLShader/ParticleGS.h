@@ -1,9 +1,9 @@
 #pragma once
 #include "Drawable.h"
-#include "common.h"
-#include "Texure.h"
-#include "shader.h"
-#include "VertexData.h"
+#include "./common/common.h"
+#include "./common/Texure.h"
+#include "./common/shader.h"
+#include "./common/VertexData.h"
 #include "C3DModel.h"
 
 class CParticleGS :

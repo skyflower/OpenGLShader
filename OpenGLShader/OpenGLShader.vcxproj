@@ -94,8 +94,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\SoftwareInstall\OpenGL\SOIL\x86\Debug;D:\SoftwareInstall\OpenGL\lib;D:\SoftwareInstall\FbxSDK_vs2015\2018.1.1\lib\vs2015\x86\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SOIL.lib;glew32.lib;opengl.lib;libfbxsdk-md.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\SoftwareInstall\OpenGL\SOIL\x86\Debug;D:\SoftwareInstall\OpenGL\lib;D:\SoftwareInstall\FbxSDK_vs2015\2018.1.1\lib\vs2015\x86\debug;D:\SoftwareInstall\OpenGL\lib\glew\lib\Debug\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;glew32d.lib;libfbxsdk-md.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,11 +106,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\SoftwareInstall\OpenGL\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\SoftwareInstall\OpenGL\glm;D:\SoftwareInstall\FbxSDK_vs2015\2018.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\SoftwareInstall\FbxSDK_vs2015\2018.1.1\lib\vs2015\x64\debug;D:\SoftwareInstall\OpenGL\SOIL\x64\Debug;D:\SoftwareInstall\OpenGL\lib;D:\SoftwareInstall\OpenGL\lib\glew\lib\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;glew32d.lib;glew32sd.lib;opengl32.lib;opengl.lib;libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,15 +125,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\SoftwareInstall\OpenGL\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\SoftwareInstall\OpenGL\glm;D:\SoftwareInstall\FbxSDK_vs2015\2018.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\SoftwareInstall\OpenGL\lib;D:\SoftwareInstall\OpenGL\SOIL\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glew32mx.lib;glew32s.lib;glew32mxs.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\SoftwareInstall\OpenGL\lib;D:\SoftwareInstall\OpenGL\SOIL\x86\Release;D:\SoftwareInstall\FbxSDK_vs2015\2018.1.1\lib\vs2015\x86\release;D:\SoftwareInstall\OpenGL\lib\glew\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glew32s.lib;SOIL.lib;libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions> /SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -151,55 +153,64 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SOIL.lib;glew32.lib;glew32s.lib;opengl.lib;libfbxsdk-md.lib;glu.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\SoftwareInstall\OpenGL\lib\glew\lib\Release\x64;D:\SoftwareInstall\OpenGL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="C3DModel.cpp" />
+    <ClCompile Include="common\shader.cpp" />
+    <ClCompile Include="common\Texure.cpp" />
+    <ClCompile Include="common\Timer.cpp" />
+    <ClCompile Include="common\utils.cpp" />
     <ClCompile Include="CPolygonTesslation.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="LightModelTest.cpp" />
+    <ClCompile Include="model\FBXModel.cpp" />
+    <ClCompile Include="model\ObjModel.cpp" />
     <ClCompile Include="ParticleCube.cpp" />
     <ClCompile Include="ParticleEmit.cpp" />
     <ClCompile Include="ParticleGS.cpp" />
     <ClCompile Include="PointSprite.cpp" />
-    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="TextureTest.cpp" />
-    <ClCompile Include="Texure.cpp" />
     <ClCompile Include="Triangles.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ObjModel.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="utils.cpp" />
     <ClCompile Include="WaterWave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DModel.h" />
-    <ClInclude Include="CMatrix.h" />
-    <ClInclude Include="common.h" />
+    <ClInclude Include="common\common.h" />
+    <ClInclude Include="common\shader.h" />
+    <ClInclude Include="common\Texure.h" />
+    <ClInclude Include="common\Timer.h" />
+    <ClInclude Include="common\utils.h" />
+    <ClInclude Include="common\VertexData.h" />
     <ClInclude Include="CPolygonTesslation.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="FrameBuffer.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="InitModel.h" />
     <ClInclude Include="LightModelTest.h" />
+    <ClInclude Include="math\CMatrix.h" />
+    <ClInclude Include="math\CVector.h" />
+    <ClInclude Include="model\FBXModel.h" />
+    <ClInclude Include="model\ObjModel.h" />
     <ClInclude Include="ParticleCube.h" />
     <ClInclude Include="ParticleEmit.h" />
     <ClInclude Include="ParticleGS.h" />
     <ClInclude Include="PointSprite.h" />
-    <ClInclude Include="shader.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="TextureTest.h" />
-    <ClInclude Include="Texure.h" />
     <ClInclude Include="Triangles.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Polygon.h" />
-    <ClInclude Include="CVector.h" />
-    <ClInclude Include="ObjModel.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="utils.h" />
     <ClInclude Include="VertexData.h" />
     <ClInclude Include="WaterWave.h" />
   </ItemGroup>

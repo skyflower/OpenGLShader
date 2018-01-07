@@ -8,11 +8,9 @@ CPointSprite::CPointSprite():C3DModel()
 {
 	m_pTexture = nullptr;
 	m_pShader = nullptr;
+	m_pSkyTexture = nullptr;
 	
 	m_nSSBOProgram = -1;
-	//m_point = nullptr;
-	
-	//m_nPointCount = 20000;
 
 	Init();
 }
@@ -37,9 +35,18 @@ CPointSprite::~CPointSprite()
 	}
 }
 
-void CPointSprite::InitTexture(const char * filepath)
+void CPointSprite::InitTexture(const char * filepath, const char*skyFile)
 {
-	m_pTexture = CTexture::LoadTexture(filepath);
+	if (filepath != nullptr)
+	{
+		m_pTexture = CTexture::LoadTexture(filepath);
+	}
+	
+	if (skyFile != nullptr)
+	{
+		m_pSkyTexture = CTexture::LoadTexture(skyFile);
+	}
+	
 }
 
 void CPointSprite::Draw()
@@ -50,10 +57,22 @@ void CPointSprite::Draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_nSSBOProgram);
+	
 	if (m_pTexture)
 	{
+		glActiveTexture(GL_TEXTURE0);
 		m_pTexture->Bind();
+		glUniform1i(glGetUniformLocation(m_pShader->GetProgram(), "texSampler"), 0);
+
 	}
+	
+	if (m_pSkyTexture)
+	{
+		glActiveTexture(GL_TEXTURE1);
+		m_pSkyTexture->Bind();
+		glUniform1i(glGetUniformLocation(m_pShader->GetProgram(), "skyTexSampler"), 1);
+	}
+	
 
 	SetTransformMatrix();
 
@@ -61,10 +80,17 @@ void CPointSprite::Draw()
 	glDrawArrays(GL_QUADS, 0, 4);
 	
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
+
+	if (m_pSkyTexture)
+	{
+		m_pSkyTexture->Bind(false);
+	}
+
 	if (m_pTexture)
 	{
 		m_pTexture->Bind(false);
 	}
+	
 	glUseProgram(0);
 	glDisable(GL_PROGRAM_POINT_SIZE);
 	glDisable(GL_POINT_SPRITE);
@@ -100,7 +126,6 @@ void CPointSprite::ResetState()
 
 void CPointSprite::Init()
 {
-	
 	m_point.m_fPos[0] = 0;
 	m_point.m_fPos[1] = 0;
 	m_point.m_fPos[2] = -3;
@@ -108,13 +133,9 @@ void CPointSprite::Init()
 
 	m_nSSBOProgram = utils::CreateBufferObject(GL_SHADER_STORAGE_BUFFER, sizeof(CVertex_SSBO_Two), &m_point);
 	
-	
 	m_pShader = new CShader("./shader/PointSpriteSSBO.vs", "./shader/PointSpriteSSBO.fs");
 
 	SetShaderProgram(m_pShader->GetProgram());
-	
-	//delete[]Array;
-	//Array = nullptr;
 }
 
 void CPointSprite::SetVertexAttrib(AttribType type)

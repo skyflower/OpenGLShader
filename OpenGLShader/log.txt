@@ -1,6 +1,20 @@
 ScreenWidth = 800	ScreenHeight = 600
+UserDefine Matrix======================
+0.937749	-0.182634	0.295419	0	
+0	0.85058	0.525845	0	
+-0.347314	-0.493111	0.797631	0	
+0	0	0	1	
+
+
+GLM Matrix======================
+0.937749	-0.182634	0.295419	0	
+0	0.85058	0.525845	0	
+-0.347314	-0.493111	0.797631	0	
+-0.347314	-0.493111	-5.97242	1	
+
 OpenGL Version:	4.5.13397 Compatibility Profile Context 0
 GLSL Version:	4.40
 Compiler Error :
 Compiler Error :
-Compiler Error :
+CShader::SetShaderAttrib  229	GetLocation: texCoord  Failed
+CShader::SetShaderAttrib  229	GetLocation: normal  Failed

@@ -8,17 +8,17 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "utils.h"
-#include "VertexData.h"
-#include "common.h"
+#include "./common/utils.h"
+#include "./common/VertexData.h"
+#include "./common/common.h"
 
 #include <GL/wglew.h>
 
 #include <fstream>
 #include <ctime>
-#include "ObjModel.h"
+#include "./model/ObjModel.h"
 #include "Polygon.h"
-#include "Timer.h"
+#include "./common/Timer.h"
 #include "Frustum.h"
 #include <SOIL\SOIL.h>
 #include "Triangles.h"
@@ -27,6 +27,21 @@
 
 std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 
+//
+//if (director.m_bRotateView)
+//{
+//	POINT curPos;
+//	curPos.x = LOWORD(lParam);
+//	curPos.y = HIWORD(lParam);
+//	ClientToScreen(hwnd, &curPos);
+//	int deltaX = curPos.x - orgPoint.x;
+//	int deltaY = curPos.y - orgPoint.y;
+//	float angleY = (float)deltaY / 1000;
+//	float angleX = (float)deltaX / 1000;
+//	director.Pitch(angleY);
+//	director.Yaw(angleX);
+//	SetCursorPos(orgPoint.x, orgPoint.y);
+//}
 
 extern LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -87,8 +102,8 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	vec4f Perspective;
 	Perspective[0] = 45 * 3.1415927 / 180;
 	Perspective[1] = (double)viewWidth / (double)viewHeight;
-	Perspective[2] = 0.01f;
-	Perspective[3] = 1000.0f;
+	Perspective[2] = 0.1f;
+	Perspective[3] = 100.0f;
 
 	CVector<6, float> OrthoVec;
 	OrthoVec[0] = -viewWidth /2.0f;
@@ -117,7 +132,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	//Log << "Projection Inverse\n" << inverse;
 	//Log << "Multiply \n" << tmpMultiply;
 
-
+	utils::TestMatrixGLM();
 	//Log << "sizeof(CParticleVertex) = " << sizeof(CParticleVertex) << "\n";
 	if (GLEW_OK != glewInit())
 	{
@@ -150,7 +165,6 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 	
-
 	
 	MSG msg;
 	
@@ -185,7 +199,6 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		glFlush();
 		SwapBuffers(dc);
 		
-		//Log << "Timer : " << duration << "\n";
 	}
 	Log.close();
 

@@ -8,20 +8,14 @@ extern std::fstream Log;
 CLightTest::CLightTest() :C3DModel()
 {
 	m_data = nullptr;
-	//m_pIndex = nullptr;
 	m_pShader = nullptr;
-	
 	m_nVertexBufferObj = -1;
 	
 	m_pTexture = nullptr;
-	//m_nLightModelLocation = 0;
-	//m_nNormalMatrixLocation = 0;
+	
 	m_nLightTypeLocation = 0;
 	
 	m_nIndexBufferObj = -1;
-	
-
-	//m_nSurfaceLocation = -1;
 	
 	Init();
 }
@@ -104,7 +98,6 @@ void CLightTest::InitTexture(const char * pTextureFile)
 {
 	m_pTexture = CTexture::LoadTexture(pTextureFile);
 	SetVertexAttrib(VERTEXATTRIB);
-	
 }
 
 void CLightTest::InitDisplayBuffer()
@@ -126,12 +119,9 @@ void CLightTest::InitDisplayBuffer()
 	
 	SetShaderProgram(m_pShader->GetProgram());
 	
-	//m_nNormalMatrixLocation = glGetUniformLocation(m_pShader->GetProgram(), "NM");
-	//m_nLightModelLocation = glGetUniformLocation(m_pShader->GetProgram(), "V_LightModel");
 	// nLightType
 	m_nLightTypeLocation = glGetUniformLocation(m_pShader->GetProgram(), "nLightType");
 
-	//glBindVertexArray(0);
 	delete[]index;
 	index = nullptr;
 }
@@ -150,8 +140,8 @@ void CLightTest::Draw()
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
 
 	SetTransformMatrix();
-	mat4f modelMatrix = GetModel();
-	TestShader(modelMatrix);
+	//mat4f modelMatrix = GetModel();
+	//TestShader(modelMatrix);
 
 	//glUniform1i(m_nLightModelLocation, 0xF);
 	//  1 : parallel light   2 : direction light  3 : spot light
@@ -186,7 +176,7 @@ void CLightTest::Update(float duration)
 	if (initFlag)
 	{
 		//SetScale(4.414, 3.3118, 1);
-		//SetScale(1.5, 1.5, 1.5);
+		SetScale(1.5, 1.5, 1.5);
 		SetRotate(90 * 3.1415926 / 180, 0, 0);
 		initFlag = false;
 	}

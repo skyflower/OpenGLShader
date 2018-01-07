@@ -155,6 +155,8 @@ void CWaterWave::InitDisplayBuffer()
 
 	m_pShader = new CShader("./shader/waterwaveTwo.vs", "./shader/waterwaveTwo.fs");
 	SetVertexAttrib(VERTEXATTRIB);
+
+	m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
 	
 	SetShaderProgram(m_pShader->GetProgram());
 }

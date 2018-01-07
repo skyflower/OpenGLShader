@@ -5,17 +5,17 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "utils.h"
-#include "VertexData.h"
-#include "common.h"
+#include "./common/utils.h"
+#include "./common/VertexData.h"
+#include "./common/common.h"
 
 #include <GL/wglew.h>
 
 #include <fstream>
 #include <ctime>
-#include "ObjModel.h"
+#include "./model/ObjModel.h"
 #include "Polygon.h"
-#include "Timer.h"
+#include "./common/Timer.h"
 #include "Frustum.h"
 #include <SOIL\SOIL.h>
 #include "Triangles.h"
@@ -28,6 +28,7 @@
 #include "Sphere.h"
 #include "WaterWave.h"
 #include "TextureTest.h"
+#include "Ground.h"
 
 
 bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspective)
@@ -50,6 +51,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	CLightTest *pLightTest = nullptr;
 	CSphere *pSphere = nullptr;
 	CWaterWave *pWaterWave = nullptr;
+	CGround *pGround = nullptr;
 	
 
 
@@ -72,7 +74,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 
 
 	//pPointSprite = new CPointSprite;
-	//pPointSprite->InitTexture("./res/image/xiongxiang.jpg");
+	//pPointSprite->InitTexture("./res/image/xiongxiang.jpg", "./res/image/3.bmp");
 	if (pModelVec && pPointSprite)
 	{
 		pModelVec->push_back(pPointSprite);
@@ -84,7 +86,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pParticleCube);
 	}
 
-	pParticleGS = new CParticleGS;
+	//pParticleGS = new CParticleGS;
 	if (pModelVec && pParticleGS)
 	{
 		pModelVec->push_back(pParticleGS);
@@ -146,6 +148,14 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	if (pTextureTest && pModelVec)
 	{
 		pModelVec->push_back(pTextureTest);
+	}
+
+	//pGround
+	pGround = new CGround;
+	pGround->InitTexture("./res/image/water.jpg");
+	if (pGround && pModelVec)
+	{
+		pModelVec->push_back(pGround);
 	}
 
 

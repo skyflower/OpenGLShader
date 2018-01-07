@@ -4,10 +4,6 @@ uniform sampler2D texSampler;
 varying vec3 V_Normal;
 varying vec4 V_WorldPos;
 varying vec2 V_TexCoord;
-varying vec4 V_LightPos;
-
-varying vec3 V_LightDirection;
-varying float V_SpotAngle;
 
 uniform int nLightType;
 
@@ -43,7 +39,7 @@ vec4 specular(vec3 LightPos)
 	float cosAlpha = dot(reflectDir, viewDir);
 	if(cosAlpha < 0)
 	{
-		discard;
+		return vec4(0, 0, 0, 0);
 	}
     vec4 SpecularColor = SpecularLightColor * SpecularMaterial * pow(cosAlpha, 128.0f);
 	return SpecularColor;
@@ -52,6 +48,10 @@ vec4 specular(vec3 LightPos)
 
 void main()
 {
+	vec4 V_LightPos = vec4(0, 0, 2, 1);
+	vec3 V_LightDirection = vec3(0, 0, 1);
+	float V_SpotAngle = 20 * 3.1415926 / 180;
+
 	gl_FragColor = vec4(0, 0, 0, 0);
 	
 	vec3 LightDirection;
@@ -66,25 +66,28 @@ void main()
 	
 	if((nLightType == 1) || (nLightType == 2))
 	{
-		gl_FragColor = gl_FragColor + Ambient()+ diffuse(LightDirection)+ specular(LightDirection);
+		gl_FragColor = gl_FragColor + Ambient()+ diffuse(LightDirection);//+ specular(LightDirection);
 	}
 	else if(nLightType == 3)
 	{
-		//gl_FragColor = gl_FragColor + Ambient() + diffuse(LightDirection);
+		gl_FragColor = gl_FragColor + Ambient();// + diffuse(LightDirection);
 		float k1 = 1;
 		float k2 = 1;
-		float k3 = 1;
+		float k3 = 4;
 		vec3 L = normalize(V_LightDirection);
 		vec3 n = normalize(-LightDirection);
 		
 		float angle = max(dot(L, n), 0);
 		if(angle <= cos(V_SpotAngle))
 		{
-			discard;
+			k1 = 0;
+		}
+		else
+		{
+			k1 = angle - cos(V_SpotAngle);
+			//k1 = pow(1 - exp(-k1), 0.5);
 		}
 		
-		k1 = angle - cos(V_SpotAngle);
-		k1 = pow(1 - exp(-k1), 0.5);
 		
 		float distance = length(LightDirection);
 		//distance = pow(distance, 4);
@@ -93,7 +96,7 @@ void main()
 		vec4 SpecularMaterial = vec4(0.8, 0.8, 0.8, 1.0);
 		
 		vec4 SpecularColor = k3 * k1 * SpecularLightColor * SpecularMaterial * pow(1 - exp(-distance), 1);/// (1 + distance);
-		gl_FragColor = vec4(SpecularColor.xyz, 1.0);
+		gl_FragColor = gl_FragColor + vec4(SpecularColor.xyz, 1.0);
 	}
 	
 	//gl_FragColor = gl_FragColor;//*texture2D(texSampler,V_TexCoord);

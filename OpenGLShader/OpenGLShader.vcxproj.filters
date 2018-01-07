@@ -16,21 +16,21 @@
     <Filter Include="资源文件\shader">
       <UniqueIdentifier>{a7955027-f331-43b9-96df-9c0f40eb988b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{fbf5ac89-622d-4314-8560-d5062b686ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model">
+      <UniqueIdentifier>{048e29f7-4fd7-485c-80f1-a017ffcae3ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{f1d1ea40-e8e7-4f6b-b2c2-75ee723b5133}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjModel.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Polygon.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Frustum.cpp">
@@ -40,12 +40,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Drawable.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Texure.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PointSprite.cpp">
@@ -81,30 +75,36 @@
     <ClCompile Include="TextureTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="model\FBXModel.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="model\ObjModel.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="common\shader.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Texure.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Timer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\utils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CMatrix.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="common.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="VertexData.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ObjModel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Polygon.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h">
@@ -114,12 +114,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Drawable.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Texure.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PointSprite.h">
@@ -157,6 +151,42 @@
     </ClInclude>
     <ClInclude Include="TextureTest.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="math\CMatrix.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="math\CVector.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="model\FBXModel.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="model\ObjModel.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="common\common.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\shader.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Texure.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Timer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\utils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\VertexData.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

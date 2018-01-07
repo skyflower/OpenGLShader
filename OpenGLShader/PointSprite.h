@@ -1,9 +1,9 @@
 #pragma once
 #include "Drawable.h"
-#include "common.h"
-#include "Texure.h"
-#include "shader.h"
-#include "VertexData.h"
+#include "./common/common.h"
+#include "./common/Texure.h"
+#include "./common/shader.h"
+#include "./common/VertexData.h"
 #include "C3DModel.h"
 
 class CPointSprite :
@@ -12,7 +12,7 @@ class CPointSprite :
 public:
 	CPointSprite();
 	virtual ~CPointSprite();
-	void InitTexture(const char *filepath);
+	void InitTexture(const char * filepath, const char*skyFile = nullptr);
 	virtual void Draw();
 	virtual void Update(float Duration);
 	
@@ -24,9 +24,9 @@ private:
 	void ResetState();
 
 	CTexture* m_pTexture;
+	CTexture *m_pSkyTexture;
 	CShader* m_pShader;
 
-	//size_t m_nPointCount;
 	GLuint m_nSSBOProgram;
 	CVertex_SSBO_Two m_point;
 };

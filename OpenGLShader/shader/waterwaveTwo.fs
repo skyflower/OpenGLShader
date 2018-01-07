@@ -18,7 +18,7 @@ void main( )
 	float uPhaseShift = 2.0;
 	float uAmp0 = v_param.z;
 	float uAmp1 = v_param.z;
-	vec4 uColor = vec4(0.2, 0.2, 0.4, 1.0);//texture2D(f_sampler, v_texcoord);
+	vec4 uColor = texture2D(f_sampler, v_texcoord);
 	const vec3 C0 = vec3( -1.5, 0., 0. );
 	const vec3 C1 = vec3( 1.5, 0., 0. );
 	float uTime = v_param.x;
@@ -53,5 +53,5 @@ void main( )
 	                      vECposition),normal));
 	if( LightIntensity < 0.1 )
 		LightIntensity = 0.1;
-	gl_FragColor = vec4(0.1, 0.4, 0.7, 1.0);//vec4( LightIntensity*uColor.rgb, uColor.a );
+	gl_FragColor = vec4( LightIntensity*uColor.rgb, uColor.a );
 }

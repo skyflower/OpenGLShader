@@ -8,7 +8,7 @@
 #define GLUT_BUILDING_LIB
 #include <GL/glut.h>
 
-#include "utils.h"
+#include "./common/utils.h"
 
 class CFrameBuffer
 {

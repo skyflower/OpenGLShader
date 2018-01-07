@@ -9,11 +9,11 @@
 #define GLUT_BUILDING_LIB
 #include <GL/glut.h>
 
-#include "VertexData.h"
+#include "./common/VertexData.h"
 #include <vector>
-#include "common.h"
-#include "utils.h"
-#include "shader.h"
+#include "./common/common.h"
+#include "./common/utils.h"
+#include "./common/shader.h"
 #include "Drawable.h"
 #include "C3DModel.h"
 

@@ -1,11 +1,11 @@
 #pragma once
 #include "Drawable.h"
-#include "common.h"
+#include "common/common.h"
 #include <iostream>
 
-#include "Texure.h"
-#include "shader.h"
-#include "VertexData.h"
+#include "common/Texure.h"
+#include "common/shader.h"
+#include "common/VertexData.h"
 #include <memory>
 
 
