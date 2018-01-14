@@ -1,20 +1,10 @@
-ScreenWidth = 800	ScreenHeight = 600
-UserDefine Matrix======================
-0.937749	-0.182634	0.295419	0	
-0	0.85058	0.525845	0	
--0.347314	-0.493111	0.797631	0	
-0	0	0	1	
+Info	[WinMain,108]ScreenWidth = 800, ScreenHeight = 600
+Info	[WinMain,133]OrthoVec = -400	400	-300	300	0.01	100	
+Info	[WinMain,134]ProjectionMatrix = 1.81066	0	0	0	
+0	2.41421	0	0	
+0	0	-1.00002	-0.0200002	
+0	0	-1	0	
 
-
-GLM Matrix======================
-0.937749	-0.182634	0.295419	0	
-0	0.85058	0.525845	0	
--0.347314	-0.493111	0.797631	0	
--0.347314	-0.493111	-5.97242	1	
-
-OpenGL Version:	4.5.13397 Compatibility Profile Context 0
-GLSL Version:	4.40
-Compiler Error :
-Compiler Error :
-CShader::SetShaderAttrib  229	GetLocation: texCoord  Failed
-CShader::SetShaderAttrib  229	GetLocation: normal  Failed
+Info	[WinMain,152]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
+Error	[CShader::CheckShaderError,293] Compiler Error :, 54586324
+Error	[CShader::CheckShaderError,293] Compiler Error :, 54586324

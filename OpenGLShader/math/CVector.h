@@ -6,7 +6,7 @@
 #include <ostream>
 #include <cmath>
 #include <typeinfo>
-//#include <sstream>
+#include <sstream>
 #include <cstring>
 
 
@@ -219,6 +219,18 @@ class CVector
 					m_data[i] = -m_data[i];
 				}
 			}
+		}
+
+		std::string FormatToString()
+		{
+			std::stringbuf OutStr;
+			std::iostream OutStream(&OutStr);
+			for (size_t i = 0; i < N; ++i)
+			{
+				OutStream << m_data[i] << "\t";
+			}
+			OutStream.flush();
+			return OutStr.str();
 		}
 
 		template<size_t M, typename T>

@@ -159,9 +159,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="C3DModel.cpp" />
+    <ClCompile Include="common\Log.cpp" />
     <ClCompile Include="common\shader.cpp" />
     <ClCompile Include="common\Texure.cpp" />
     <ClCompile Include="common\Timer.cpp" />
+    <ClCompile Include="common\UnCopyable.cpp" />
     <ClCompile Include="common\utils.cpp" />
     <ClCompile Include="CPolygonTesslation.cpp" />
     <ClCompile Include="Drawable.cpp" />
@@ -186,9 +188,11 @@
   <ItemGroup>
     <ClInclude Include="C3DModel.h" />
     <ClInclude Include="common\common.h" />
+    <ClInclude Include="common\Log.h" />
     <ClInclude Include="common\shader.h" />
     <ClInclude Include="common\Texure.h" />
     <ClInclude Include="common\Timer.h" />
+    <ClInclude Include="common\UnCopyable.h" />
     <ClInclude Include="common\utils.h" />
     <ClInclude Include="common\VertexData.h" />
     <ClInclude Include="CPolygonTesslation.h" />

@@ -61,12 +61,12 @@ void C3DModel::AddRotate(float AngleX, float AngleY, float AngleZ)
 	std::function<double(float x, float delta)> lambda = [](float x, float delta)->double
 	{
 		double tmp = x + delta;
-		const double Absolute = 2 * 3.141;
+		const double Absolute = 2 * 3.1415926;
 		if (tmp > Absolute)
 		{
 			tmp -= Absolute;
 		}
-		else if (tmp < -Absolute)
+		else if (tmp < 0)
 		{
 			tmp += Absolute;
 		}

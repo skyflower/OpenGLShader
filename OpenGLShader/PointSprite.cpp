@@ -23,6 +23,11 @@ CPointSprite::~CPointSprite()
 		delete m_pShader;
 		m_pShader = nullptr;
 	}
+	if (m_pSkyTexture)
+	{
+		CTexture::UnLoadTexture(m_pSkyTexture);
+		m_pSkyTexture = nullptr;
+	}
 	if (m_pTexture)
 	{
 		CTexture::UnLoadTexture(m_pTexture);

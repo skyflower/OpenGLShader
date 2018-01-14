@@ -11,6 +11,7 @@
 
 #include <functional>
 #include "common.h"
+#include "Log.h"
 
 namespace utils
 {
@@ -34,6 +35,9 @@ namespace utils
 	GLuint CreateVertexArrayObj(std::function<void()> settings);
 
 	GLuint CreateFrameBufferObj(GLuint &colorBuffer, int width, int height, GLuint &depthBuffer, GLuint *colorBufferTwo = nullptr);
+
+	GLuint CreateFrameBuffer(GLuint &DepthBuffer, GLuint &Texture, size_t sizeX, size_t sizeY);
+
 
 	void OutputToFile(std::fstream &log, mat4f & ks, glm::mat4 &hs);
 

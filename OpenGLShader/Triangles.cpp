@@ -1,9 +1,7 @@
 #include "Triangles.h"
 
-#include <fstream>
 #include <iostream>
 
-extern std::fstream Log;
 
 CTriangle::CTriangle() :C3DModel()
 {
@@ -125,7 +123,7 @@ void CTriangle::InitDisplayBuffer()
 		m_nOffsetLocation = glGetAttribLocation(m_pShader->GetProgram(), "offset");
 		if (m_nOffsetLocation == -1)
 		{
-			Log << __FUNCTION__ << "  " << __LINE__ << " glGetError: " << glGetError() << "\n";
+			WriteError(" glGetError: %d", glGetError());
 		}
 	}
 	
@@ -217,7 +215,7 @@ GLuint CTriangle::GetShaderProgram()
 
 void CTriangle::TestShader(mat4f model)
 {
-	Log << "CTriangle EndMatrix\n" << model << "\n";
+	//Log << "CTriangle EndMatrix\n" << model << "\n";
 	//mat4f tmpModel = model.Transposition();
 	/*for (size_t i = 0; i < m_data->size() && i < 10; ++i)
 	{

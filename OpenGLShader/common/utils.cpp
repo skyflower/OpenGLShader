@@ -4,7 +4,6 @@
 
 //using namespace std;
 
-extern std::fstream Log;
 
 char *utils::LoadFileContent(const char *FilePath, size_t &Length)
 {
@@ -161,7 +160,7 @@ void utils::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, std::st
 		{
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 		}
-		Log << Msg.c_str() << error << std::endl;
+		WriteError(" %s, %s", Msg.c_str(), error);
 	}
 }
 
@@ -234,11 +233,61 @@ GLuint utils::CreateFrameBufferObj(GLuint & colorBuffer, int width, int height, 
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE)
 	{
-		Log << __FUNCTION__ << "  " << __LINE__ << "\tCreate Frame Buffer Failed\n";
+		WriteError("Create Frame Buffer Failed");
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return fbo;
+}
+
+GLuint utils::CreateFrameBuffer(GLuint &DepthBuffer, GLuint &Texture, size_t sizeX, size_t sizeY)
+{
+	GLuint FrameBuffer;
+	//GLuint DepthBuffer;
+	//GLuint Texture;
+	glGenFramebuffers(1, &FrameBuffer);
+	glGenRenderbuffers(1, &DepthBuffer);
+	glGenTextures(1, &Texture);
+	// set up the size for the rendered texture
+	//int sizeX = 2048;
+	//int sizeY = 2048;
+	// Bind the offscreen framebuffer to be the current output
+	// display
+	glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer);
+	// Bind the Depth Buffer to the context, allocate its storage,
+	// and attach it to the Framebuffer
+	glBindRenderbuffer(GL_RENDERBUFFER, DepthBuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER,
+		GL_DEPTH_COMPONENT, sizeX, sizeY);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+		GL_RENDERBUFFER, DepthBuffer);
+	// Bind the Texture to the Context
+	glBindTexture(GL_TEXTURE_2D, Texture);
+	// Set up a NULL texture of the size you want to render into
+	// and set its properties
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, sizeX, sizeY, 0, GL_RGBA,
+		GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+		GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_LINEAR);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,
+			GL_REPLACE);
+
+	// Tell OpenGL that you are going to render into the color
+	// planes of the Texture
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		GL_TEXTURE_2D, Texture, 0);
+	// see if OpenGL thinks the framebuffer is complete enough to
+	// use:
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (status != GL_FRAMEBUFFER_COMPLETE)
+	{
+		WriteError("FrameBuffer is not complete");
+	}
+	return FrameBuffer;
 }
 
 void utils::OutputToFile(std::fstream & log, mat4f & ks, glm::mat4 & hs)
@@ -270,25 +319,12 @@ void utils::TestMatrixGLM()
 	//glm::mat4 glmProjectionMatrix = glm::perspective(45.0f, (float)viewWidth / (float)viewHeight, 0.1f, 10.0f);
 	//glm::mat4 glmTranslate = glm::translate(glm::vec3(1.2f, 3.4f, -5.0f));
 	//glm::mat4 glmOrthoMatrix = glm::ortho(OrthoVec[0], OrthoVec[1], OrthoVec[2], OrthoVec[3], OrthoVec[4], OrthoVec[5]);
-	glm::tvec3<float> glmEye(2, 3.56, 4.4);
-	glm::tvec3<float> glmCenter(0, 0, -1);
-	glm::tvec3<float> glmUp(0, 1, 0);
-	glm::mat4 glmResult = glm::lookAt(glmEye, glmCenter, glmUp);
-	CVector<3, float> eye(0.0, 3);// , 0.0f, 0.0f);
-	eye[0] = 2;
-	eye[1] = 3.56;
-	eye[2] = 4.4;
-	CVector<3, float> center(0.0f, 3);// -1.0f, 0.0f);
-	center[2] = -1;
-	CVector<3, float> up(0.0f, 3);// 1.0f, 0.0f);
-	up[1] = 1;
-	CMatrix<4, 4, float> result = CMatrix<4, 4, float>::GetLookAt(eye, center, up);
-
+	
 	//glm::mat4 glmRotateMatrix = glm::rotate(glmOrthoMatrix, 30.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 	//glm::mat4 glmXRotateMatrix = glm::rotate(glmIdentityMatrix, 30.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 	//mat4f tmpComp = CMatrix<4, 4, float>::GetRotate(30, 0, 0, 1);
 	//tmpComp =  UIProjectionMatrix * tmpComp;
-	utils::OutputToFile(Log, result, glmResult);
+	//utils::OutputToFile(Log, result, glmResult);
 }
 
 GLuint utils::CreateComputeProgram(const char*computeShaderPath)
@@ -484,7 +520,7 @@ void utils::CheckError(const char*file, const char *func, const int line)
 	error = glGetError();
 	if (error != GLEW_OK)
 	{
-		Log << file << "  " << func << "  " << line << "  " << error << "\n";
+		WriteInfo("%s, %s, %d", file, func, line);
 	}
 }
 

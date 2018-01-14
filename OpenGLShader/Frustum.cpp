@@ -1,7 +1,7 @@
 #include "Frustum.h"
 #include <fstream>
+#include "./common/Log.h"
 
-extern std::fstream Log;
 
 CFrustum::CFrustum() :C3DModel()
 {
@@ -146,7 +146,7 @@ void CFrustum::TestShader(mat4f model)
 	{
 		return;
 	}
-	Log << "CFrustum EndMatrix:\n" << model << "\n";
+	//Log << "CFrustum EndMatrix:\n" << model << "\n";
 	bFlag = false;
 }
 

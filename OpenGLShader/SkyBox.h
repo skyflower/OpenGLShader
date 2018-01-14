@@ -16,17 +16,24 @@ public:
 
 private:
 	void Init();
+	void InitSphere(float, int, int);
 	void SetVertexAttrib(AttribType type);
+	void SetSphereVertexAttrib(AttribType type);
 
 	enum
 	{
 		TEXTURE_COUNT = 6,
-		POINT_COUNT = 8
+		POINT_COUNT = 24
 	};
 
 	CTexture* m_pTexture[TEXTURE_COUNT];
 	CShader* m_pShader;
-	CSphere* m_pSphere;
+	//CSphere* m_pSphere;
+	std::vector<CVertex>* m_pSphereData;
+	std::vector<unsigned int>* m_pSphereIndex;
+	GLuint m_nSphereBuffer;
+	GLuint m_nSphereIndex;
+
 	CVertexData m_pVertex[POINT_COUNT];
 	GLuint m_nVertexBuffer;
 };

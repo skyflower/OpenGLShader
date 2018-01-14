@@ -1,9 +1,7 @@
 #include "LightModelTest.h"
 
-#include <fstream>
 #include <iostream>
 
-extern std::fstream Log;
 
 CLightTest::CLightTest() :C3DModel()
 {
@@ -210,7 +208,7 @@ void CLightTest::TestShader(mat4f model)
 	//normalMatrix = normalMatrix.inverse().Transposition();
 	//Log << "GetModel << \t" << GetModel();
 	//Log << "m_fMVPMatrix << \t" << m_fMVPMatrix;
-	Log << "CLightTest EndMatrix\n" << model << "\n";
+	//Log << "CLightTest EndMatrix\n" << model << "\n";
 	//mat4f tmpModel = model.Transposition();
 	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
 	{
@@ -218,7 +216,7 @@ void CLightTest::TestShader(mat4f model)
 		vec3f tmp(p->m_fPos, 3);
 		vec4f tmpTwo(tmp, 1.0);
 		tmpTwo = tmpTwo * model;
-		Log << tmpTwo << "\n";
+		//Log << tmpTwo << "\n";
 	}
 	//bTstShader = false;
 }
@@ -305,7 +303,7 @@ void CLightTest::TestFragmentShader()
 		//}
 		vec4f SpecularColor = SpecularLightColor * SpecularMaterial * cosAlpha;// pow(cosAlpha, 4.0f);
 		//return SpecularColor;
-		Log << "i = " << i << "\tSpecuColor\t" << SpecularColor << "\n";
+		//Log << "i = " << i << "\tSpecuColor\t" << SpecularColor << "\n";
 	}
 	
 }

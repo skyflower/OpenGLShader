@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 
-extern std::fstream Log;
 
 CTextureTest::CTextureTest():C3DModel()
 {
@@ -147,8 +146,8 @@ void CTextureTest::TestShader(mat4f model)
 	{
 		return;
 	}
-	Log << "CTextureTest EndMatrix\n" << model << "\n";
-	Log << "Scale\t" << GetScale() << "\n";
+	//Log << "CTextureTest EndMatrix\n" << model << "\n";
+	//Log << "Scale\t" << GetScale() << "\n";
 
 	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
 	{
@@ -156,7 +155,7 @@ void CTextureTest::TestShader(mat4f model)
 		vec3f tmp(p->m_fPos, 3);
 		vec4f tmpTwo(tmp, 1.0);
 		tmpTwo = model * tmpTwo;
-		Log << "OrgVertex: " << tmpTwo << "\n";
+		//Log << "OrgVertex: " << tmpTwo << "\n";
 	}
 	bFlag = false;
 }

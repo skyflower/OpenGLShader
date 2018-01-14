@@ -1,7 +1,7 @@
 #include "CPolygonTesslation.h"
 #include <fstream>
+#include "./common/Log.h"
 
-extern std::fstream Log;
 
 
 CPolygonTess::CPolygonTess():C3DModel()
@@ -128,7 +128,7 @@ void CPolygonTess::TestShader(mat4f &matrix)
 	array[2] = std::sqrtl(labelVec[2].Magnitude());
 	array[3] = (array[0] + array[1] + array[2]) / 2;
 	double AreaTri = std::sqrtl(array[3] * (array[3] - array[1]) * (array[3] - array[2]) * (array[3] - array[0]));
-	Log << "Area Triangles\t" << AreaTri << "  " << tmpRotate <<  "\n";
+	WriteInfo("Area Triangles = %lf, tmpRotate = %lf", AreaTri, tmpRotate);
 	//Log << "============================End TestShader " << __FUNCTION__ << "\n";
 }
 

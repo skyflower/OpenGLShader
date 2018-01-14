@@ -1,8 +1,6 @@
 #include "Texure.h"
 #include "SOIL/SOIL.h"
-#include <fstream>
 
-extern std::fstream Log;
 
 std::unordered_map<std::string, std::pair<unsigned int, CTexture*>> *CTexture::m_pCacheTexture = nullptr;
 

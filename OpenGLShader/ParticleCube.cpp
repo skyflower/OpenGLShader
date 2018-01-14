@@ -1,7 +1,6 @@
 #include "ParticleCube.h"
-#include <fstream>
 
-extern std::fstream Log;
+
 
 
 CParticleCube::CParticleCube():C3DModel()
@@ -228,7 +227,7 @@ void CParticleCube::TestShader(mat4f& model)
 	{
 		return;
 	}
-	Log << "CParticleCube EndMatrix:\n" << model << "\n";
+	//Log << "CParticleCube EndMatrix:\n" << model << "\n";
 
 	for (size_t i = 0; i < m_nIndexCount; ++i)
 	{

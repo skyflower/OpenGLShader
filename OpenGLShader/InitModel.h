@@ -29,6 +29,7 @@
 #include "WaterWave.h"
 #include "TextureTest.h"
 #include "Ground.h"
+#include "SkyBox.h"
 
 
 bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspective)
@@ -52,6 +53,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	CSphere *pSphere = nullptr;
 	CWaterWave *pWaterWave = nullptr;
 	CGround *pGround = nullptr;
+	CSkyBox *pSkyBox = nullptr;
 	
 
 
@@ -128,7 +130,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pLightTest);
 	}
 
-	//pSphere = new CSphere(2.5, 30, 30);
+	//pSphere = new CSphere(1.5, 30, 40);
 	//pSphere->InitTexture("./res/image/xiongxiang.jpg");
 	if (pSphere && pModelVec)
 	{
@@ -151,14 +153,19 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	}
 
 	//pGround
-	pGround = new CGround;
-	pGround->InitTexture("./res/image/water.jpg");
+	//pGround = new CGround;
+	//pGround->InitTexture("./res/image/water.jpg");
 	if (pGround && pModelVec)
 	{
 		pModelVec->push_back(pGround);
 	}
 
-
+	pSkyBox = new CSkyBox;
+	pSkyBox->InitTexture("./res/image/skybox/");
+	if (pSkyBox && pModelVec)
+	{
+		pModelVec->push_back(pSkyBox);
+	}
 	return true;
 }
 

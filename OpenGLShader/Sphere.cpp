@@ -1,9 +1,7 @@
 #include "Sphere.h"
 
-#include <fstream>
 #include <iostream>
 
-extern std::fstream Log;
 
 CSphere::CSphere(float radis, int slide, int stacks):C3DModel()
 {
@@ -58,11 +56,13 @@ void CSphere::Init(float radis, int slide, int stacks)
 	if (m_data == nullptr)
 	{
 		m_data = new std::vector<CVertex>(Length);
+		memset(m_data->data(), 0, sizeof(CVertex) * Length);
 	}
 	if (m_pIndex == nullptr)
 	{
 		//(slide - 1) * 2 * stacks 
 		m_pIndex = new std::vector<unsigned int>(slide * stacks * 6);
+		memset(m_pIndex->data(), 0, sizeof(unsigned int) * 6 * slide * stacks);
 	}
 	double radisStep = 2 * radis / (slide + 1);
 	unsigned int dataIndex = 0;
@@ -99,10 +99,10 @@ void CSphere::Init(float radis, int slide, int stacks)
 			{
 				pIndex[indexIndex++] = 0;
 				pIndex[indexIndex++] = j + 1;
-				pIndex[indexIndex++] = (j + 2) % stacks;
+				pIndex[indexIndex++] = (j + 1) % stacks + 1;
 			}
 		}
-		if ((i != 0) && (i > 0))
+		if (i > 0)
 		{
 			unsigned int preBeginIndex = tmpBeginIndex - stacks;
 			for (int j = 0; j < stacks; ++j)
@@ -124,9 +124,9 @@ void CSphere::Init(float radis, int slide, int stacks)
 			pVertex[dataIndex].mPos[2] = 0;
 			for (int j = 0; j < stacks; ++j)
 			{
-				pIndex[indexIndex++] = dataIndex;
-				pIndex[indexIndex++] = j + tmpBeginIndex;
+				pIndex[indexIndex++] = j + tmpBeginIndex;// dataIndex;
 				pIndex[indexIndex++] = (j + 1) % stacks + tmpBeginIndex;
+				pIndex[indexIndex++] = dataIndex;// (j + 1) % stacks + tmpBeginIndex;
 			}
 			dataIndex++;
 		}
@@ -136,7 +136,7 @@ void CSphere::Init(float radis, int slide, int stacks)
 	for (int i = 0; i < tmpSize; ++i)
 	{
 		memcpy(pVertex[i].mColor, pVertex[i].mPos, 3 * sizeof(float));
-		pVertex[i].mPos[2] -= 8;
+		pVertex[i].mPos[2] -= 3;
 	}
 
 	InitDisplayBuffer();
@@ -167,7 +167,7 @@ void CSphere::Draw()
 	glEnable(GL_TEXTURE);
 	glEnable(GL_TEXTURE_2D);
 	glUseProgram(m_pShader->GetProgram());
-
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
 	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_nSSBOProgram);
 	if (m_pTexture)
@@ -200,7 +200,7 @@ void CSphere::Draw()
 
 void CSphere::Update(float duration)
 {
-	static float speed = 0.0005;
+	static float speed = 0.0003;
 	double zTranslate = duration * speed;
 	static bool initFlag = true;
 	if (initFlag)
@@ -229,15 +229,15 @@ void CSphere::TestShader(mat4f model)
 	{
 		return;
 	}
-	Log << "TestShader Matrix...\n" << model << "\n";
+	//Log << "TestShader Matrix...\n" << model << "\n";
 	size_t nSize = m_data->size();
 	CVertex *pVertex = m_data->data();
 	for (size_t i = 0; i < m_data->size(); ++i)
 	{
 		vec3f tmp(pVertex[i].mPos, 3);
 		vec4f tmpData(tmp, 1.0);
-		Log << tmpData << "\n";
-		Log << (tmpData * model) << "\n";
+		//Log << tmpData << "\n";
+		//Log << (tmpData * model) << "\n";
 	}
 	initFlag = false;
 }

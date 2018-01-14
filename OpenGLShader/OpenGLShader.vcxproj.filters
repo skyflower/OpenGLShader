@@ -99,6 +99,12 @@
     <ClCompile Include="common\utils.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\Log.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\UnCopyable.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexData.h">
@@ -186,6 +192,12 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="common\VertexData.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Log.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\UnCopyable.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>

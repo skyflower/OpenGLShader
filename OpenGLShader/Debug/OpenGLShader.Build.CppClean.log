@@ -7,6 +7,7 @@ d:\cache\visualstudiocache\openglshader\openglshader\debug\framebuffer.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\ground.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\lightmodeltest.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\fbxmodel.obj
+d:\cache\visualstudiocache\openglshader\openglshader\debug\objmodel.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\particlecube.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\particleemit.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\particlegs.obj
@@ -23,11 +24,9 @@ d:\cache\visualstudiocache\openglshader\openglshader\debug\c3dmodel.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\shader.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\texure.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\timer.obj
-d:\cache\visualstudiocache\openglshader\openglshader\debug\objmodel.obj
 d:\cache\visualstudiocache\openglshader\debug\openglshader.ilk
 d:\cache\visualstudiocache\openglshader\debug\openglshader.exe
 d:\cache\visualstudiocache\openglshader\debug\openglshader.pdb
-d:\cache\visualstudiocache\openglshader\openglshader\debug\particletfo.obj
 d:\cache\visualstudiocache\openglshader\openglshader\debug\openglshader.tlog\cl.command.1.tlog
 d:\cache\visualstudiocache\openglshader\openglshader\debug\openglshader.tlog\cl.read.1.tlog
 d:\cache\visualstudiocache\openglshader\openglshader\debug\openglshader.tlog\cl.write.1.tlog

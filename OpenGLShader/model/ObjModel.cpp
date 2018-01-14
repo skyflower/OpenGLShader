@@ -5,7 +5,6 @@
 
 #include <vector>
 
-extern std::fstream Log;
 
 
 CObjModel::CObjModel() :C3DModel()
@@ -82,7 +81,7 @@ void CObjModel::Init(const char* filepath)
 	size_t tmpLineCount = 0;
 	while (!ssContent.eof())
 	{
-		Log << "LineNumber = " << tmpLineCount << "\n";
+		WriteInfo("LineNumber = %d", tmpLineCount);
 		++tmpLineCount;
 		memset(szLine, 0, sizeof(char) * 1024);
 		ssContent.getline(szLine, 1024);
@@ -302,7 +301,7 @@ void CObjModel::ResetState()
 
 void CObjModel::TestShader(mat4f model)
 {
-	Log << "CObjModel TestShader Matrix\n" << model << "\n";
+	//Log << "CObjModel TestShader Matrix\n" << model << "\n";
 	//mat4f tmpModel = model.Transposition();
 	size_t tmpSize = m_pVertex->size();
 	/*for (size_t i = 0; i < tmpSize && i < 10; ++i)

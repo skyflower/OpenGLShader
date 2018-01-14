@@ -1,1 +1,71 @@
-﻿
+﻿  C3DModel.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(71): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.cpp(9): note: 参见对正在编译的函数 模板 实例化“CVector<3,float>::CVector<int>(Num,std::size_t)”的引用
+          with
+          [
+              Num=int
+          ]
+  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.cpp(9): note: 参见对正在编译的函数 模板 实例化“CVector<3,float>::CVector<int>(Num,std::size_t)”的引用
+          with
+          [
+              Num=int
+          ]
+d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(106): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(484): note: 参见对正在编译的函数 模板 实例化“CVector<3,float> CVector<3,float>::operator =<3,double>(const CVector<3,double> &)”的引用
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(484): note: 参见对正在编译的函数 模板 实例化“CVector<3,float> CVector<3,float>::operator =<3,double>(const CVector<3,double> &)”的引用
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(477): note: 编译类 模板 成员函数“CMatrix<4,4,float> CMatrix<4,4,float>::GetRotate(float,float,float,float)”时
+  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.cpp(130): note: 参见对正在编译的函数 模板 实例化“CMatrix<4,4,float> CMatrix<4,4,float>::GetRotate(float,float,float,float)”的引用
+  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.h(43): note: 参见对正在编译的类 模板 实例化“CMatrix<4,4,float>”的引用
+  正在生成代码...
+  正在编译...
+  ObjModel.cpp
+  FBXModel.cpp
+  main.cpp
+  utils.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\common\utils.cpp(427): warning C4018: “<”: 有符号/无符号不匹配
+d:\cache\visualstudiocache\openglshader\openglshader\common\utils.cpp(429): warning C4018: “<”: 有符号/无符号不匹配
+d:\cache\visualstudiocache\openglshader\openglshader\common\utils.cpp(431): warning C4018: “<”: 有符号/无符号不匹配
+  shader.cpp
+  WaterWave.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\waterwave.cpp(125): warning C4018: “<”: 有符号/无符号不匹配
+  Triangles.cpp
+  TextureTest.cpp
+  Sphere.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\sphere.cpp(136): warning C4018: “<”: 有符号/无符号不匹配
+  SkyBox.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\skybox.cpp(340): warning C4018: “<”: 有符号/无符号不匹配
+  Polygon.cpp
+  PointSprite.cpp
+  ParticleGS.cpp
+  ParticleEmit.cpp
+  ParticleCube.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(71): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(568): note: 参见对正在编译的函数 模板 实例化“CVector<4,float>::CVector<Num>(Num,std::size_t)”的引用
+          with
+          [
+              Num=int
+          ]
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(568): note: 参见对正在编译的函数 模板 实例化“CVector<4,float>::CVector<Num>(Num,std::size_t)”的引用
+          with
+          [
+              Num=int
+          ]
+  d:\cache\visualstudiocache\openglshader\openglshader\particlecube.cpp(254): note: 参见对正在编译的函数 模板 实例化“CVector<4,float> operator *<4,float,int>(Num,const CVector<4,float> &)”的引用
+          with
+          [
+              Num=int
+          ]
+  LightModelTest.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\lightmodeltest.cpp(107): warning C4267: “=”: 从“size_t”转换到“GLubyte”，可能丢失数据
+d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(163): warning C4267: “=”: 从“size_t”转换到“short”，可能丢失数据
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(152): note: 编译类 模板 成员函数“float CMatrix<4,4,float>::GetValue(void) const”时
+  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(203): note: 参见对正在编译的函数 模板 实例化“float CMatrix<4,4,float>::GetValue(void) const”的引用
+  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.h(43): note: 参见对正在编译的类 模板 实例化“CMatrix<4,4,float>”的引用
+  Ground.cpp
+  Frustum.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\frustum.cpp(52): warning C4838: 从“double”转换到“float”需要收缩转换
+  FrameBuffer.cpp
+  CPolygonTesslation.cpp
+  正在生成代码...
+  OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.exe
+  OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.pdb (Full PDB)

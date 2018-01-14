@@ -1,10 +1,7 @@
 #include "shader.h"
 
-#include <fstream>
 #include <iostream>
 
-
-extern std::fstream Log;
 
 
 GLuint CShader::CreateShader(const char*filepath, GLenum CShaderType)
@@ -14,14 +11,14 @@ GLuint CShader::CreateShader(const char*filepath, GLenum CShaderType)
 	//utils::CheckError(__FILE__, __FUNCTION__, __LINE__);
     if(CShader == 0)
     {
-        Log << "Error : CShader Create " << CShaderType << std::endl;
+        WriteError("Error : CShader Create %d", CShaderType);
 		return -1;
     }
 	size_t CShaderSourceLength = -1;
     const GLchar *CShaderSource = utils::LoadFileContent(filepath, CShaderSourceLength);
 	if (CShaderSource == nullptr)
 	{
-		Log << __FUNCTION__ << "  " << __LINE__ << "\tLoadFile " << filepath << "\tFailed\n";
+		WriteError("LoadFile : %s, Failed", filepath);
 		return -1;
 	}
     //const GLchar *text = nullptr;
@@ -226,7 +223,7 @@ void CShader::SetShaderAttrib(int count, const char * value[])
 			m_pLocation[i] = glGetAttribLocation(m_nProgram, m_pName[i]);
 			if (m_pLocation[i] == -1)
 			{
-				Log << __FUNCTION__ << "  " << __LINE__ << "\tGetLocation: " << m_pName[i] << "  Failed\n";
+				WriteError("GetLocation : %d Failed", m_pName[i]);
 			}
 		}
 	}
@@ -293,6 +290,6 @@ void CShader::CheckShaderError(GLuint CShader, GLuint flag, bool isProgram, std:
 		{
 			glGetShaderInfoLog(CShader, sizeof(error), NULL, error);
 		}
-		Log << Msg.c_str() << error << std::endl;
+		WriteError(" %s, %d", Msg.c_str(), error);
 	}
 }

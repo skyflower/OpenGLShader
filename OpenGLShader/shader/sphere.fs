@@ -4,8 +4,8 @@ varying vec3 v_pos;
 
 vec4 ambient(vec4 lightPos, vec4 pos)
 {
-	vec4 ambientLight = vec4(0.5, 0.5, 0.5, 1);
-	vec4 ambientMaterial = vec4(0.5, 0.5, 0.5, 1);
+	vec4 ambientLight = vec4(0.4, 0.4, 0.4, 1);
+	vec4 ambientMaterial = vec4(0.4, 0.4, 0.4, 1);
 	return ambientLight * ambientMaterial;
 }
 

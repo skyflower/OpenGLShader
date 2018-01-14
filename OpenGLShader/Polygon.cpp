@@ -1,9 +1,7 @@
 #include "Polygon.h"
 
-#include <fstream>
 #include <iostream>
 
-extern std::fstream Log;
 
 CPolygon::CPolygon():C3DModel()
 {
@@ -148,8 +146,8 @@ void CPolygon::TestShader(mat4f model)
 	{
 		return;
 	}
-	Log << "CPolygon EndMatrix\n" << model << "\n";
-	Log << "Scale\t" << GetScale() << "\n";
+	//Log << "CPolygon EndMatrix\n" << model << "\n";
+	//Log << "Scale\t" << GetScale() << "\n";
 
 	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
 	{
@@ -157,7 +155,7 @@ void CPolygon::TestShader(mat4f model)
 		vec3f tmp(p->m_fPos, 3);
 		vec4f tmpTwo(tmp, 1.0);
 		tmpTwo = model * tmpTwo;
-		Log << "OrgVertex: " << tmpTwo << "\n";
+		//Log << "OrgVertex: " << tmpTwo << "\n";
 	}
 	bFlag = false;
 }

@@ -1,9 +1,8 @@
 #include "FBXModel.h"
 #include <fstream>
+#include "../common/Log.h"
 
 using namespace fbxsdk;
-
-extern std::fstream Log;
 
 CFbxModel::CFbxModel():m_pMaterial(nullptr),m_pMaterialMap(nullptr),	\
 m_pVertexInfo(nullptr),m_strModelPath("")
@@ -130,7 +129,7 @@ void CFbxModel::ImportMaterial(FbxNode * pNode)
 		}
 		else
 		{
-			Log << __FUNCTION__ << "\t" << __LINE__ << "unknown material\n";
+			WriteError("unknown material");
 		}
 		property = pSurfaceMat->FindProperty(FbxLayerElement::sTextureChannelNames[0]);
 		if (property.IsValid())
@@ -173,10 +172,11 @@ void CFbxModel::ImportMaterial(FbxNode * pNode)
 					strcpy_s(mat->mDiffuseColorTexture, texture->GetName());
 					
 					std::string texturePath(szFbxTextureDir);
-					Log << __FUNCTION__ << "\t" << __LINE__;
-					//Log << "\tTextureDir =   " << texturePath.c_str() << "  ";
+					
 					texturePath += texture->GetName();
-					Log << "\tTexturePath =:" << texturePath.c_str() << "\n";
+					
+					WriteInfo("TexturePath = : %s", texturePath.c_str());
+					
 					nCurrentMaterialIndex = m_pMaterial->size();
 
 					mat->m_pTexture = CTexture::LoadTexture(mat->mDiffuseColorTexture);
@@ -201,7 +201,7 @@ void CFbxModel::ImportMesh(FbxMesh * pMesh)
 	pMesh->GetUVSetNames(uvSetNames);
 	if (uvSetNames.GetCount() == 0)
 	{
-		Log << __FUNCTION__ << "\t" << __LINE__ << "ImportMesh GetUV Names Failed\t"  << "\n";
+		WriteError("ImportMesh GetUV Names Failed");
 	}
 	
 	size_t polygonCount = pMesh->GetPolygonCount();
@@ -264,7 +264,7 @@ void CFbxModel::ImportMesh(FbxMesh * pMesh)
 			FbxVector4 normal;
 			if (!pMesh->GetPolygonVertexNormal(i, j, normal))
 			{
-				Log << __FUNCTION__ << "\t" << __LINE__ << "GetPolygonVertex Normal Failed" << "\n";
+				WriteError("GetPolygonVertex Normal Failed");
 			}
 			//memcpy(pVertex->m_fNormal, normal.mData)
 			for (size_t k = 0; k < 3; ++k)
@@ -277,7 +277,7 @@ void CFbxModel::ImportMesh(FbxMesh * pMesh)
 			bool pUnmapped = true;
 			if (!pMesh->GetPolygonVertexUV(i, j, uvSetNames.GetItemAt(0)->mString.Buffer(), uv, pUnmapped))
 			{
-				Log << __FUNCTION__ << "\t" << __LINE__ << "GetPolygonVertex UV Failed" << "\n";
+				WriteError("GetPolygonVertex UV Failed");
 			}
 			for (size_t k = 0; k < 2; ++k)
 			{

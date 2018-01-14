@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 
-extern std::fstream Log;
 
 CWaterWave::CWaterWave() :C3DModel()
 {
@@ -232,7 +231,7 @@ void CWaterWave::TestShader(mat4f model)
 	{
 		return;
 	}
-	Log << "CWaterWave EndMatrix\n" << model << "\n";
+	//Log << "CWaterWave EndMatrix\n" << model << "\n";
 	//mat4f tmpModel = model.Transposition();
 	for (size_t i = 0; i < m_data->size(); ++i)
 	{
@@ -240,7 +239,7 @@ void CWaterWave::TestShader(mat4f model)
 		vec3f tmp(p->m_fPos, 3);
 		vec4f tmpTwo(tmp, 1.0);
 		tmpTwo = tmpTwo * model;
-		Log << tmpTwo << "\n";
+		//Log << tmpTwo << "\n";
 	}
 	flag = true;
 }

@@ -513,6 +513,21 @@ public:
 	{
 		return &m_data[0][0];
 	}
+	std::string FormatToString()
+	{
+		std::stringbuf OutStr;
+		std::iostream OutStream(&OutStr);
+		for (size_t i = 0; i < N; ++i)
+		{
+			for (size_t j = 0; j < M; ++j)
+			{
+				OutStream << m_data[i][j] << "\t";
+			}
+			OutStream << "\n";
+		}
+		OutStream.flush();
+		return OutStr.str();
+	}
 
     template<typename Number>
     CMatrix<N, M, type>& operator=(const CMatrix<N, M, Number> &a)

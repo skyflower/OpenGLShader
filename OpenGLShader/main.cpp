@@ -24,8 +24,10 @@
 #include "Triangles.h"
 #include "PointSprite.h"
 #include "InitModel.h"
+#include "./common/Log.h"
+#include <thread>
 
-std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
+//std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 
 //
 //if (director.m_bRotateView)
@@ -43,10 +45,16 @@ std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 //	SetCursorPos(orgPoint.x, orgPoint.y);
 //}
 
+
+std::unique_ptr<CLog> pLog(CLog::GetInstance());
+
 extern LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, int showCmd)
 {
+	
+	
+
 	WNDCLASSEX wndclass;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbSize = sizeof(WNDCLASSEX);
@@ -64,7 +72,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	if (!atom)
 	{
 		DWORD error = GetLastError();
-		Log << __FILE__ << "  " << __FUNCTION__ << "  " << __LINE__ << " RegisterClassEx " << error << "\n";
+		WriteError(" RegisterClassEx erro = %u", error);
 		return 0;
 	}
 	RECT rect;
@@ -97,13 +105,13 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	GetClientRect(hwnd, &rect);
 	int viewWidth = rect.right - rect.left;
 	int viewHeight = rect.bottom - rect.top;
-	Log << "ScreenWidth = " << viewWidth << "\tScreenHeight = " << viewHeight << "\n";
-
+	WriteInfo("ScreenWidth = %d, ScreenHeight = %d", viewWidth, viewHeight);
+	
 	vec4f Perspective;
 	Perspective[0] = 45 * 3.1415927 / 180;
 	Perspective[1] = (double)viewWidth / (double)viewHeight;
-	Perspective[2] = 0.1f;
-	Perspective[3] = 100.0f;
+	Perspective[2] = 0.01f;
+	Perspective[3] = 1000.0f;
 
 	CVector<6, float> OrthoVec;
 	OrthoVec[0] = -viewWidth /2.0f;
@@ -121,7 +129,9 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	//ProjectionMatrix = ProjectionMatrix;// *Trianslate;
 	//mat4f UIProjectionMatrix = CMatrix<4, 4, float>::GetOrtho(OrthoVec);
 	//glm::mat4 glmOrthoMatrix = glm::ortho(OrthoVec[0], OrthoVec[1], OrthoVec[2], OrthoVec[3], OrthoVec[4], OrthoVec[5]);
-
+	std::string tmpStr = OrthoVec.FormatToString();
+	WriteInfo("OrthoVec = %s", tmpStr.c_str());
+	WriteInfo("ProjectionMatrix = %s", ProjectionMatrix.FormatToString().c_str());
 	//glm::tvec3<float> glmTranslateVec = glm::tvec3<float>(0.0f, 0.0f, -1.0f);
 	//glm::mat4 glmTranslate = glm::translate(glmTranslateVec);
 	//mat4f Translate = CMatrix<4, 4, float>::GetTranslate(0, 0, -1.0);
@@ -136,11 +146,11 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	//Log << "sizeof(CParticleVertex) = " << sizeof(CParticleVertex) << "\n";
 	if (GLEW_OK != glewInit())
 	{
-		Log << __FUNCTION__ << "  " << __LINE__ << "glewInit Failed\n";
+		WriteError("glewInit Failed");
 		return -1;
 	}
-	Log << "OpenGL Version:\t" << glGetString(GL_VERSION) << "\n";
-	Log << "GLSL Version:\t" << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+	WriteInfo("OpenGL Version : %s", glGetString(GL_VERSION));
+	WriteInfo("GLSL Version : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	
 	//glClearColor(0.2, 0.2, 0.5, 1);
 	glClearColor(0, 0, 0, 1);
@@ -200,7 +210,6 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		SwapBuffers(dc);
 		
 	}
-	Log.close();
 
 	for (size_t i = 0; i < nSize; ++i)
 	{
@@ -210,6 +219,6 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	}
 	delete pModelVec;
 	pModelVec = nullptr;
-
+	
 	return 0;
 }
