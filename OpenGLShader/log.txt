@@ -6,5 +6,6 @@ Info	[WinMain,134]ProjectionMatrix = 1.81066	0	0	0
 0	0	-1	0	
 
 Info	[WinMain,152]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
-Error	[CShader::CheckShaderError,293] Compiler Error :, 54586324
-Error	[CShader::CheckShaderError,293] Compiler Error :, 54586324
+Info	[WinMain,153]GLSL Version : 4.40
+Error	[CShader::CheckShaderError,293] Compiler Error :, 14609684
+Error	[CShader::CheckShaderError,293] Compiler Error :, 14609684
