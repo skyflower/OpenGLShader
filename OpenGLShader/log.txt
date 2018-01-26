@@ -1,3 +1,3 @@
-Info	[WinMain,112]ScreenWidth = 800, ScreenHeight = 600
-Info	[WinMain,154]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
-Info	[WinMain,155]GLSL Version : 4.40
+Info	[WinMain,114]ScreenWidth = 800, ScreenHeight = 600
+Info	[WinMain,156]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
+Info	[WinMain,157]GLSL Version : 4.40

@@ -125,15 +125,15 @@ void CFrustum::Update(float duration)
 	static bool initFlag = true;
 	if (initFlag)
 	{
-		SetScale(0.1, 0.1, 0.1);
+		//SetScale(0.1, 0.1, 0.1);
 		initFlag = false;
 	}
 	if (zTranslate > 2 * 3.1415026)
 	{
 		zTranslate = 0;
 	}
-	vec3f rotate = GetRotate();
-	SetRotate(rotate[0] + zTranslate, 30 * 3.1415926 / 180, 0);
+	//vec3f rotate = GetRotate();
+	//SetRotate(rotate[0] + zTranslate, 30 * 3.1415926 / 180, 0);
 	//m_fTrans[1][1] = 30 * 3.1415926 / 180;
 	//AddRotate(zTranslate, 0, 0);
 	

@@ -10,11 +10,27 @@ class CFullScreen :
 public:
 	CFullScreen();
 	~CFullScreen();
+	void initTexture(GLuint textureID);
 	virtual void Draw();
 	virtual void Update(float Duration);
 	void DrawLeftTop();
 	void DrawLeftBottom();
 	void DrawRightTop();
 	void DrawRightBottom();
+	void SetPosLocation(GLuint PosLoc);
+
+private:
+
+	void SetVertexAttrib(AttribType type);
+
+	GLuint m_nTextureID;
+	GLuint m_nVertexBuffObj;
+	//GLuint 
+	CVertexData *m_pVertex;
+	size_t m_nVertexNum;
+	GLuint m_nPosLocation;
+	CShader *m_pShader;
+	GLuint m_nParamLocation;
+	vec4f m_fParam;
 };
 

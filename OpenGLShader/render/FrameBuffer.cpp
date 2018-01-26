@@ -11,6 +11,22 @@ CFrameBuffer::CFrameBuffer()
 
 CFrameBuffer::~CFrameBuffer()
 {
+	if (m_pBuffer.size() != 0)
+	{
+		for (auto iter : m_pBuffer)
+		{
+			if (glIsBuffer(iter.second))
+			{
+				glDeleteBuffers(1, &iter.second);
+				iter.second = 0;
+			}
+		}
+	}
+	if (glIsFramebuffer(m_nFbo))
+	{
+		glDeleteFramebuffers(1, &m_nFbo);
+		m_nFbo = -1;
+	}
 }
 
 void CFrameBuffer::Finish()
@@ -28,6 +44,8 @@ void CFrameBuffer::Finish()
 
 		glDrawBuffers(i, buffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		delete[]buffer;
+		buffer = nullptr;
 	}
 }
 

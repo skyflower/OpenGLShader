@@ -29,6 +29,8 @@
 #include "./common/Camera.h"
 #include "./render/FrameBuffer.h"
 
+#include "./test/FullScreen.h"
+
 //std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 
 //
@@ -180,8 +182,14 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 
-	//CFrameBuffer framebuffer;
-	
+	SIZE viewWinSize = director->GetWindowSize();
+	CFrameBuffer framebuffer;
+	framebuffer.AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, GL_RGBA, viewWinSize.cx, viewWinSize.cy);
+	framebuffer.AttachDepthBuffer("depth", viewWinSize.cx, viewWinSize.cy);
+	framebuffer.Finish();
+
+	CFullScreen *pFullScreen = new CFullScreen();
+
 	
 	MSG msg;
 	
@@ -204,8 +212,8 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		double duration = uTimer.GetPassedTimeInMs();
 		uTimer.Start();
 		
+		glBindFramebuffer(GL_FRAMEBUFFER, framebuffer.GetFrameBuffer());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		
 		for (size_t i = 0; i < nSize; ++i)
 		{
@@ -213,6 +221,16 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 			p->Update(duration);
 			p->Draw();
 		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		pFullScreen->initTexture(framebuffer.GetColorBuffer("color"));
+		//pFullScreen->Draw();
+		pFullScreen->DrawLeftBottom();
+		pFullScreen->DrawLeftTop();
+		pFullScreen->DrawRightBottom();
+		pFullScreen->DrawRightTop();
+
 		director->Update(duration / CLOCKS_PER_SEC);
 		glFlush();
 		SwapBuffers(dc);

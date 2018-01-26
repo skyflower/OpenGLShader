@@ -122,7 +122,7 @@ void CPolygon::Update(float duration)
 	static bool initFlag = true;
 	if (initFlag)
 	{
-		//SetScale(4.41828, 3.3137, 1);
+		SetScale(4.41828, 3.3137, 1);
 		//SetTranslate(0, 0, -2);
 		initFlag = false;
 	}
