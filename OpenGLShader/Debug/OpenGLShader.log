@@ -1,52 +1,9 @@
-﻿  C3DModel.cpp
+﻿  Log.cpp
 d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4521: “UnCopyable”: 指定了多个复制构造函数
 d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4522: “UnCopyable”: 指定了多个赋值运算符
-d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(71): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.cpp(9): note: 参见对正在编译的函数 模板 实例化“CVector<3,float>::CVector<int>(Num,std::size_t)”的引用
-          with
-          [
-              Num=int
-          ]
-  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.cpp(9): note: 参见对正在编译的函数 模板 实例化“CVector<3,float>::CVector<int>(Num,std::size_t)”的引用
-          with
-          [
-              Num=int
-          ]
-d:\cache\visualstudiocache\openglshader\openglshader\math\cvector.h(106): warning C4244: “=”: 从“const double”转换到“float”，可能丢失数据
-  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(484): note: 参见对正在编译的函数 模板 实例化“CVector<3,float> CVector<3,float>::operator =<3,double>(const CVector<3,double> &)”的引用
-  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(484): note: 参见对正在编译的函数 模板 实例化“CVector<3,float> CVector<3,float>::operator =<3,double>(const CVector<3,double> &)”的引用
-  d:\cache\visualstudiocache\openglshader\openglshader\math\cmatrix.h(477): note: 编译类 模板 成员函数“CMatrix<4,4,float> CMatrix<4,4,float>::GetRotate(float,float,float,float)”时
-  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.cpp(130): note: 参见对正在编译的函数 模板 实例化“CMatrix<4,4,float> CMatrix<4,4,float>::GetRotate(float,float,float,float)”的引用
-  d:\cache\visualstudiocache\openglshader\openglshader\c3dmodel.h(43): note: 参见对正在编译的类 模板 实例化“CMatrix<4,4,float>”的引用
-  正在生成代码...
-  正在编译...
-  UnCopyable.cpp
-d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4521: “UnCopyable”: 指定了多个复制构造函数
-d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4522: “UnCopyable”: 指定了多个赋值运算符
-  Log.cpp
-d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4521: “UnCopyable”: 指定了多个复制构造函数
-d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4522: “UnCopyable”: 指定了多个赋值运算符
-  正在生成代码...
-  正在跳过...(未检测到相关更改)
-  ObjModel.cpp
-  FBXModel.cpp
-  main.cpp
-  utils.cpp
-  shader.cpp
-  WaterWave.cpp
-  Triangles.cpp
-  TextureTest.cpp
-  Sphere.cpp
-  SkyBox.cpp
-  Polygon.cpp
-  PointSprite.cpp
-  ParticleGS.cpp
-  ParticleEmit.cpp
-  ParticleCube.cpp
-  LightModelTest.cpp
-  Ground.cpp
-  Frustum.cpp
-  FrameBuffer.cpp
-  CPolygonTesslation.cpp
+SOIL.lib(image_DXT.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_DXT.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(image_helper.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_helper.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(SOIL.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(SOIL.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+SOIL.lib(stb_image_aug.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(stb_image_aug.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
   OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.exe
   OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.pdb (Full PDB)

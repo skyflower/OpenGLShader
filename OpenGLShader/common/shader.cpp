@@ -223,7 +223,7 @@ void CShader::SetShaderAttrib(int count, const char * value[])
 			m_pLocation[i] = glGetAttribLocation(m_nProgram, m_pName[i]);
 			if (m_pLocation[i] == -1)
 			{
-				WriteError("GetLocation : %d Failed", m_pName[i]);
+				WriteError("GetLocation : %s Failed", m_pName[i]);
 			}
 		}
 	}
@@ -270,7 +270,7 @@ CShader::~CShader()
 
 void CShader::CheckShaderError(GLuint CShader, GLuint flag, bool isProgram, std::string Msg)
 {
-	GLint success = 0;
+	GLint success = GL_TRUE;
 	GLchar error[1024] = { 0 };
 	if (isProgram)
 	{

@@ -39,7 +39,7 @@ namespace utils
 	GLuint CreateFrameBuffer(GLuint &DepthBuffer, GLuint &Texture, size_t sizeX, size_t sizeY);
 
 
-	void OutputToFile(std::fstream &log, mat4f & ks, glm::mat4 &hs);
+	void OutputToFile(mat4f & ks, glm::mat4 &hs);
 
 	void TestMatrixGLM();
 

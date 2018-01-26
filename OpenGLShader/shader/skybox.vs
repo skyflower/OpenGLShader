@@ -14,7 +14,7 @@ void main()
 {
 	int id = 0;
 	
-    gl_Position = vec4(pos, 1.0) * modelMatrix;
+    gl_Position = vec4(pos, 1.0) * MVP;
    
 	V_TexCoord = vec2(texCoord.x, 1 - texCoord.y);
 	scopePos = (vec4(pos, 1.0) * modelMatrix).xyz;

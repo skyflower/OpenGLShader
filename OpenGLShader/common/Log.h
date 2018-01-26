@@ -36,15 +36,10 @@ public:
 		char data[2000];
 	};
 
-
 	static CLog *GetInstance();
 	static const CLog& GetReference();
 	
-	static int Write(LogType type, char* func, int line, char *fmt, ...);
-	
-	//template<typename type>
-	//const CLog& operator << (type value)const;//对整型变量的重载
-	
+	static int Write(LogType type, char* func, int line, char *fmt, ...);	
 
 	virtual void run();
 	bool GetFlag();
@@ -54,14 +49,9 @@ private:
 		MAX_LOG_NUM = 10
 	};
 
-
 	CLog();
 	void init();
-	//static int Write(LogType type, char* func, int line, char *fmt, ...);
 	void SetFlag(bool flag);
-	//CLog(const CLog &) = delete;
-	//const CLog & operator=(const CLog &) = delete;
-
 
 	static CLog *m_pInstance;
 
@@ -72,12 +62,8 @@ private:
 	std::atomic<bool> m_bFlag;
 	std::condition_variable m_pCond;
 	std::fstream m_pLog;
-	//std::stringstream m_pStrBuf;
-	//std::iostream m_pStrBuf;
-	//std::ostream m_pOutStream;
-	//std::stringbuf m_pStrBuf;
-	std::thread m_pThread;
 	
+	std::thread m_pThread;
 
 public:
 	~CLog();

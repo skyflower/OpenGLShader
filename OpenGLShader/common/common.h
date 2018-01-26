@@ -8,6 +8,8 @@
 #include "../math/CMatrix.h"
 #include <fstream>
 #include "Log.h"
+#include "../graphics/Drawable.h"
+
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <glm/mat4x4.hpp>

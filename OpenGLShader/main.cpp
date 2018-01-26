@@ -17,20 +17,22 @@
 #include <fstream>
 #include <ctime>
 #include "./model/ObjModel.h"
-#include "Polygon.h"
+#include "./test/Polygon.h"
 #include "./common/Timer.h"
-#include "Frustum.h"
+#include "./test/Frustum.h"
 #include <SOIL\SOIL.h>
-#include "Triangles.h"
-#include "PointSprite.h"
+#include "./test/Triangles.h"
+#include "./test/PointSprite.h"
 #include "InitModel.h"
 #include "./common/Log.h"
 #include <thread>
+#include "./common/Camera.h"
+#include "./render/FrameBuffer.h"
 
 //std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 
 //
-//if (director.m_bRotateView)
+//if (director->m_bRotateView)
 //{
 //	POINT curPos;
 //	curPos.x = LOWORD(lParam);
@@ -40,20 +42,21 @@
 //	int deltaY = curPos.y - orgPoint.y;
 //	float angleY = (float)deltaY / 1000;
 //	float angleX = (float)deltaX / 1000;
-//	director.Pitch(angleY);
-//	director.Yaw(angleX);
+//	director->Pitch(angleY);
+//	director->Yaw(angleX);
 //	SetCursorPos(orgPoint.x, orgPoint.y);
 //}
 
+CCamera *director = CCamera::GetInstance();
+POINT orgPoint;
 
-std::unique_ptr<CLog> pLog(CLog::GetInstance());
+
 
 extern LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, int showCmd)
 {
-	
-	
+	std::unique_ptr<CLog> pLog(CLog::GetInstance());
 
 	WNDCLASSEX wndclass;
 	wndclass.cbClsExtra = 0;
@@ -105,6 +108,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	GetClientRect(hwnd, &rect);
 	int viewWidth = rect.right - rect.left;
 	int viewHeight = rect.bottom - rect.top;
+	director->SetWindowSize(viewWidth, viewHeight);
 	WriteInfo("ScreenWidth = %d, ScreenHeight = %d", viewWidth, viewHeight);
 	
 	vec4f Perspective;
@@ -129,9 +133,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	//ProjectionMatrix = ProjectionMatrix;// *Trianslate;
 	//mat4f UIProjectionMatrix = CMatrix<4, 4, float>::GetOrtho(OrthoVec);
 	//glm::mat4 glmOrthoMatrix = glm::ortho(OrthoVec[0], OrthoVec[1], OrthoVec[2], OrthoVec[3], OrthoVec[4], OrthoVec[5]);
-	std::string tmpStr = OrthoVec.FormatToString();
-	WriteInfo("OrthoVec = %s", tmpStr.c_str());
-	WriteInfo("ProjectionMatrix = %s", ProjectionMatrix.FormatToString().c_str());
+	
 	//glm::tvec3<float> glmTranslateVec = glm::tvec3<float>(0.0f, 0.0f, -1.0f);
 	//glm::mat4 glmTranslate = glm::translate(glmTranslateVec);
 	//mat4f Translate = CMatrix<4, 4, float>::GetTranslate(0, 0, -1.0);
@@ -142,7 +144,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	//Log << "Projection Inverse\n" << inverse;
 	//Log << "Multiply \n" << tmpMultiply;
 
-	utils::TestMatrixGLM();
+	//utils::TestMatrixGLM();
 	//Log << "sizeof(CParticleVertex) = " << sizeof(CParticleVertex) << "\n";
 	if (GLEW_OK != glewInit())
 	{
@@ -166,14 +168,19 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	{
 		return -1;
 	}
+
+	mat4f viewMatrix = director->GetViewMatrix();
 	for (size_t i = 0; i < pModelVec->size(); ++i)
 	{
 		C3DModel *&p = *(pModelVec->data() + i);
-		p->SetMatrix(IdentityMatrix, ProjectionMatrix);
+		p->SetMatrix(viewMatrix, ProjectionMatrix);
 	}
+
 
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
+
+	//CFrameBuffer framebuffer;
 	
 	
 	MSG msg;
@@ -199,13 +206,14 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
+		
 		for (size_t i = 0; i < nSize; ++i)
 		{
 			C3DModel *&p = *(pModelVec->data() + i);
 			p->Update(duration);
 			p->Draw();
 		}
-		
+		director->Update(duration / CLOCKS_PER_SEC);
 		glFlush();
 		SwapBuffers(dc);
 		

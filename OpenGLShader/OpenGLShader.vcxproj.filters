@@ -25,60 +25,21 @@
     <Filter Include="common">
       <UniqueIdentifier>{f1d1ea40-e8e7-4f6b-b2c2-75ee723b5133}</UniqueIdentifier>
     </Filter>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{d2ced889-5838-4e6d-acca-01653c56c2aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="event">
+      <UniqueIdentifier>{f07b3dd3-a4d4-4a99-b3ce-25d2d0629704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{fa8aeb65-d9ac-4549-8b07-10704d152c1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{cf626c5f-5da5-4026-a28e-67fa50268b6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Polygon.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangles.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Drawable.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PointSprite.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="C3DModel.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleCube.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleGS.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleEmit.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CPolygonTesslation.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LightModelTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Sphere.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="WaterWave.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Ground.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="model\FBXModel.cpp">
@@ -105,63 +66,81 @@
     <ClCompile Include="common\UnCopyable.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\Runable.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Camera.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="event\CEvent.cpp">
+      <Filter>event</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\CLayer.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\CNode.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\Drawable.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="render\C3DModel.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="render\FrameBuffer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="test\CPolygonTesslation.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Frustum.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Ground.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\LightModelTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\ParticleCube.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\ParticleEmit.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\ParticleGS.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\ParticleTFO.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\PointSprite.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Polygon.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\SkyBox.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Sphere.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\TextureTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Triangles.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\WaterWave.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\FullScreen.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VertexData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Polygon.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Triangles.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PointSprite.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="C3DModel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="InitModel.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleCube.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleGS.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleEmit.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CPolygonTesslation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameBuffer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LightModelTest.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="WaterWave.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureTest.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Ground.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBox.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="math\CMatrix.h">
@@ -199,6 +178,78 @@
     </ClInclude>
     <ClInclude Include="common\UnCopyable.h">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Runable.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Camera.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="event\CEvent.h">
+      <Filter>event</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\CLayer.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\CNode.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\Drawable.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="render\C3DModel.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="render\FrameBuffer.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="test\CPolygonTesslation.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Frustum.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Ground.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\LightModelTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\ParticleCube.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\ParticleEmit.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\ParticleGS.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\ParticleTFO.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\PointSprite.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Polygon.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\SkyBox.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Sphere.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\TextureTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Triangles.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\WaterWave.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\FullScreen.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

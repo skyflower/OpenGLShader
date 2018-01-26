@@ -290,21 +290,26 @@ GLuint utils::CreateFrameBuffer(GLuint &DepthBuffer, GLuint &Texture, size_t siz
 	return FrameBuffer;
 }
 
-void utils::OutputToFile(std::fstream & log, mat4f & ks, glm::mat4 & hs)
+void utils::OutputToFile(mat4f & ks, glm::mat4 & hs)
 {
-	log << "UserDefine Matrix======================\n";
-	log << ks << "\n";
+	WriteInfo("UserDefine Matrix======================");
+	WriteInfo("\n%s", ks.FormatToString().c_str());
 
-	log << "GLM Matrix======================\n";
+	std::stringbuf tmpStr;
+	std::iostream outStream(&tmpStr);
+
+	outStream << "GLM Matrix======================\n";
 	for (size_t i = 0; i < 4; ++i)
 	{
 		for (size_t j = 0; j < 4; ++j)
 		{
-			log << hs[i][j] << "\t";
+			outStream << hs[i][j] << "\t";
 		}
-		log << "\n";
+		outStream << "\n";
 	}
-	log << "\n";
+	outStream << "\n";
+	outStream.flush();
+	WriteInfo("%s", tmpStr.str().c_str());
 }
 
 void utils::TestMatrixGLM()
@@ -315,16 +320,23 @@ void utils::TestMatrixGLM()
 	//mat4f UIViewMatrix = CMatrix<4, 4, float>::GetViewMatrix(0, 0, viewWidth, viewHeight, 0.01, 1000);
 	//mat4f RotateMatrix = CMatrix<4, 4, float>::GetRotate(45.0f, 0.0f, 0.0f, 1.0f);
 	//glm::mat4 glmIdentityMatrix = glm::mat4(1.0f);
+	glm::vec3 glmEye = glm::vec3(2.2, 2.2, 0);
+	glm::vec3 glmCenter = glm::vec3(0, 0, -1);
+	glm::vec3 glmUp = glm::vec3(0, 1, 0);
+	glm::mat4 glmResult = glm::lookAt(glmEye, glmCenter, glmUp);
 
-	//glm::mat4 glmProjectionMatrix = glm::perspective(45.0f, (float)viewWidth / (float)viewHeight, 0.1f, 10.0f);
-	//glm::mat4 glmTranslate = glm::translate(glm::vec3(1.2f, 3.4f, -5.0f));
-	//glm::mat4 glmOrthoMatrix = glm::ortho(OrthoVec[0], OrthoVec[1], OrthoVec[2], OrthoVec[3], OrthoVec[4], OrthoVec[5]);
+	vec3f eye = vec3f(0, 3);
+	eye[0] = eye[1] = 2.2;
+	vec3f center = vec3f(0, 3);
+	center[2] = -1;
+	vec3f up = vec3f(0, 3);
+	up[1] = 1;
+	mat4f result = CMatrix<4, 4, float>::GetLookAt(eye, center, up);
+
+	mat4f tmpResult = CMatrix<4, 4, float>::GetLookAtTwo(eye, center, up);
+	WriteInfo("getLookatTwo = \n%s", tmpResult.FormatToString().c_str());
 	
-	//glm::mat4 glmRotateMatrix = glm::rotate(glmOrthoMatrix, 30.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-	//glm::mat4 glmXRotateMatrix = glm::rotate(glmIdentityMatrix, 30.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-	//mat4f tmpComp = CMatrix<4, 4, float>::GetRotate(30, 0, 0, 1);
-	//tmpComp =  UIProjectionMatrix * tmpComp;
-	//utils::OutputToFile(Log, result, glmResult);
+	utils::OutputToFile(result, glmResult);
 }
 
 GLuint utils::CreateComputeProgram(const char*computeShaderPath)

@@ -199,6 +199,19 @@ class CVector
 			return result;
 		}
 
+		template<typename T>
+		auto CrossProduct(const CVector<3, T> &b)->
+			CVector<3, decltype(T(0) * type(0))>
+		{
+			using reType = decltype(T(0) * type(0));
+			CVector<3, reType> result;
+			result[0] = m_data[1] * b[2] - m_data[2] * b[1];
+			result[1] = m_data[2] * b[0] - m_data[0] * b[2];
+			result[2] = m_data[0] * b[1] - m_data[1] * b[0];
+			return result;
+		}
+
+
 		void NormalizeW()
 		{
 			if (m_data[N - 1] == type(0))
@@ -247,6 +260,7 @@ class CVector
             return m_data[index];
         }
 
+
         const type& operator[](size_t index) const
         {
             if(index >= N)
@@ -256,6 +270,16 @@ class CVector
             return m_data[index];
         }
 		
+		CVector<N, type> operator-()
+		{
+			CVector<N, type> result;
+			for (size_t i = 0; i < N; ++i)
+			{
+				result[i] = -m_data[i];
+			}
+			return result;
+		}
+
 		template<typename Num>
         CVector<N, type>& operator+=(const CVector<N, Num> &a)
         {

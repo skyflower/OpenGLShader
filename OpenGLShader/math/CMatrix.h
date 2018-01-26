@@ -132,6 +132,19 @@ public:
         return &m_data[x][0];
     }
 
+	CMatrix<M, N, type> operator-()
+	{
+		CMatrix<M, N, type> result;
+		for (size_t i = 0; i < N; ++i)
+		{
+			for (size_t j = 0; j < M; ++j)
+			{
+				result[j][i] = -m_data[i][j];
+			}
+		}
+		return result;
+	}
+
 	
 	CMatrix<M, N, type>  Transposition()
 	{
@@ -326,6 +339,50 @@ public:
 		
 		return result;
 	}
+
+
+	static CMatrix<4, 4, float> GetLookAtTwo(CVector<3, float> ev,
+		CVector<3, float> cv,
+		CVector<3, float> uv)
+	{
+		// 被观察平面的法向量, 与观测方向相反, n对应于OpenGL的z轴
+		CVector<3, float> n = (ev - cv).Normalize();// GLKVector3Add(ev, GLKVector3Negate(cv)));
+		// 叉乘得到第一根轴, u对应于OpenGL的x轴
+		CVector<3, float> u = uv.CrossProduct(n).Normalize();// GLKVector3CrossProduct(uv, n));
+		// 再次叉乘得到矫正后的up向量, v对应于OpenGL的y轴
+		CVector<3, float> v = n.CrossProduct(u);
+		CMatrix<4, 4, float> result;
+		result[0][0] = u[0];
+		result[0][1] = v[0];
+		result[0][2] = n[0];
+		
+		result[1][0] = u[1];
+		result[1][1] = v[1];
+		result[1][2] = n[1];
+
+		result[2][0] = u[2];
+		result[2][1] = v[2];
+		result[2][2] = n[2];
+
+		result[3][0] = ev.dotMultiply(-u);
+		result[3][1] = ev.dotMultiply(-v);
+		result[3][2] = ev.dotMultiply(-n);
+		result[3][3] = 1.0f;
+
+		// 采用了列主序储存(用一个一维数组依次储存了第一列, 第二列, ...),
+		//GLKMatrix4 m = { u.v[0], v.v[0], n.v[0], 0.0f,
+		//	u.v[1], v.v[1], n.v[1], 0.0f,
+		//	u.v[2], v.v[2], n.v[2], 0.0f,
+		//	GLKVector3DotProduct(GLKVector3Negate(u), ev),
+		//	GLKVector3DotProduct(GLKVector3Negate(v), ev),
+		//	GLKVector3DotProduct(GLKVector3Negate(n), ev),
+		//	1.0f };
+
+		return result;
+		
+	}
+
+
 	static CMatrix<4, 4, float> GetLookAt(CVector<3, float> &eye, CVector<3, float>& center, CVector<3, float> &up)
 	{
 		double eyeX = eye[0];

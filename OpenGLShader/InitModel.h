@@ -14,22 +14,26 @@
 #include <fstream>
 #include <ctime>
 #include "./model/ObjModel.h"
-#include "Polygon.h"
+#include "./test/Polygon.h"
 #include "./common/Timer.h"
-#include "Frustum.h"
+#include "./test/Frustum.h"
 #include <SOIL\SOIL.h>
-#include "Triangles.h"
-#include "PointSprite.h"
-#include "ParticleCube.h"
-#include "ParticleGS.h"
-#include "ParticleEmit.h"
-#include "CPolygonTesslation.h"
-#include "LightModelTest.h"
-#include "Sphere.h"
-#include "WaterWave.h"
-#include "TextureTest.h"
-#include "Ground.h"
-#include "SkyBox.h"
+#include "./test/Triangles.h"
+#include "./test/PointSprite.h"
+#include "./test/ParticleCube.h"
+#include "./test/ParticleGS.h"
+#include "./test/ParticleEmit.h"
+#include "./test/CPolygonTesslation.h"
+#include "./test/LightModelTest.h"
+#include "./test/Sphere.h"
+#include "./test/WaterWave.h"
+#include "./test/TextureTest.h"
+#include "./test/Ground.h"
+#include "./test/SkyBox.h"
+#include "./common/Camera.h"
+
+extern CCamera *director;
+extern POINT orgPoint;
 
 
 bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspective)
@@ -130,8 +134,8 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pLightTest);
 	}
 
-	//pSphere = new CSphere(1.5, 30, 40);
-	//pSphere->InitTexture("./res/image/xiongxiang.jpg");
+	pSphere = new CSphere(1.5, 30, 40);
+	pSphere->InitTexture("./res/image/xiongxiang.jpg");
 	if (pSphere && pModelVec)
 	{
 		pModelVec->push_back(pSphere);
@@ -160,8 +164,8 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pGround);
 	}
 
-	pSkyBox = new CSkyBox;
-	pSkyBox->InitTexture("./res/image/skybox/");
+	//pSkyBox = new CSkyBox;
+	//pSkyBox->InitTexture("./res/image/skybox/");
 	if (pSkyBox && pModelVec)
 	{
 		pModelVec->push_back(pSkyBox);
@@ -174,11 +178,143 @@ LRESULT CALLBACK GLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case 'A':
+		case 'a':
+			director->SetMoveLeft(true);
+			//director->m_bMoveLeft = true;
+			break;
+		case 'D':
+		case 'd':
+			director->SetMoveRight(true);
+			//director->m_bMoveRight = true;
+			break;
+		case 'W':
+		case 'w':
+			director->SetMoveForward(true);
+			//director->m_bMoveForward = true;
+			break;
+		case 'S':
+		case 's':
+			director->SetMoveBackward(true);
+			//director->m_bMoveBackward = true;
+			break;
+		case 'Q':
+		case 'q':
+			director->SetRotateRight(true);
+			//director->m_bRotateY = true;
+			break;
+		case 'E':
+		case 'e':
+			director->SetRotateLeft(true);
+			//director->m_bNegRotateY = true;
+			break;
+		}
+		break;
+	case WM_KEYUP:
+		switch (wParam)
+		{
+		case 'A':
+		case 'a':
+			director->SetMoveLeft(false);
+			//director->m_bMoveLeft = false;
+			break;
+		case 'D':
+		case 'd':
+			director->SetMoveRight(false);
+			//director->m_bMoveRight = false;
+			break;
+		case 'W':
+		case 'w':
+			director->SetMoveForward(false);
+			//director->m_bMoveForward = false;
+			break;
+		case 'S':
+		case 's':
+			director->SetMoveBackward(false);
+			//director->m_bMoveBackward = false;
+			break;
+		case 'Q':
+		case 'q':
+			director->SetRotateRight(false);
+			//director->m_bRotateY = false;
+			break;
+		case 'E':
+		case 'e':
+			director->SetRotateLeft(false);
+			//director->m_bNegRotateY = false;
+			break;
+		}
+		break;
+	case WM_LBUTTONDOWN:
+	{
+		SIZE tmpWinSize = director->GetWindowSize();
+		int x = LOWORD(lParam) - tmpWinSize.cx / 2;
+		int y = tmpWinSize.cy / 2 - HIWORD(lParam);
+		/*if (x <0 && x > -director->m_nViewportWidth / 2)
+		{
+			if (y <0 && y > -director->m_nViewportHeight / 2)
+			{
+				bPushOnMe = true;
+			}
+		}*/
+	}
+		break;
+		
+	case WM_LBUTTONUP:
+		
+		break;
+	case WM_RBUTTONDOWN:
+		orgPoint.x = LOWORD(lParam);
+		orgPoint.y = HIWORD(lParam);
+		ClientToScreen(hwnd, &orgPoint);
+		//SetCapture(hwnd);
+		//ShowCursor(false);
+		director->SetRotateView(true);
+		//director->m_bRotateView = true;
+		break;
+	case WM_RBUTTONUP:
+		//SetCursorPos(orgPoint.x, orgPoint.y);
+		//ReleaseCapture();
+		//ShowCursor(true);
+		director->SetRotateView(false);
+		//director->m_bRotateView = false;
+		break;
+	case WM_MOUSEMOVE:
+		if (director->GetRotateView())// director->m_bRotateView)
+		{
+			POINT curPos;
+			curPos.x = LOWORD(lParam);
+			curPos.y = HIWORD(lParam);
+			ClientToScreen(hwnd, &curPos);
+			int deltaX = curPos.x - orgPoint.x;
+			int deltaY = curPos.y - orgPoint.y;
+			float angleY = (float)deltaY / 1000;
+			float angleX = (float)deltaX / 1000;
+			director->Pitch(angleY);
+			director->Yaw(angleX);
+			SetCursorPos(orgPoint.x, orgPoint.y);
+		}
+		break;
+	case WM_SIZE:
+	{
+		size_t nWidth = LOWORD(lParam); // width of client area
+		size_t nHeight = HIWORD(lParam); // height of client area
+		glViewport(0, 0, nWidth, nHeight);
+		director->SetWindowSize(nWidth, nHeight);
+		//director->m_nViewportWidth = nWidth;
+		//director->m_nViewportHeight = nHeight;
+	}
+		
+		break;
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		break;
 	default:
 		break;
 	}
+
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }

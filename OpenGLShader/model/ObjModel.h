@@ -12,9 +12,9 @@
 #include <vector>
 #include "../common/common.h"
 #include "../common/Texure.h"
-#include "../Drawable.h"
+#include "../graphics/Drawable.h"
 #include "../common/shader.h"
-#include "../C3DModel.h"
+#include "../render/C3DModel.h"
 
 class CObjModel : public C3DModel
 {
