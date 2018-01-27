@@ -170,6 +170,7 @@
     <ClCompile Include="graphics\CLayer.cpp" />
     <ClCompile Include="graphics\CNode.cpp" />
     <ClCompile Include="graphics\Drawable.cpp" />
+    <ClCompile Include="Image\ImageShaderManager.cpp" />
     <ClCompile Include="model\FBXModel.cpp" />
     <ClCompile Include="model\ObjModel.cpp" />
     <ClCompile Include="main.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="graphics\CLayer.h" />
     <ClInclude Include="graphics\CNode.h" />
     <ClInclude Include="graphics\Drawable.h" />
+    <ClInclude Include="Image\ImageShaderManager.h" />
     <ClInclude Include="InitModel.h" />
     <ClInclude Include="math\CMatrix.h" />
     <ClInclude Include="math\CVector.h" />

@@ -598,7 +598,7 @@ void utils::CreateSphereData(float radis, int slide, int stacks, std::vector<CVe
 		//double tmp = sqrt(radis * radis - nextX * nextX);
 		double alphaStep = (2 * 3.1415926) / (stacks);
 		unsigned int tmpBeginIndex = dataIndex;
-		WriteInfo("distanceX = %f, tmpCos = %f, tmp = %f, nextX = %f", distanceX, tmpCos, tmp, nextX);
+		//WriteInfo("distanceX = %f, tmpCos = %f, tmp = %f, nextX = %f", distanceX, tmpCos, tmp, nextX);
 		for (int j = 0; j < stacks; ++j)
 		{
 			pVertex[dataIndex].mPos[0] = nextX;

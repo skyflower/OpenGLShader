@@ -86,7 +86,7 @@ void CXRay::InitDisplayBuffer()
 void CXRay::Draw()
 {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glClearColor(0.1, 0.4, 0.7, 1.0);
+	//glClearColor(0.1, 0.4, 0.7, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glDisable(GL_DEPTH_TEST);
@@ -126,7 +126,7 @@ void CXRay::Update(float duration)
 		SetTranslate(0, 0, -1);
 		initFlag = false;
 	}
-	AddRotate(0, zTranslate, 0);
+	//AddRotate(0, zTranslate, 0);
 	
 }
 

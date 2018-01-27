@@ -9,8 +9,8 @@ CFullScreen::CFullScreen()
 	-0.5, 0.5, -1.0
 	};
 	
-	m_fParam[0] = m_fParam[1] = -0.5;
-	m_fParam[2] = 1.0;
+	m_fParam[0] = m_fParam[1] = 0;
+	m_fParam[2] = 2.0;
 	m_fParam[3] = 0;
 	m_nVertexNum = 4;
 	m_pVertex = new CVertexData[m_nVertexNum];
@@ -21,20 +21,14 @@ CFullScreen::CFullScreen()
 	}
 	m_nVertexBuffObj = utils::CreateBufferObject(GL_ARRAY_BUFFER, m_nVertexNum * sizeof(CVertexData), m_pVertex);
 	
-	m_pShader = new CShader("./shader/FullScreen/FullScreen.vs", "./shader/FullScreen/FullScreen.fs");
-	m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
+	//m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
 
-	SetShaderProgram(m_pShader->GetProgram());
-	SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
+	//SetShaderProgram(m_pShader->GetProgram());
+	//SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
 }
 
 CFullScreen::~CFullScreen()
 {
-	if (m_pShader != nullptr)
-	{
-		delete m_pShader;
-		m_pShader = nullptr;
-	}
 	if (m_pVertex != nullptr)
 	{
 		delete[]m_pVertex;
@@ -45,6 +39,11 @@ CFullScreen::~CFullScreen()
 		glDeleteBuffers(1, &m_nVertexBuffObj);
 		m_nVertexBuffObj = -1;
 	}
+	if (m_pDefaultShader != nullptr)
+	{
+		delete m_pDefaultShader;
+		m_pDefaultShader = nullptr;
+	}
 }
 
 void CFullScreen::initTexture(GLuint textureID)
@@ -54,13 +53,18 @@ void CFullScreen::initTexture(GLuint textureID)
 
 void CFullScreen::Draw()
 {
-	glUseProgram(m_pShader->GetProgram());
+	if (m_pShader != nullptr)
+	{
+		glUseProgram(m_pShader->GetProgram());
+	}
+	
 	if (glIsTexture(m_nTextureID))
 	{
 		glBindTexture(GL_TEXTURE_2D, m_nTextureID);
 	}
 	SetTransformMatrix();
 	SetVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
+
 	glUniform4fv(m_nParamLocation, 1, &m_fParam[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBuffObj);
 	glEnableVertexAttribArray(m_nPosLocation);
@@ -124,6 +128,23 @@ void CFullScreen::DrawRightBottom()
 void CFullScreen::SetPosLocation(GLuint PosLoc)
 {
 	m_nPosLocation = PosLoc;
+}
+
+void CFullScreen::SetShader(CShader * pShader)
+{
+	m_pShader = pShader;
+	m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
+
+	SetShaderProgram(m_pShader->GetProgram());
+	SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
+}
+
+void CFullScreen::SetScaleAndTranslate(float scaleFactor, float translateX, float translateY)
+{
+	m_fParam[0] = translateX;
+	m_fParam[1] = translateY;
+	m_fParam[2] = scaleFactor;
+	m_fParam[3] = 0.0;
 }
 
 

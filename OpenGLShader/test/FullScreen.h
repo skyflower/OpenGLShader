@@ -18,6 +18,8 @@ public:
 	void DrawRightTop();
 	void DrawRightBottom();
 	void SetPosLocation(GLuint PosLoc);
+	void SetShader(CShader* pShader);
+	void SetScaleAndTranslate(float scaleFactor, float translateX, float translateY);
 
 private:
 
@@ -32,5 +34,7 @@ private:
 	CShader *m_pShader;
 	GLuint m_nParamLocation;
 	vec4f m_fParam;
+
+	CShader* m_pDefaultShader;
 };
 

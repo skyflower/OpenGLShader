@@ -37,6 +37,9 @@
     <Filter Include="test">
       <UniqueIdentifier>{cf626c5f-5da5-4026-a28e-67fa50268b6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Image">
+      <UniqueIdentifier>{e05d66fc-56de-4588-814e-9542be59d87f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="test\XRay.cpp">
       <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="Image\ImageShaderManager.cpp">
+      <Filter>Image</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="test\XRay.h">
       <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="Image\ImageShaderManager.h">
+      <Filter>Image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
