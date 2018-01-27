@@ -52,85 +52,8 @@ void CSphere::Init(float radis, int slide, int stacks)
 	{
 		return;
 	}
-	size_t Length = slide * stacks + 2;
-	if (m_data == nullptr)
-	{
-		m_data = new std::vector<CVertex>(Length);
-		memset(m_data->data(), 0, sizeof(CVertex) * Length);
-	}
-	if (m_pIndex == nullptr)
-	{
-		//(slide - 1) * 2 * stacks 
-		m_pIndex = new std::vector<unsigned int>(slide * stacks * 6);
-		memset(m_pIndex->data(), 0, sizeof(unsigned int) * 6 * slide * stacks);
-	}
-	double radisStep = 2 * radis / (slide + 1);
-	unsigned int dataIndex = 0;
-	unsigned int indexIndex = 0;
+	utils::CreateSphereData(radis, slide, stacks, m_data, m_pIndex);
 	CVertex *pVertex = m_data->data();
-	pVertex[0].mPos[0] = -radis;
-	pVertex[0].mPos[1] = 0;
-	pVertex[0].mPos[2] = 0;
-	dataIndex++;
-
-	unsigned int *pIndex = m_pIndex->data();
-	for (int i = 0; i < slide; ++i)
-	{
-		double distanceX = (i + 1) * radisStep;
-		
-		double tmpCos = sqrt(distanceX * 2 * radis);
-		double tmp = sqrt(tmpCos * tmpCos - distanceX * distanceX);
-		double nextX = -radis + distanceX;
-		//double tmp = sqrt(radis * radis - nextX * nextX);
-		double alphaStep = (2 * 3.1415926) / (stacks);
-		unsigned int tmpBeginIndex = dataIndex;
-		for (int j = 0; j < stacks; ++j)
-		{
-			pVertex[dataIndex].mPos[0] = nextX;
-			pVertex[dataIndex].mPos[1] = tmp * std::sin(alphaStep * j);
-			pVertex[dataIndex].mPos[2] = tmp * std::cos(alphaStep * j);
-			
-			dataIndex++;
-			
-		}
-		if(i == 0)
-		{
-			for (int j = 0; j < stacks; ++j)
-			{
-				pIndex[indexIndex++] = 0;
-				pIndex[indexIndex++] = j + 1;
-				pIndex[indexIndex++] = (j + 1) % stacks + 1;
-			}
-		}
-		if (i > 0)
-		{
-			unsigned int preBeginIndex = tmpBeginIndex - stacks;
-			for (int j = 0; j < stacks; ++j)
-			{
-				pIndex[indexIndex++] = preBeginIndex + j;
-				pIndex[indexIndex++] = preBeginIndex + (j + 1) % stacks;
-				pIndex[indexIndex++] = tmpBeginIndex + j;
-
-				pIndex[indexIndex++] = tmpBeginIndex + j;
-				pIndex[indexIndex++] = preBeginIndex + (j + 1) % stacks;
-				pIndex[indexIndex++] = tmpBeginIndex + (j + 1) % stacks;
-
-			}
-		}
-		if (i == slide - 1)
-		{
-			pVertex[dataIndex].mPos[0] = radis;
-			pVertex[dataIndex].mPos[1] = 0;
-			pVertex[dataIndex].mPos[2] = 0;
-			for (int j = 0; j < stacks; ++j)
-			{
-				pIndex[indexIndex++] = j + tmpBeginIndex;// dataIndex;
-				pIndex[indexIndex++] = (j + 1) % stacks + tmpBeginIndex;
-				pIndex[indexIndex++] = dataIndex;// (j + 1) % stacks + tmpBeginIndex;
-			}
-			dataIndex++;
-		}
-	}
 
 	unsigned int tmpSize = m_data->size();
 	for (int i = 0; i < tmpSize; ++i)

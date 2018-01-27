@@ -191,6 +191,7 @@
     <ClCompile Include="test\TextureTest.cpp" />
     <ClCompile Include="test\Triangles.cpp" />
     <ClCompile Include="test\WaterWave.cpp" />
+    <ClCompile Include="test\XRay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\Camera.h" />
@@ -230,6 +231,7 @@
     <ClInclude Include="test\TextureTest.h" />
     <ClInclude Include="test\Triangles.h" />
     <ClInclude Include="test\WaterWave.h" />
+    <ClInclude Include="test\XRay.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\computeShader.shader" />

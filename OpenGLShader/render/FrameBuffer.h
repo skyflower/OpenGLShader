@@ -22,6 +22,8 @@ public:
 	inline GLuint GetFrameBuffer() { return m_nFbo; }
 	inline GLuint GetDepthBuffer() { return m_nDepthBuffer; }
 	GLuint GetColorBuffer(const char *name);
+	void Bind();
+	void UnBind();
 private:
 	GLuint m_nFbo;
 	GLuint m_nDepthBuffer;

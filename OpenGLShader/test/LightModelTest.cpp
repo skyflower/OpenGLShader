@@ -3,35 +3,25 @@
 #include <iostream>
 
 
-CLightTest::CLightTest() :C3DModel()
+CLightTest::CLightTest() :C3DModel(),
+m_pVertexData(nullptr),
+m_pShader(nullptr),
+m_nVertexBufferObj(-1),
+m_pTexture(nullptr),
+m_nLightType(1),
+m_nLightTypeLocation(0),
+m_nDataLength(0)
 {
-	m_data = nullptr;
-	m_pShader = nullptr;
-	m_nVertexBufferObj = -1;
-	
-	m_pTexture = nullptr;
-	
-	m_nLightTypeLocation = 0;
-	
-	m_nIndexBufferObj = -1;
-	
 	Init();
 }
 
 CLightTest::~CLightTest()
 {
-	if (m_data != nullptr)
+	if (m_pVertexData != nullptr)
 	{
-		m_data->clear();
-		delete m_data;
-		m_data = nullptr;
+		delete[] m_pVertexData;
+		m_pVertexData = nullptr;
 	}
-	/*if (m_pIndex != nullptr)
-	{
-		m_pIndex->clear();
-		delete m_pIndex;
-		m_pIndex = nullptr;
-	}*/
 	if (m_pShader != nullptr)
 	{
 		delete m_pShader;
@@ -43,7 +33,6 @@ CLightTest::~CLightTest()
 		m_nVertexBufferObj = -1;
 	}
 	
-	
 	if (m_pTexture)
 	{
 		CTexture::UnLoadTexture(m_pTexture);
@@ -53,42 +42,8 @@ CLightTest::~CLightTest()
 
 void CLightTest::Init()
 {
-	size_t Length = 3;
-	if (m_data == nullptr)
-	{
-		m_data = new std::vector<CVertexData>(Length);
-	}
-	CVertexData *pData = m_data->data();
-	CVertexData tmpData;
-	//float tmpY = 1.66;
-	//float tmpX = 2.21;//0.5
-	tmpData.m_fPos[0] = -0.5;
-	tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
-	tmpData.m_fPos[2] = -0.5f;
-	tmpData.m_fNormal[0] = 0;
-	tmpData.m_fNormal[1] = 1;
-	tmpData.m_fNormal[2] = 0;
-
-	tmpData.m_fTex[0] = 0.0f;
-	tmpData.m_fTex[1] = 0.0f;
-	pData[0] = tmpData;
-
-	tmpData.m_fPos[0] = -0.5;
-	tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
-	tmpData.m_fPos[2] = 0.5f;
-
-	tmpData.m_fTex[0] = 0.0f;
-	tmpData.m_fTex[1] = 1.0f;
-	pData[1] = tmpData;
-
-	tmpData.m_fPos[0] = 0.5;
-	tmpData.m_fPos[1] = 0;// -0.15;// 0.5;
-	tmpData.m_fPos[2] = -0.5f;
-
-	tmpData.m_fTex[0] = 1.0f;
-	tmpData.m_fTex[1] = 1.0f;
-	pData[2] = tmpData;
-
+	m_pVertexData = utils::CreateCubicData(0.6, m_nDataLength);
+	
 	InitDisplayBuffer();
 }
 
@@ -100,33 +55,22 @@ void CLightTest::InitTexture(const char * pTextureFile)
 
 void CLightTest::InitDisplayBuffer()
 {
-	size_t nCount = m_data->size();
-	GLubyte *index = new GLubyte[nCount];
-	for (size_t i = 0; i < nCount; ++i)
-	{
-		index[i] = i;
-	}
-	
-	m_nIndexBufferObj = utils::CreateBufferObject(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * nCount, index);
+	m_nVertexBufferObj = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertexData) * m_nDataLength, m_pVertexData, GL_STATIC_DRAW);
 
-	m_nVertexBufferObj = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertexData) * m_data->size(), m_data->data(), GL_STATIC_DRAW);
-
-	m_pShader = new CShader("./shader/LightModel.vs", "./shader/LightModel.fs");
+	m_pShader = new CShader("./shader/LightModel/LightModel.vs", "./shader/LightModel/LightModel.fs");
 	SetVertexAttrib(VERTEXATTRIB);
-	
 	
 	SetShaderProgram(m_pShader->GetProgram());
 	
 	// nLightType
 	m_nLightTypeLocation = glGetUniformLocation(m_pShader->GetProgram(), "nLightType");
 
-	delete[]index;
-	index = nullptr;
 }
 
 void CLightTest::Draw()
 {
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	
 	if (m_pShader)
 	{
 		m_pShader->Bind();
@@ -138,22 +82,17 @@ void CLightTest::Draw()
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBufferObj);
 
 	SetTransformMatrix();
-	//mat4f modelMatrix = GetModel();
-	//TestShader(modelMatrix);
 
 	//glUniform1i(m_nLightModelLocation, 0xF);
-	//  1 : parallel light   2 : direction light  3 : spot light
-	glUniform1i(m_nLightTypeLocation, 3);
+	//  1 : parallel light   2 : dot light  3 : spot light
+	glUniform1i(m_nLightTypeLocation, m_nLightType);
 	
 	SetVertexAttrib(ATTRIBPOINTER);
+	
+	//glDrawElements(GL_TRIANGLES, m_data->size(), GL_UNSIGNED_BYTE, 0);
+	glDrawArrays(GL_QUADS, 0, m_nDataLength);
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nIndexBufferObj);
-	
-	glDrawElements(GL_TRIANGLES, m_data->size(), GL_UNSIGNED_BYTE, 0);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 	if (m_pTexture)
 	{
 		m_pTexture->Bind(false);
@@ -168,13 +107,14 @@ void CLightTest::Draw()
 
 void CLightTest::Update(float duration)
 {
-	static float speed = 0.0004;
+	static float speed = 0.0002;
 	double zTranslate = duration * speed;
 	static bool initFlag = true;
 	if (initFlag)
 	{
 		//SetScale(4.414, 3.3118, 1);
-		SetScale(1.5, 1.5, 1.5);
+		//SetScale(1.5, 1.5, 1.5);
+		//SetTranslate(0, 0, -5);
 		SetRotate(90 * 3.1415926 / 180, 0, 0);
 		initFlag = false;
 	}
@@ -182,7 +122,7 @@ void CLightTest::Update(float duration)
 	{
 		zTranslate = 0;
 	}
-	AddRotate(zTranslate, 0, 0);
+	AddRotate(zTranslate, zTranslate, 0);
 	
 }
 
@@ -203,20 +143,6 @@ void CLightTest::TestShader(mat4f model)
 	if (!bTstShader)
 	{
 		return;
-	}
-	//mat3f normalMatrix = model.reduceDimension();
-	//normalMatrix = normalMatrix.inverse().Transposition();
-	//Log << "GetModel << \t" << GetModel();
-	//Log << "m_fMVPMatrix << \t" << m_fMVPMatrix;
-	//Log << "CLightTest EndMatrix\n" << model << "\n";
-	//mat4f tmpModel = model.Transposition();
-	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
-	{
-		CVertexData *p = m_data->data() + i;
-		vec3f tmp(p->m_fPos, 3);
-		vec4f tmpTwo(tmp, 1.0);
-		tmpTwo = tmpTwo * model;
-		//Log << tmpTwo << "\n";
 	}
 	//bTstShader = false;
 }
@@ -260,56 +186,17 @@ void CLightTest::TestFragmentShader()
 	LightPos[0] = LightPos[1] = 0;
 	LightPos[2] = 1;
 	LightPos[3] = 1;
-	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
-	{
-		CVertexData *p = m_data->data() + i;
-		//vec3f V_LightPos = LightPos * tmpModelMatrix;
-		vec3f normal(p->m_fNormal, 3);
-		//normal[3] = 1.0;
-		vec3f V_Normal = normal * NormalMatrix;
-		vec3f tmpPos(p->m_fPos, 3);
-		//tmpPos[3] = 1.0f;
-		vec3f V_WorldPos = tmpPos * tmpModelMatrix;
+	
+}
 
-		//V_TexCoord = texCoord;
-		//V_WorldPos = vec4(pos, 1.0) * MVP;
-		vec3f L;
-		if (LightPos[3] == 0.0)
-		{
-			L = LightPos.Negative();
-		}
-		else
-		{
-			L = LightPos;
-			L = V_WorldPos - L;
-		}
-		//vec3f L = V_LightPos.Normalize();// normalize(LightPos);
-	
-		vec3f n = V_Normal.Normalize();// normalize(V_Normal);
-		//Log << "dot(L, n) = " << L.dotMultiply(n) / (L.Length() * n.Length()) << "\n";
-		vec4f SpecularLightColor(1.0, 4);
-		vec4f SpecularMaterial(0.8, 4);
-		vec3f reflectDir = reflect(L.Negative(), n).Normalize();
-		vec3f viewDir = (vec3f(0, 3) - V_WorldPos).Normalize();
-		vec3f tmpViewDir(&viewDir[0], 3);
-		float cosAlpha = reflectDir.dotMultiply(tmpViewDir);
-		if (cosAlpha < 0)
-		{
-			continue;
-		}
-		//if (cosAlpha < 0)
-		//{
-		//	cosAlpha = -cosAlpha;
-		//}
-		vec4f SpecularColor = SpecularLightColor * SpecularMaterial * cosAlpha;// pow(cosAlpha, 4.0f);
-		//return SpecularColor;
-		//Log << "i = " << i << "\tSpecuColor\t" << SpecularColor << "\n";
-	}
-	
+void CLightTest::SetLightType(GLuint lightType)
+{
+	m_nLightType = lightType;
 }
 
 void CLightTest::ResetState()
 {
+
 }
 
 void CLightTest::SetVertexAttrib(AttribType type)

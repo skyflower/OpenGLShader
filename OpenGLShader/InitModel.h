@@ -31,6 +31,7 @@
 #include "./test/Ground.h"
 #include "./test/SkyBox.h"
 #include "./common/Camera.h"
+#include "./test/XRay.h"
 
 extern CCamera *director;
 extern POINT orgPoint;
@@ -58,6 +59,8 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	CWaterWave *pWaterWave = nullptr;
 	CGround *pGround = nullptr;
 	CSkyBox *pSkyBox = nullptr;
+	CXRay *pRay = nullptr;
+	
 	
 
 
@@ -134,8 +137,8 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pLightTest);
 	}
 
-	pSphere = new CSphere(1.5, 30, 40);
-	pSphere->InitTexture("./res/image/xiongxiang.jpg");
+	//pSphere = new CSphere(1.5, 30, 40);
+	//pSphere->InitTexture("./res/image/xiongxiang.jpg");
 	if (pSphere && pModelVec)
 	{
 		pModelVec->push_back(pSphere);
@@ -169,6 +172,12 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	if (pSkyBox && pModelVec)
 	{
 		pModelVec->push_back(pSkyBox);
+	}
+
+	pRay = new CXRay(0.8, 50, 50);
+	if (pRay && pModelVec)
+	{
+		pModelVec->push_back(pRay);
 	}
 	return true;
 }

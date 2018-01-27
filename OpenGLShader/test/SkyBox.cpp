@@ -14,7 +14,7 @@ CSkyBox::CSkyBox()
 	m_pSphereIndex = nullptr;
 	m_nSphereBuffer = -1;
 	m_nSphereIndex = -1;
-	memset(m_pVertex, 0, sizeof(CVertexData) * POINT_COUNT);
+	m_pVertex = nullptr;
 	m_nVertexBuffer = -1;
 	Init();
 }
@@ -39,6 +39,11 @@ CSkyBox::~CSkyBox()
 	{
 		delete m_pSphereIndex;
 		m_pSphereIndex = nullptr;
+	}
+	if (m_pVertex != nullptr)
+	{
+		delete[]m_pVertex;
+		m_pVertex = nullptr;
 	}
 	if (m_pSphereData != nullptr)
 	{
@@ -173,29 +178,9 @@ void CSkyBox::Init()
 {
 	m_pShader = new CShader("./shader/skybox.vs", "./shader/skybox.fs");
 	SetShaderProgram(m_pShader->GetProgram());
-
-	GLfloat tmpPoints[] = 
-		{ 1, 1, 1,	1, 1, -1,	-1, 1, -1,	 -1, 1, 1, 
-		1, -1, 1,	1, -1, -1,	-1,	-1, -1,		-1, -1, 1 };
-	GLfloat tmpScale = 0.6;
-	for (size_t i = 0; i < sizeof(tmpPoints) / sizeof(GLfloat); ++i)
-	{
-		tmpPoints[i] = tmpScale * tmpPoints[i];
-	}
-	GLfloat tmpNormal[] = {
-	0, 1, 0,	0, -1, 0,
-	1, 0, 0,	0, 0, -1,
-	-1, 0, 0,	0, 0, 1
-	};
-	GLfloat tmpTexCoord[] = { 0, 0, 1, 0, 1, 1, 0, 1 };
-
-	GLubyte tmpIndex[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 1, 2, 6, 5, 2, 3, 7, 6, 0, 3, 7, 4 };
-	for (size_t i = 0; i < POINT_COUNT; ++i)
-	{
-		memcpy(m_pVertex[i].m_fPos, &tmpPoints[tmpIndex[i] * 3], sizeof(float) * 3);
-		memcpy(m_pVertex[i].m_fTex, &tmpTexCoord[(i % 4) * 2], sizeof(float) * 2);
-		memcpy(m_pVertex[i].m_fNormal, &tmpNormal[(i / 4) * 3], sizeof(float) * 3);
-	}
+	size_t Length = 0;
+	m_pVertex = utils::CreateCubicData(0.6, Length);
+	
 	InitSphere(2.8, 50, 50);
 
 	m_nVertexBuffer = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertexData) * POINT_COUNT, m_pVertex);
@@ -250,91 +235,17 @@ void CSkyBox::SetSphereVertexAttrib(AttribType type)
 }
 
 
-
 void CSkyBox::InitSphere(float radis, int slide, int stacks)
 {
-	if ((radis < 0.00001) && (slide < 2))
+	utils::CreateSphereData(radis, slide, stacks, m_pSphereData, m_pSphereIndex);
+
+	if ((m_pSphereData == nullptr) || (m_pSphereIndex == nullptr))
 	{
 		return;
 	}
-	size_t Length = slide * stacks + 2;
-	if (m_pSphereData == nullptr)
-	{
-		m_pSphereData = new std::vector<CVertex>(Length);
-	}
-	if (m_pSphereIndex == nullptr)
-	{
-		//(slide - 1) * 2 * stacks 
-		m_pSphereIndex = new std::vector<unsigned int>(slide * stacks * 6);
-	}
-	double radisStep = 2 * radis / (slide + 1);
-	unsigned int dataIndex = 0;
-	unsigned int indexIndex = 0;
+	
+	
 	CVertex *pVertex = m_pSphereData->data();
-	pVertex[0].mPos[0] = -radis;
-	pVertex[0].mPos[1] = 0;
-	pVertex[0].mPos[2] = 0;
-	dataIndex++;
-
-	unsigned int *pIndex = m_pSphereIndex->data();
-	for (int i = 0; i < slide; ++i)
-	{
-		double distanceX = (i + 1) * radisStep;
-
-		double tmpCos = sqrt(distanceX * 2 * radis);
-		double tmp = sqrt(tmpCos * tmpCos - distanceX * distanceX);
-		double nextX = -radis + distanceX;
-		//double tmp = sqrt(radis * radis - nextX * nextX);
-		double alphaStep = (2 * 3.1415926) / (stacks);
-		unsigned int tmpBeginIndex = dataIndex;
-		for (int j = 0; j < stacks; ++j)
-		{
-			pVertex[dataIndex].mPos[0] = nextX;
-			pVertex[dataIndex].mPos[1] = tmp * std::sin(alphaStep * j);
-			pVertex[dataIndex].mPos[2] = tmp * std::cos(alphaStep * j);
-
-			dataIndex++;
-
-		}
-		if (i == 0)
-		{
-			for (int j = 0; j < stacks; ++j)
-			{
-				pIndex[indexIndex++] = 0;
-				pIndex[indexIndex++] = j + 1;
-				pIndex[indexIndex++] = (j + 1) % stacks + 1;
-
-			}
-		}
-		if ((i != 0) && (i > 0))
-		{
-			unsigned int preBeginIndex = tmpBeginIndex - stacks;
-			for (int j = 0; j < stacks; ++j)
-			{
-				pIndex[indexIndex++] = preBeginIndex + j;
-				pIndex[indexIndex++] = preBeginIndex + (j + 1) % stacks;
-				pIndex[indexIndex++] = tmpBeginIndex + j;
-
-				pIndex[indexIndex++] = tmpBeginIndex + j;
-				pIndex[indexIndex++] = preBeginIndex + (j + 1) % stacks;
-				pIndex[indexIndex++] = tmpBeginIndex + (j + 1) % stacks;
-
-			}
-		}
-		if (i == slide - 1)
-		{
-			pVertex[dataIndex].mPos[0] = radis;
-			pVertex[dataIndex].mPos[1] = 0;
-			pVertex[dataIndex].mPos[2] = 0;
-			for (int j = 0; j < stacks; ++j)
-			{
-				pIndex[indexIndex++] = dataIndex;
-				pIndex[indexIndex++] = j + tmpBeginIndex;
-				pIndex[indexIndex++] = (j + 1) % stacks + tmpBeginIndex;
-			}
-			dataIndex++;
-		}
-	}
 
 	unsigned int tmpSize = m_pSphereData->size();
 	for (int i = 0; i < tmpSize; ++i)

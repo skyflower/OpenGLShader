@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstring>
 #include <iostream>
+#include <vector>
 
 #define STATIC_GLEW
 #include <GL/glew.h>
@@ -11,6 +12,7 @@
 
 #include <functional>
 #include "common.h"
+#include "VertexData.h"
 #include "Log.h"
 
 namespace utils
@@ -56,6 +58,10 @@ namespace utils
 	GLuint CreateTransformFeedBack(GLuint &tfoBuffer, size_t Size, void *data, GLenum usage = GL_STATIC_DRAW);
 	
 	void CheckError(const char*file, const char *func, const int line);
+
+	CVertexData* CreateCubicData(float scale, size_t &Length);
+
+	void CreateSphereData(float radis, int slide, int stacks, std::vector<CVertex> *&pVertex, std::vector<unsigned int> *& pIndex);
 
 	bool CutLogBySpace(const char*begin, const char *end, int *tmpArray, size_t &nCount, char cutChar);
 }

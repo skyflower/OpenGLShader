@@ -1,3 +1,53 @@
-Info	[WinMain,114]ScreenWidth = 800, ScreenHeight = 600
-Info	[WinMain,156]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
-Info	[WinMain,157]GLSL Version : 4.40
+Info	[WinMain,98]ScreenWidth = 800, ScreenHeight = 600
+Info	[WinMain,140]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
+Info	[WinMain,141]GLSL Version : 4.40
+Info	[utils::CreateSphereData,601]distanceX = 0.031373, tmpCos = 0.224045, tmp = 0.221837, nextX = -0.768627
+Info	[utils::CreateSphereData,601]distanceX = 0.062745, tmpCos = 0.316847, tmp = 0.310572, nextX = -0.737255
+Info	[utils::CreateSphereData,601]distanceX = 0.094118, tmpCos = 0.388057, tmp = 0.376471, nextX = -0.705882
+Info	[utils::CreateSphereData,601]distanceX = 0.125490, tmpCos = 0.448090, tmp = 0.430159, nextX = -0.674510
+Info	[utils::CreateSphereData,601]distanceX = 0.156863, tmpCos = 0.500979, tmp = 0.475788, nextX = -0.643137
+Info	[utils::CreateSphereData,601]distanceX = 0.188235, tmpCos = 0.548795, tmp = 0.515504, nextX = -0.611765
+Info	[utils::CreateSphereData,601]distanceX = 0.219608, tmpCos = 0.592767, tmp = 0.550586, nextX = -0.580392
+Info	[utils::CreateSphereData,601]distanceX = 0.250980, tmpCos = 0.633694, tmp = 0.581874, nextX = -0.549020
+Info	[utils::CreateSphereData,601]distanceX = 0.282353, tmpCos = 0.672134, tmp = 0.609952, nextX = -0.517647
+Info	[utils::CreateSphereData,601]distanceX = 0.313726, tmpCos = 0.708492, tmp = 0.635246, nextX = -0.486275
+Info	[utils::CreateSphereData,601]distanceX = 0.345098, tmpCos = 0.743073, tmp = 0.658076, nextX = -0.454902
+Info	[utils::CreateSphereData,601]distanceX = 0.376471, tmpCos = 0.776114, tmp = 0.678692, nextX = -0.423529
+Info	[utils::CreateSphereData,601]distanceX = 0.407843, tmpCos = 0.807805, tmp = 0.697290, nextX = -0.392157
+Info	[utils::CreateSphereData,601]distanceX = 0.439216, tmpCos = 0.838299, tmp = 0.714027, nextX = -0.360784
+Info	[utils::CreateSphereData,601]distanceX = 0.470588, tmpCos = 0.867722, tmp = 0.729032, nextX = -0.329412
+Info	[utils::CreateSphereData,601]distanceX = 0.501961, tmpCos = 0.896179, tmp = 0.742410, nextX = -0.298039
+Info	[utils::CreateSphereData,601]distanceX = 0.533333, tmpCos = 0.923760, tmp = 0.754247, nextX = -0.266667
+Info	[utils::CreateSphereData,601]distanceX = 0.564706, tmpCos = 0.950542, tmp = 0.764615, nextX = -0.235294
+Info	[utils::CreateSphereData,601]distanceX = 0.596078, tmpCos = 0.976589, tmp = 0.773574, nextX = -0.203922
+Info	[utils::CreateSphereData,601]distanceX = 0.627451, tmpCos = 1.001959, tmp = 0.781170, nextX = -0.172549
+Info	[utils::CreateSphereData,601]distanceX = 0.658824, tmpCos = 1.026702, tmp = 0.787445, nextX = -0.141176
+Info	[utils::CreateSphereData,601]distanceX = 0.690196, tmpCos = 1.050863, tmp = 0.792429, nextX = -0.109804
+Info	[utils::CreateSphereData,601]distanceX = 0.721569, tmpCos = 1.074481, tmp = 0.796146, nextX = -0.078431
+Info	[utils::CreateSphereData,601]distanceX = 0.752941, tmpCos = 1.097591, tmp = 0.798615, nextX = -0.047059
+Info	[utils::CreateSphereData,601]distanceX = 0.784314, tmpCos = 1.120224, tmp = 0.799846, nextX = -0.015686
+Info	[utils::CreateSphereData,601]distanceX = 0.815686, tmpCos = 1.142409, tmp = 0.799846, nextX = 0.015686
+Info	[utils::CreateSphereData,601]distanceX = 0.847059, tmpCos = 1.164171, tmp = 0.798615, nextX = 0.047059
+Info	[utils::CreateSphereData,601]distanceX = 0.878431, tmpCos = 1.185534, tmp = 0.796146, nextX = 0.078431
+Info	[utils::CreateSphereData,601]distanceX = 0.909804, tmpCos = 1.206518, tmp = 0.792429, nextX = 0.109804
+Info	[utils::CreateSphereData,601]distanceX = 0.941177, tmpCos = 1.227144, tmp = 0.787445, nextX = 0.141177
+Info	[utils::CreateSphereData,601]distanceX = 0.972549, tmpCos = 1.247429, tmp = 0.781170, nextX = 0.172549
+Info	[utils::CreateSphereData,601]distanceX = 1.003922, tmpCos = 1.267389, tmp = 0.773574, nextX = 0.203922
+Info	[utils::CreateSphereData,601]distanceX = 1.035294, tmpCos = 1.287040, tmp = 0.764615, nextX = 0.235294
+Info	[utils::CreateSphereData,601]distanceX = 1.066667, tmpCos = 1.306395, tmp = 0.754247, nextX = 0.266667
+Info	[utils::CreateSphereData,601]distanceX = 1.098039, tmpCos = 1.325467, tmp = 0.742410, nextX = 0.298039
+Info	[utils::CreateSphereData,601]distanceX = 1.129412, tmpCos = 1.344269, tmp = 0.729032, nextX = 0.329412
+Info	[utils::CreateSphereData,601]distanceX = 1.160784, tmpCos = 1.362811, tmp = 0.714027, nextX = 0.360784
+Info	[utils::CreateSphereData,601]distanceX = 1.192157, tmpCos = 1.381105, tmp = 0.697290, nextX = 0.392157
+Info	[utils::CreateSphereData,601]distanceX = 1.223529, tmpCos = 1.399159, tmp = 0.678692, nextX = 0.423529
+Info	[utils::CreateSphereData,601]distanceX = 1.254902, tmpCos = 1.416984, tmp = 0.658076, nextX = 0.454902
+Info	[utils::CreateSphereData,601]distanceX = 1.286275, tmpCos = 1.434587, tmp = 0.635246, nextX = 0.486275
+Info	[utils::CreateSphereData,601]distanceX = 1.317647, tmpCos = 1.451976, tmp = 0.609952, nextX = 0.517647
+Info	[utils::CreateSphereData,601]distanceX = 1.349020, tmpCos = 1.469160, tmp = 0.581874, nextX = 0.549020
+Info	[utils::CreateSphereData,601]distanceX = 1.380392, tmpCos = 1.486145, tmp = 0.550586, nextX = 0.580392
+Info	[utils::CreateSphereData,601]distanceX = 1.411765, tmpCos = 1.502938, tmp = 0.515504, nextX = 0.611765
+Info	[utils::CreateSphereData,601]distanceX = 1.443137, tmpCos = 1.519546, tmp = 0.475788, nextX = 0.643137
+Info	[utils::CreateSphereData,601]distanceX = 1.474510, tmpCos = 1.535974, tmp = 0.430159, nextX = 0.674510
+Info	[utils::CreateSphereData,601]distanceX = 1.505882, tmpCos = 1.552228, tmp = 0.376470, nextX = 0.705882
+Info	[utils::CreateSphereData,601]distanceX = 1.537255, tmpCos = 1.568314, tmp = 0.310572, nextX = 0.737255
+Info	[utils::CreateSphereData,601]distanceX = 1.568628, tmpCos = 1.584236, tmp = 0.221837, nextX = 0.768628

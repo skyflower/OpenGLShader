@@ -101,3 +101,13 @@ GLuint CFrameBuffer::GetColorBuffer(const char * name)
 	}
 	return 0;
 }
+
+void CFrameBuffer::Bind()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_nFbo);
+}
+
+void CFrameBuffer::UnBind()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}

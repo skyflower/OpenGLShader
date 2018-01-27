@@ -138,6 +138,9 @@
     <ClCompile Include="test\FullScreen.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="test\XRay.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InitModel.h">
@@ -249,6 +252,9 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\FullScreen.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\XRay.h">
       <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>

@@ -467,13 +467,14 @@ public:
     {
 		return GetTranslate(pos[0], pos[1], pos[2]);
     }
+
 	//
     static CMatrix<4, 4, float> GetTranslate(type x, type y, type z)
     {
         CMatrix<4, 4, float> result = CMatrix<4, 4, float>::GetUnit();
-        result[3][0] = x;
-        result[3][1] = y;
-        result[3][2] = z;
+        result[0][3] = x;
+        result[1][3] = y;
+        result[2][3] = z;
         return result;
     }
 

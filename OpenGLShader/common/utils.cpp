@@ -2,6 +2,7 @@
 #include <SOIL\SOIL.h>
 #include <fstream>
 
+
 //using namespace std;
 
 
@@ -314,29 +315,24 @@ void utils::OutputToFile(mat4f & ks, glm::mat4 & hs)
 
 void utils::TestMatrixGLM()
 {
-	//mat4f TranslateMatrix = CMatrix<4, 4, float>::GetTranslate(1.2, 3.4, -5.0);
+	glm::vec3 glmScaleVec(0.1, 0.2, 0.35);
+	glm::mat4 glmModel = glm::scale(glmScaleVec);
+	glm::vec3 glmTranslate(0.5, 0.6, 0.38);
+	glm::vec3 glmRotate(0.2, 0.9, 0.33);
 
-	//mat4f UIProjectionMatrix = CMatrix<4, 4, float>::GetOrtho(-1, 1.0, -1.0, 1.0f, 0.01, 1000);
-	//mat4f UIViewMatrix = CMatrix<4, 4, float>::GetViewMatrix(0, 0, viewWidth, viewHeight, 0.01, 1000);
-	//mat4f RotateMatrix = CMatrix<4, 4, float>::GetRotate(45.0f, 0.0f, 0.0f, 1.0f);
-	//glm::mat4 glmIdentityMatrix = glm::mat4(1.0f);
-	glm::vec3 glmEye = glm::vec3(2.2, 2.2, 0);
-	glm::vec3 glmCenter = glm::vec3(0, 0, -1);
-	glm::vec3 glmUp = glm::vec3(0, 1, 0);
-	glm::mat4 glmResult = glm::lookAt(glmEye, glmCenter, glmUp);
+	glmModel = glmModel * glm::rotate(42.0f, glmRotate) *glm::translate(glmTranslate);
 
-	vec3f eye = vec3f(0, 3);
-	eye[0] = eye[1] = 2.2;
-	vec3f center = vec3f(0, 3);
-	center[2] = -1;
-	vec3f up = vec3f(0, 3);
-	up[1] = 1;
-	mat4f result = CMatrix<4, 4, float>::GetLookAt(eye, center, up);
+	mat4f modelMatrix = CMatrix<4, 4, float>::GetUnit();
+	modelMatrix = CMatrix<4, 4, float>::GetScale(0.1, 0.2, 0.35) * CMatrix<4, 4, float>::GetRotate(42, 0.2, 0.9, 0.33) *
+		CMatrix<4, 4, float>::GetTranslate(0.5, 0.6, 0.38);
 
-	mat4f tmpResult = CMatrix<4, 4, float>::GetLookAtTwo(eye, center, up);
-	WriteInfo("getLookatTwo = \n%s", tmpResult.FormatToString().c_str());
-	
-	utils::OutputToFile(result, glmResult);
+	glmModel = glm::inverse(glmModel);
+	modelMatrix = modelMatrix.inverse();
+	utils::OutputToFile(modelMatrix, glmModel);
+	//WriteInfo("=========================");
+	//mat4f translate = CMatrix<4, 4, float>::GetTranslate(0.5, 0.6, 0.38);
+	//glm::mat4 glmTranslateMatrix = glm::translate(glmTranslate);
+	//utils::OutputToFile(translate, glmTranslateMatrix);
 }
 
 GLuint utils::CreateComputeProgram(const char*computeShaderPath)
@@ -535,6 +531,125 @@ void utils::CheckError(const char*file, const char *func, const int line)
 		WriteInfo("%s, %s, %d", file, func, line);
 	}
 }
+
+CVertexData * utils::CreateCubicData(float scale, size_t & Length)
+{
+	GLfloat tmpPoints[] =
+	{ 1, 1, 1,	1, 1, -1,	-1, 1, -1,	 -1, 1, 1,
+		1, -1, 1,	1, -1, -1,	-1,	-1, -1,		-1, -1, 1 };
+	GLfloat tmpScale = 0.6;
+	for (size_t i = 0; i < sizeof(tmpPoints) / sizeof(GLfloat); ++i)
+	{
+		tmpPoints[i] = tmpScale * tmpPoints[i];
+	}
+	GLfloat tmpNormal[] = {
+		0, 1, 0,	0, -1, 0,
+		1, 0, 0,	0, 0, -1,
+		-1, 0, 0,	0, 0, 1
+	};
+	GLfloat tmpTexCoord[] = { 0, 0, 1, 0, 1, 1, 0, 1 };
+	
+	GLubyte tmpIndex[] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 5, 4, 1, 2, 6, 5, 2, 3, 7, 6, 0, 3, 7, 4 };
+	Length = sizeof(tmpIndex);
+	CVertexData* pVertex = new CVertexData[Length];
+	memset(pVertex, 0, sizeof(CVertexData) * Length);
+	for (size_t i = 0; i < Length; ++i)
+	{
+		memcpy(pVertex[i].m_fPos, &tmpPoints[tmpIndex[i] * 3], sizeof(float) * 3);
+		memcpy(pVertex[i].m_fTex, &tmpTexCoord[(i % 4) * 2], sizeof(float) * 2);
+		memcpy(pVertex[i].m_fNormal, &tmpNormal[(i / 4) * 3], sizeof(float) * 3);
+	}
+	return pVertex;
+}
+
+void utils::CreateSphereData(float radis, int slide, int stacks, std::vector<CVertex>*& pVertexVec, std::vector<unsigned int>*& pIndexVec)
+{
+	if ((radis < 0.00001) && (slide < 2))
+	{
+		return;
+	}
+	size_t Length = slide * stacks + 2;
+	if (pVertexVec == nullptr)
+	{
+		pVertexVec = new std::vector<CVertex>(Length);
+	}
+	if (pIndexVec == nullptr)
+	{
+		//(slide - 1) * 2 * stacks 
+		pIndexVec = new std::vector<unsigned int>(slide * stacks * 6);
+	}
+	double radisStep = 2 * radis / (slide + 1);
+	unsigned int dataIndex = 0;
+	unsigned int indexIndex = 0;
+	CVertex *pVertex = pVertexVec->data();
+	pVertex[0].mPos[0] = -radis;
+	pVertex[0].mPos[1] = 0;
+	pVertex[0].mPos[2] = 0;
+	dataIndex++;
+
+	unsigned int *pIndex = pIndexVec->data();
+	for (int i = 0; i < slide; ++i)
+	{
+		double distanceX = (i + 1) * radisStep;
+
+		double tmpCos = sqrt(distanceX * 2 * radis);
+		double tmp = sqrt(tmpCos * tmpCos - distanceX * distanceX);
+		double nextX = -radis + distanceX;
+		//double tmp = sqrt(radis * radis - nextX * nextX);
+		double alphaStep = (2 * 3.1415926) / (stacks);
+		unsigned int tmpBeginIndex = dataIndex;
+		WriteInfo("distanceX = %f, tmpCos = %f, tmp = %f, nextX = %f", distanceX, tmpCos, tmp, nextX);
+		for (int j = 0; j < stacks; ++j)
+		{
+			pVertex[dataIndex].mPos[0] = nextX;
+			pVertex[dataIndex].mPos[1] = tmp * std::sin(alphaStep * j);
+			pVertex[dataIndex].mPos[2] = tmp * std::cos(alphaStep * j);
+
+			dataIndex++;
+
+		}
+		if (i == 0)
+		{
+			for (int j = 0; j < stacks; ++j)
+			{
+				pIndex[indexIndex++] = 0;
+				pIndex[indexIndex++] = j + 1;
+				pIndex[indexIndex++] = (j + 1) % stacks + 1;
+
+			}
+		}
+		if (i > 0)
+		{
+			unsigned int preBeginIndex = tmpBeginIndex - stacks;
+			for (int j = 0; j < stacks; ++j)
+			{
+				pIndex[indexIndex++] = preBeginIndex + j;
+				pIndex[indexIndex++] = preBeginIndex + (j + 1) % stacks;
+				pIndex[indexIndex++] = tmpBeginIndex + j;
+
+				pIndex[indexIndex++] = tmpBeginIndex + j;
+				pIndex[indexIndex++] = preBeginIndex + (j + 1) % stacks;
+				pIndex[indexIndex++] = tmpBeginIndex + (j + 1) % stacks;
+
+			}
+		}
+		if (i == slide - 1)
+		{
+			pVertex[dataIndex].mPos[0] = radis;
+			pVertex[dataIndex].mPos[1] = 0;
+			pVertex[dataIndex].mPos[2] = 0;
+			for (int j = 0; j < stacks; ++j)
+			{
+				pIndex[indexIndex++] = dataIndex;
+				pIndex[indexIndex++] = j + tmpBeginIndex;
+				pIndex[indexIndex++] = (j + 1) % stacks + tmpBeginIndex;
+			}
+			dataIndex++;
+		}
+	}
+}
+
+
 
 bool utils::CutLogBySpace(const char * begin, const char * end, int *tmpArray, size_t & nCount, char cutChar)
 {
