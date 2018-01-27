@@ -171,7 +171,9 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	CShader *pErosionShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/erosion.fs");
 	CShader *pDilationShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/dilation.fs");
 	CShader *pOriginShader = new CShader("./shader/FullScreen/FullScreen.vs", "./shader/FullScreen/FullScreen.fs");
-	CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gussian.fs");
+	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gussian.fs");
+	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gaussianHorz.fs");
+	CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gaussianVert.fs");
 
 
 
