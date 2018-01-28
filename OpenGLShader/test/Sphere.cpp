@@ -88,6 +88,7 @@ void CSphere::Draw()
 {
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 	
 	glUseProgram(m_pShader->GetProgram());
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -120,22 +121,22 @@ void CSphere::Draw()
 	glUseProgram(0);
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
-	glDisable(GL_TEXTURE);
 	glDisable(GL_TEXTURE_2D);
 }
 
 void CSphere::Update(float duration)
 {
-	static float speed = 0.0003;
+	static float speed = 0.0002;
 	double zTranslate = duration * speed;
 	static bool initFlag = true;
 	if (initFlag)
 	{
 		//SetScale(2, 2, 2);
-		SetTranslate(0, 0, -1);
+		SetTranslate(-0.5, 0, -4);
 		initFlag = false;
+		SetRotate(0, 3.1415926, 0);
 	}
-	AddRotate(0, zTranslate, 0);
+	//AddRotate(0, zTranslate, zTranslate);
 	
 }
 

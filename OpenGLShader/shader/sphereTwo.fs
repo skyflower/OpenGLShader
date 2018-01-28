@@ -28,7 +28,10 @@ vec4 specular(vec3 pointToLight, vec3 normal, vec3 eye)
 	pointToLight = normalize(pointToLight);
 	eye = normalize(eye);
 	vec3 ref = normalize(pointToLight + eye);
-	return pow(max(0, dot(normal, ref)), 256) * specularLight * specularMaterial;
+	normal = normalize(normal);
+	float factor = max(0, dot(normal, ref));
+	factor = pow(factor, 32);
+	return factor * specularLight * specularMaterial;
 }
 
 

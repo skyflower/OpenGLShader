@@ -53,6 +53,8 @@ void CFullScreen::initTexture(GLuint textureID)
 
 void CFullScreen::Draw()
 {
+	//glEnable(GL_DEPTH_TEST);
+	//glDisable(GL_BLEND);
 	if (m_pShader != nullptr)
 	{
 		glUseProgram(m_pShader->GetProgram());
@@ -64,7 +66,7 @@ void CFullScreen::Draw()
 	}
 	SetTransformMatrix();
 	SetVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
-
+	
 	glUniform4fv(m_nParamLocation, 1, &m_fParam[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBuffObj);
 	glEnableVertexAttribArray(m_nPosLocation);

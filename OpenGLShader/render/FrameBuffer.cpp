@@ -35,14 +35,15 @@ void CFrameBuffer::Finish()
 	if (nCount > 0)
 	{
 		GLenum *buffer = new GLenum[nCount];
-		int i = nCount;
-		while (nCount--)
+		int i = 0;
+		while (i < nCount)
 		{
-			buffer[nCount] = m_pDrawBuffer[nCount];
+			buffer[i] = m_pDrawBuffer[i];
+			i++;
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, m_nFbo);
 
-		glDrawBuffers(i, buffer);
+		glDrawBuffers(nCount, buffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		delete[]buffer;
 		buffer = nullptr;
@@ -60,7 +61,18 @@ void CFrameBuffer::AttachColorBuffer(const char * bufferName, GLenum attachment,
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, dataType, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+	if ((dataType == GL_RGB) || (dataType == GL_RGBA))
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, dataType, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+	}
+	else if (dataType == GL_RGBA16F)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, dataType, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT, nullptr);
+	}
+	else if (dataType == GL_RGBA32F)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, dataType, width, height, 0, GL_RGBA, GL_UNSIGNED_INT, nullptr);
+	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, colorBuffer, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
