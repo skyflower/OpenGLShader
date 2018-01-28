@@ -11,6 +11,7 @@ public:
 	CFullScreen();
 	~CFullScreen();
 	void initTexture(GLuint textureID);
+	void SetAuxTexture(GLuint textureID);
 	virtual void Draw();
 	virtual void Update(float Duration);
 	void DrawLeftTop();
@@ -20,12 +21,19 @@ public:
 	void SetPosLocation(GLuint PosLoc);
 	void SetShader(CShader* pShader);
 	void SetScaleAndTranslate(float scaleFactor, float translateX, float translateY);
-
+	
 private:
 
 	void SetVertexAttrib(AttribType type);
 
 	GLuint m_nTextureID;
+	GLuint m_nTexLocation;
+
+	GLuint m_nAuxTexID;
+	GLuint m_nAuxTexLocation;
+
+
+
 	GLuint m_nVertexBuffObj;
 	//GLuint 
 	CVertexData *m_pVertex;

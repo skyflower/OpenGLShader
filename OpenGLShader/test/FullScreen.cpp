@@ -21,6 +21,10 @@ CFullScreen::CFullScreen()
 	}
 	m_nVertexBuffObj = utils::CreateBufferObject(GL_ARRAY_BUFFER, m_nVertexNum * sizeof(CVertexData), m_pVertex);
 	
+	m_nAuxTexID = -1;
+	m_nTexLocation = -1;
+	m_nAuxTexLocation = -1;
+	m_nTextureID = -1;
 	//m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
 
 	//SetShaderProgram(m_pShader->GetProgram());
@@ -48,33 +52,72 @@ CFullScreen::~CFullScreen()
 
 void CFullScreen::initTexture(GLuint textureID)
 {
-	m_nTextureID = textureID;
+	if (glIsTexture(textureID))
+	{
+		m_nTextureID = textureID;
+		if (m_pShader)
+		{
+			m_nTexLocation = glGetUniformLocation(m_pShader->GetProgram(), "texSampler");
+		}
+	}
+	else
+	{
+		m_nTexLocation = m_nTextureID = -1;
+	}
+}
+
+void CFullScreen::SetAuxTexture(GLuint textureID)
+{
+	if (glIsTexture(textureID))
+	{
+		m_nAuxTexID = textureID;
+		if (m_pShader)
+		{
+			m_nAuxTexLocation = glGetUniformLocation(m_pShader->GetProgram(), "texSamplerAux");
+		}
+	}
+	else
+	{
+		m_nAuxTexID = m_nAuxTexLocation = -1;
+	}
 }
 
 void CFullScreen::Draw()
 {
 	//glEnable(GL_DEPTH_TEST);
 	//glDisable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+
 	if (m_pShader != nullptr)
 	{
 		glUseProgram(m_pShader->GetProgram());
 	}
-	
 	if (glIsTexture(m_nTextureID))
 	{
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_nTextureID);
+		glUniform1i(m_nTexLocation, 0);
 	}
+	if (glIsTexture(m_nAuxTexID))
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, m_nAuxTexID);
+		glUniform1i(m_nAuxTexLocation, 1);
+	}
+	
 	SetTransformMatrix();
-	SetVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
 	
 	glUniform4fv(m_nParamLocation, 1, &m_fParam[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBuffObj);
-	glEnableVertexAttribArray(m_nPosLocation);
-	glVertexAttribPointer(m_nPosLocation, 3, GL_FLOAT, GL_FALSE, sizeof(CVertexData), 0);
+	SetVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
+
+	//glEnableVertexAttribArray(m_nPosLocation);
+	//glVertexAttribPointer(m_nPosLocation, 3, GL_FLOAT, GL_FALSE, sizeof(CVertexData), 0);
 	glDrawArrays(GL_QUADS, 0, m_nVertexNum);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDisableVertexAttribArray(m_nPosLocation);
 
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
 }
@@ -136,7 +179,10 @@ void CFullScreen::SetShader(CShader * pShader)
 {
 	m_pShader = pShader;
 	m_nParamLocation = glGetUniformLocation(m_pShader->GetProgram(), "param");
+	m_nTexLocation = glGetUniformLocation(m_pShader->GetProgram(), "texSampler");
 
+	m_nAuxTexLocation = glGetUniformLocation(m_pShader->GetProgram(), "texSamplerAux");
+	
 	SetShaderProgram(m_pShader->GetProgram());
 	SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
 }
@@ -148,7 +194,6 @@ void CFullScreen::SetScaleAndTranslate(float scaleFactor, float translateX, floa
 	m_fParam[2] = scaleFactor;
 	m_fParam[3] = 0.0;
 }
-
 
 
 void CFullScreen::SetVertexAttrib(AttribType type)

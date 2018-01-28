@@ -1,7 +1,9 @@
-﻿  LINK : 没有找到 D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.exe 或上一个增量链接没有生成它；正在执行完全链接
-SOIL.lib(image_DXT.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_DXT.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(image_helper.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(image_helper.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(SOIL.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(SOIL.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
-SOIL.lib(stb_image_aug.obj) : warning LNK4099: 未找到 PDB“SOIL.pdb”(使用“SOIL.lib(stb_image_aug.obj)”或在“D:\Cache\VisualStudioCache\OpenGLShader\Debug\SOIL.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+﻿  FullScreen.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4521: “UnCopyable”: 指定了多个复制构造函数
+d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4522: “UnCopyable”: 指定了多个赋值运算符
+  main.cpp
+d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4521: “UnCopyable”: 指定了多个复制构造函数
+d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4522: “UnCopyable”: 指定了多个赋值运算符
+  正在生成代码...
   OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.exe
   OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.pdb (Full PDB)
