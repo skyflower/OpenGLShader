@@ -26,6 +26,7 @@ public:
 	void SetAttribPointer(size_t* count, GLenum type, GLboolean flag, GLsizei stride, GLuint* offset);
 
 	inline GLuint GetProgram() { return m_nProgram; }
+	int GetLocation(char *name);
     ~CShader();
 protected:
 

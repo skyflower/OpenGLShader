@@ -176,6 +176,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="render\C3DModel.cpp" />
     <ClCompile Include="render\FrameBuffer.cpp" />
+    <ClCompile Include="test\BloomTest.cpp" />
     <ClCompile Include="test\CPolygonTesslation.cpp" />
     <ClCompile Include="test\Frustum.cpp" />
     <ClCompile Include="test\FullScreen.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="model\ObjModel.h" />
     <ClInclude Include="render\C3DModel.h" />
     <ClInclude Include="render\FrameBuffer.h" />
+    <ClInclude Include="test\BloomTest.h" />
     <ClInclude Include="test\CPolygonTesslation.h" />
     <ClInclude Include="test\Frustum.h" />
     <ClInclude Include="test\FullScreen.h" />

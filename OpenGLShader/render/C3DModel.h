@@ -26,12 +26,13 @@ public:
 	virtual void AddScale(float x, float y, float z);
 	virtual void AddRotate(float AngleX, float AngleY, float AngleZ);
 	virtual void AddTranslate(float x, float y, float z);
+
 	virtual vec3f GetScale();
 	virtual vec3f GetRotate();
 	virtual vec3f GetTranslate();
 
+	void ResetStatus();
 	void SetShaderProgram(GLuint program);
-
 	void SetTransformMatrix();
 
 	mat4f GetModel();

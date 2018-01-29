@@ -147,6 +147,9 @@
     <ClCompile Include="Image\ImageShaderManager.cpp">
       <Filter>Image</Filter>
     </ClCompile>
+    <ClCompile Include="test\BloomTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InitModel.h">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="Image\ImageShaderManager.h">
       <Filter>Image</Filter>
+    </ClInclude>
+    <ClInclude Include="test\BloomTest.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

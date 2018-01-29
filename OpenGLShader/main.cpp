@@ -171,7 +171,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	//CShader *pErosionShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/erosion.fs");
 	//CShader *pDilationShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/dilation.fs");
 	CShader *pHdrShader = new CShader("./shader/HDR/hdrLight.vs", "./shader/HDR/hdrLight.fs");
-	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gussian.fs");
+	CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gussian.fs");
 	CShader *pOriginShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/FullScreen.fs");
 	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gaussianVert.fs");
 	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gaussianVert.fs");
@@ -232,7 +232,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		double duration = uTimer.GetPassedTimeInMs();
 		uTimer.Start();
 		
-		framebufferLeftTop.Bind();
+		framebufferHDR.Bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		for (size_t i = 0; i < nSize; ++i)
@@ -241,28 +241,28 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 			p->Update(duration);
 			p->Draw();
 		}
-		framebufferLeftTop.UnBind();
-
-
-		framebufferHDR.Bind();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pFullScreen->initTexture(framebufferLeftTop.GetColorBuffer("color"));
-		pFullScreen->SetShader(pHdrShader);
-		pFullScreen->Draw();
 		framebufferHDR.UnBind();
+
+
+		framebufferLeftTop.Bind();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		pFullScreen->initTexture(framebufferHDR.GetColorBuffer("hdrBuffer"));
+		pFullScreen->SetShader(pGussianShader);
+		pFullScreen->Draw();
+		framebufferLeftTop.UnBind();
 		//WriteInfo("framebufferLeftTop.GetColorBuffer(color) = %u", framebufferLeftTop.GetColorBuffer("color"));
 
 		framebufferRightTop.Bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pFullScreen->initTexture(framebufferHDR.GetColorBuffer("color"));
-		pFullScreen->SetShader(pHdrProcessShader);
+		pFullScreen->initTexture(framebufferLeftTop.GetColorBuffer("color"));
+		pFullScreen->SetShader(pGussianShader);
 		pFullScreen->Draw();
 		framebufferRightTop.UnBind();
 
 
 		//glClearColor(0.1, 0.4, 0.7, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pFullScreen->initTexture(framebufferLeftTop.GetColorBuffer("color"));
+		pFullScreen->initTexture(framebufferHDR.GetColorBuffer("color"));
 		pFullScreen->SetShader(pOriginShader);
 		pFullScreen->DrawLeftTop();
 
@@ -276,7 +276,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		pFullScreen->DrawLeftBottom();
 
 
-		pFullScreen->initTexture(framebufferHDR.GetColorBuffer("hdrBuffer"));
+		pFullScreen->initTexture(framebufferHDR.GetColorBuffer("color"));
 		pFullScreen->SetAuxTexture(framebufferRightTop.GetColorBuffer("color"));
 		pFullScreen->SetShader(pHdrMergeShader);
 		pFullScreen->DrawRightBottom();

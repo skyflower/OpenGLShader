@@ -99,6 +99,13 @@ vec3f C3DModel::GetTranslate()
 	return m_fTrans[0];
 }
 
+void C3DModel::ResetStatus()
+{
+	m_fTrans[0] = CVector<3, float>(0, 3); // Translate
+	m_fTrans[1] = CVector<3, float>(0, 3); // Rotate
+	m_fTrans[2] = CVector<3, float>(1, 3); // Scale
+}
+
 void C3DModel::SetShaderProgram(GLuint program)
 {
 	m_nShaderProgram = program;

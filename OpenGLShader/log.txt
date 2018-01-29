@@ -1,3 +1,5 @@
 Info	[WinMain,98]ScreenWidth = 800, ScreenHeight = 600
 Info	[WinMain,140]OpenGL Version : 4.5.13397 Compatibility Profile Context 0
 Info	[WinMain,141]GLSL Version : 4.40
+Error	[CShader::SetShaderAttrib,226]GetLocation : texCoord Failed
+Error	[CShader::SetShaderAttrib,226]GetLocation : texCoord Failed

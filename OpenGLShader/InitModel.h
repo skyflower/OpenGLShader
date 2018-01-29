@@ -32,6 +32,7 @@
 #include "./test/SkyBox.h"
 #include "./common/Camera.h"
 #include "./test/XRay.h"
+#include "./test/BloomTest.h"
 
 extern CCamera *director;
 extern POINT orgPoint;
@@ -60,6 +61,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	CGround *pGround = nullptr;
 	CSkyBox *pSkyBox = nullptr;
 	CXRay *pRay = nullptr;
+	CBloomTest *pBloomTest = nullptr;
 	
 	
 
@@ -179,6 +181,13 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 	{
 		pModelVec->push_back(pRay);
 	}
+
+	pBloomTest = new CBloomTest;
+	if (pBloomTest && pModelVec)
+	{
+		pModelVec->push_back(pBloomTest);
+	}
+
 	return true;
 }
 

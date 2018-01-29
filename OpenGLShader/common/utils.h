@@ -59,6 +59,8 @@ namespace utils
 	
 	void CheckError(const char*file, const char *func, const int line);
 
+	void CreateGroundData(int width, std::vector<CVertexData> *& pVertex);
+
 	CVertexData* CreateCubicData(float scale, size_t &Length);
 
 	void CreateSphereData(float radis, int slide, int stacks, std::vector<CVertex> *&pVertex, std::vector<unsigned int> *& pIndex);

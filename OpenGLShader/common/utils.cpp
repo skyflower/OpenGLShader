@@ -532,15 +532,32 @@ void utils::CheckError(const char*file, const char *func, const int line)
 	}
 }
 
+void utils::CreateGroundData(int width, std::vector<CVertexData>*& pVertex)
+{
+	int tmpWidth = width;
+	CVertexData pData[] = { { tmpWidth, 0, tmpWidth, 0, 1, 0, 0, 0},
+	{ tmpWidth, 0, -tmpWidth, 0, 1, 0, 0, 1},
+	{-tmpWidth, 0, -tmpWidth, 0, 1, 0, 1, 1},
+	{-tmpWidth, 0, tmpWidth, 0, 1, 0, 1, 0} };
+	if (pVertex == nullptr)
+	{
+		pVertex = new std::vector<CVertexData>(4);
+	}
+	if (pVertex->size() >= 4)
+	{
+		memcpy(pVertex->data(), pData, sizeof(CVertexData) * 4);
+	}
+}
+
 CVertexData * utils::CreateCubicData(float scale, size_t & Length)
 {
 	GLfloat tmpPoints[] =
 	{ 1, 1, 1,	1, 1, -1,	-1, 1, -1,	 -1, 1, 1,
 		1, -1, 1,	1, -1, -1,	-1,	-1, -1,		-1, -1, 1 };
-	GLfloat tmpScale = 0.6;
+	//GLfloat tmpScale = 0.6;
 	for (size_t i = 0; i < sizeof(tmpPoints) / sizeof(GLfloat); ++i)
 	{
-		tmpPoints[i] = tmpScale * tmpPoints[i];
+		tmpPoints[i] = scale * tmpPoints[i];
 	}
 	GLfloat tmpNormal[] = {
 		0, 1, 0,	0, -1, 0,

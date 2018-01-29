@@ -19,7 +19,7 @@ void main()
 	int halfSize = -coreSize / 2;
 	int x = 0;
 	int y = 0;
-	float texOffset = 1 / 300.0;
+	float texOffset = 1 / 200.0;
 	for(y = 0; y < coreSize; ++y)
 	{
 		for(x = 0; x < coreSize; ++x)

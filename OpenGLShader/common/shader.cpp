@@ -239,6 +239,22 @@ void CShader::SetAttribPointer(size_t* count, GLenum type, GLboolean flag, GLsiz
 }
 
 
+int CShader::GetLocation(char * name)
+{
+	if ((name == nullptr) || (m_nValueNum <= 0))
+	{
+		return -1;
+	}
+	for (int i = 0; i < m_nValueNum; ++i)
+	{
+		if (strcmp(name, m_pName[i]) == 0)
+		{
+			return m_pLocation[i];
+		}
+	}
+	return -1;
+}
+
 CShader::~CShader()
 {
     for(size_t i = 0; i < NUM_SHADERS; ++i)
@@ -290,6 +306,6 @@ void CShader::CheckShaderError(GLuint CShader, GLuint flag, bool isProgram, std:
 		{
 			glGetShaderInfoLog(CShader, sizeof(error), NULL, error);
 		}
-		WriteError(" %s, %d", Msg.c_str(), error);
+		WriteError(" %s, %s", Msg.c_str(), error);
 	}
 }
