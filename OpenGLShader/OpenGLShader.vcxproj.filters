@@ -150,6 +150,9 @@
     <ClCompile Include="test\BloomTest.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="test\FrameBufferTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InitModel.h">
@@ -270,6 +273,12 @@
       <Filter>Image</Filter>
     </ClInclude>
     <ClInclude Include="test\BloomTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="common\config.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="test\FrameBufferTest.h">
       <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>

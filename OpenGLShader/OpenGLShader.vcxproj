@@ -178,6 +178,7 @@
     <ClCompile Include="render\FrameBuffer.cpp" />
     <ClCompile Include="test\BloomTest.cpp" />
     <ClCompile Include="test\CPolygonTesslation.cpp" />
+    <ClCompile Include="test\FrameBufferTest.cpp" />
     <ClCompile Include="test\Frustum.cpp" />
     <ClCompile Include="test\FullScreen.cpp" />
     <ClCompile Include="test\Ground.cpp" />
@@ -198,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="common\Camera.h" />
     <ClInclude Include="common\common.h" />
+    <ClInclude Include="common\config.h" />
     <ClInclude Include="common\Log.h" />
     <ClInclude Include="common\Runable.h" />
     <ClInclude Include="common\shader.h" />
@@ -220,6 +222,7 @@
     <ClInclude Include="render\FrameBuffer.h" />
     <ClInclude Include="test\BloomTest.h" />
     <ClInclude Include="test\CPolygonTesslation.h" />
+    <ClInclude Include="test\FrameBufferTest.h" />
     <ClInclude Include="test\Frustum.h" />
     <ClInclude Include="test\FullScreen.h" />
     <ClInclude Include="test\Ground.h" />

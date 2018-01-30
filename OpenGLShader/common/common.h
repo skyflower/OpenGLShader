@@ -9,6 +9,7 @@
 #include <fstream>
 #include "Log.h"
 #include "../graphics/Drawable.h"
+#include "config.h"
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>

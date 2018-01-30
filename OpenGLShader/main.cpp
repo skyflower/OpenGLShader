@@ -30,6 +30,7 @@
 #include "./render/FrameBuffer.h"
 
 #include "./test/FullScreen.h"
+#include "./test/FrameBufferTest.h"
 
 //std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 
@@ -178,6 +179,9 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	CShader *pHdrProcessShader = new CShader("./shader/HDR/hdrProcess.vs", "./shader/HDR/hdrProcess.fs");
 	CShader *pHdrMergeShader = new CShader("./shader/HDR/hdrCombination.vs", "./shader/HDR/hdrCombination.fs");
 	
+	CFrameBufferTest pFrameBufferTest(viewWidth, viewHeight);
+	pFrameBufferTest.SetShader(pGussianShader, 0);
+	pFrameBufferTest.SetShader(pGussianShader, 1);
 
 	SIZE viewWinSize = director->GetWindowSize();
 	CFrameBuffer framebufferLeftTop;
@@ -252,13 +256,14 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		framebufferLeftTop.UnBind();
 		//WriteInfo("framebufferLeftTop.GetColorBuffer(color) = %u", framebufferLeftTop.GetColorBuffer("color"));
 
-		framebufferRightTop.Bind();
+		pFrameBufferTest.SetTexture(framebufferLeftTop.GetColorBuffer("color"));
+		pFrameBufferTest.Draw(1);
+		/*framebufferRightTop.Bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		pFullScreen->initTexture(framebufferLeftTop.GetColorBuffer("color"));
 		pFullScreen->SetShader(pGussianShader);
 		pFullScreen->Draw();
-		framebufferRightTop.UnBind();
-
+		framebufferRightTop.UnBind();*/
 
 		//glClearColor(0.1, 0.4, 0.7, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -271,13 +276,13 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		pFullScreen->SetShader(pOriginShader);
 		pFullScreen->DrawRightTop();
 
-		pFullScreen->initTexture(framebufferRightTop.GetColorBuffer("color"));
+		pFullScreen->initTexture(pFrameBufferTest.GetColorBuffer());
 		pFullScreen->SetShader(pOriginShader);
 		pFullScreen->DrawLeftBottom();
 
 
 		pFullScreen->initTexture(framebufferHDR.GetColorBuffer("color"));
-		pFullScreen->SetAuxTexture(framebufferRightTop.GetColorBuffer("color"));
+		pFullScreen->SetAuxTexture(pFrameBufferTest.GetColorBuffer());
 		pFullScreen->SetShader(pHdrMergeShader);
 		pFullScreen->DrawRightBottom();
 
