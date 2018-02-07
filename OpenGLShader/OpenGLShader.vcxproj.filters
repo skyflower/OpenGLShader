@@ -153,6 +153,9 @@
     <ClCompile Include="test\FrameBufferTest.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="test\Fog.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InitModel.h">
@@ -279,6 +282,9 @@
       <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="test\FrameBufferTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Fog.h">
       <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>

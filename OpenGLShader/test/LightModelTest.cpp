@@ -42,7 +42,7 @@ CLightTest::~CLightTest()
 
 void CLightTest::Init()
 {
-	m_pVertexData = utils::CreateCubicData(0.6, m_nDataLength);
+	m_pVertexData = utils::CreateCubicData(0.3, m_nDataLength);
 	
 	InitDisplayBuffer();
 }
@@ -83,6 +83,9 @@ void CLightTest::Draw()
 
 	SetTransformMatrix();
 
+	mat4f model = GetModel();
+	TestShader(model);
+
 	//glUniform1i(m_nLightModelLocation, 0xF);
 	//  1 : parallel light   2 : dot light  3 : spot light
 	glUniform1i(m_nLightTypeLocation, m_nLightType);
@@ -114,15 +117,15 @@ void CLightTest::Update(float duration)
 	{
 		//SetScale(4.414, 3.3118, 1);
 		//SetScale(1.5, 1.5, 1.5);
-		//SetTranslate(0, 0, -5);
-		SetRotate(90 * 3.1415926 / 180, 0, 0);
+		//SetTranslate(0, 0, -2);
+		//SetRotate(90 * 3.1415926 / 180, 0, 0);
 		initFlag = false;
 	}
 	if (zTranslate > 2 * 3.1415026)
 	{
 		zTranslate = 0;
 	}
-	AddRotate(zTranslate, zTranslate, 0);
+	AddRotate(zTranslate * 1.123, zTranslate, zTranslate * 0.95);
 	
 }
 
@@ -144,7 +147,23 @@ void CLightTest::TestShader(mat4f model)
 	{
 		return;
 	}
-	//bTstShader = false;
+	
+	size_t nSize = m_nDataLength;
+	CVertexData *pVertex = m_pVertexData;
+	size_t i = 0;
+	for (size_t i = 0; i < nSize; ++i)
+	{
+		vec3f tmp(pVertex[i].m_fPos, 3);
+		vec4f tmpPos(tmp, 1.0);
+		WriteInfo("tmpPos vector = %s", tmpPos.FormatToString().c_str());
+
+		vec4f tmpData = tmpPos * model;
+		//vec4f tmpTranf = model * tmpPos;
+		WriteInfo("tmpData vector = %s", tmpData.FormatToString().c_str());
+		//WriteInfo("tmpTranf vector = %s", tmpTranf.FormatToString().c_str());
+
+	}
+	bTstShader = false;
 }
 
 void CLightTest::TestFragmentShader()
@@ -152,7 +171,7 @@ void CLightTest::TestFragmentShader()
 	std::function<vec3f(const vec3f &label, const vec3f &rotateVec)> reflect = \
 		[&](const vec3f &label, const vec3f &rotateVec)->vec3f
 	{
-		mat4f rotateMatrix = CMatrix<4, 4, float>::GetRotate(3.1415926, label[0], label[1], label[2]);
+		mat4f rotateMatrix = CMatrix<4, 4, float>::GetRotate(3.1415926f, label[0], label[1], label[2]);
 		mat3f tmpRotateMatrix = rotateMatrix.reduceDimension();
 		//vec3f tmpLabel = static_cast<vec3f>(label).Normalize();
 		//vec3f tmpRotate = static_cast<vec3f>(rotateVec).Normalize();

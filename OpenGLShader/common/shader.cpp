@@ -6,7 +6,6 @@
 
 GLuint CShader::CreateShader(const char*filepath, GLenum CShaderType)
 {
-	
     GLuint CShader = glCreateShader(CShaderType);
 	//utils::CheckError(__FILE__, __FUNCTION__, __LINE__);
     if(CShader == 0)
@@ -224,6 +223,10 @@ void CShader::SetShaderAttrib(int count, const char * value[])
 			if (m_pLocation[i] == -1)
 			{
 				WriteError("GetLocation : %s Failed", m_pName[i]);
+			}
+			else
+			{
+				WriteInfo("Location %s : %u", m_pName[i], m_pLocation[i]);
 			}
 		}
 	}

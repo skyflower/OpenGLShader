@@ -3,7 +3,7 @@ attribute vec3 pos;
 attribute vec2 texCoord;
 attribute vec3 normal;
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 
 varying vec2 V_TexCoord;

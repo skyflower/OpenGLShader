@@ -4,7 +4,7 @@ attribute vec2 texCoord;
 attribute vec3 normal;
 
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 
 varying vec2 vST;
@@ -14,7 +14,7 @@ varying vec3 v_normal;
 void main()
 {
 	mat3 normalMatrix = inverse(transpose(mat3(modelMatrix)));
-    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0) * MVP;
+    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0) * projectionMatrix;
 	vST = vec2(texCoord.x, 1 - texCoord.y);
 	v_pos = pos;
 	v_normal = normal * normalMatrix;

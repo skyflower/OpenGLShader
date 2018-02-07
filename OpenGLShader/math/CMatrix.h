@@ -179,7 +179,7 @@ public:
         reType result = 0;
         reType tmpValue = 0;
         bool bNeg = false;
-        while(std::next_permutation(tmpList, tmpList + N))
+		do
         {
             size_t i = 0;
             tmpValue = 1;
@@ -189,7 +189,8 @@ public:
             }
             result += (bNeg == false ? tmpValue : -tmpValue);
             bNeg = !bNeg;
-        }
+		} while (std::next_permutation(tmpList, tmpList + N));
+
 		delete[]tmpList;
 		tmpList = nullptr;
         return result;
@@ -299,13 +300,16 @@ public:
         return result;
     }
 
-	static CMatrix<4, 4, float> GetPerspective(CVector<4, float> &a)
+
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetPerspective(CVector<4, Num> &a)
 	{
 		return GetPerspective(a[0], a[1], a[2], a[3]);
 	}
 
 	//
-	static CMatrix<4, 4, float> GetPerspective(float alpha, float ratio, float zNear, float zFar)
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetPerspective(Num alpha, Num ratio, Num zNear, Num zFar)
 	{
 		//double tmpAlpha = 90 - alpha / 2;
 		//double tmpAlpha = alpha * 3.14159265 / 180;
@@ -313,7 +317,7 @@ public:
 		//std::tan(tmpAlpha) = zNear / (height / 2);
 		//double height = 2 * zNear / cot_halfAlpha;
 		//double width = height * ratio;
-		CMatrix<4, 4, float> result;
+		CMatrix<4, 4, Num> result;
 		result[0][0] = cot_halfAlpha / ratio;// 2 * zNear / width;
 		result[1][1] = cot_halfAlpha;// 2 * zNear / height;
 		result[2][2] = -(zFar + zNear) / (zFar - zNear);
@@ -322,13 +326,16 @@ public:
 		return result;
 	}
 
-	static CMatrix<4, 4, float> GetOrtho(CVector<6, float> &rhs)
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetOrtho(CVector<6, Num> &rhs)
 	{
 		return GetOrtho(rhs[0], rhs[1], rhs[2], rhs[3], rhs[4], rhs[5]);
 	}
-	static CMatrix<4, 4, float> GetOrtho(float left, float right, float bottom, float top, float Near, float Far)
+
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetOrtho(Num left, Num right, Num bottom, Num top, Num Near, Num Far)
 	{
-		CMatrix<4, 4, float> result;// = CMatrix<4, 4, float>::GetUnit();
+		CMatrix<4, 4, Num> result;// = CMatrix<4, 4, float>::GetUnit();
 		result.m_data[0][0] = 2 / (double)(right - left);
 		result.m_data[1][1] = 2 / (double)(top - bottom);
 		result.m_data[2][2] = -2 / (double)(Far - Near);
@@ -340,18 +347,18 @@ public:
 		return result;
 	}
 
-
-	static CMatrix<4, 4, float> GetLookAtTwo(CVector<3, float> ev,
-		CVector<3, float> cv,
-		CVector<3, float> uv)
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetLookAtTwo(CVector<3, Num> ev,
+		CVector<3, Num> cv,
+		CVector<3, Num> uv)
 	{
 		// 被观察平面的法向量, 与观测方向相反, n对应于OpenGL的z轴
-		CVector<3, float> n = (ev - cv).Normalize();// GLKVector3Add(ev, GLKVector3Negate(cv)));
+		CVector<3, Num> n = (ev - cv).Normalize();// GLKVector3Add(ev, GLKVector3Negate(cv)));
 		// 叉乘得到第一根轴, u对应于OpenGL的x轴
-		CVector<3, float> u = uv.CrossProduct(n).Normalize();// GLKVector3CrossProduct(uv, n));
+		CVector<3, Num> u = uv.CrossProduct(n).Normalize();// GLKVector3CrossProduct(uv, n));
 		// 再次叉乘得到矫正后的up向量, v对应于OpenGL的y轴
-		CVector<3, float> v = n.CrossProduct(u);
-		CMatrix<4, 4, float> result;
+		CVector<3, Num> v = n.CrossProduct(u);
+		CMatrix<4, 4, Num> result;
 		result[0][0] = u[0];
 		result[0][1] = v[0];
 		result[0][2] = n[0];
@@ -382,8 +389,8 @@ public:
 		
 	}
 
-
-	static CMatrix<4, 4, float> GetLookAt(CVector<3, float> &eye, CVector<3, float>& center, CVector<3, float> &up)
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetLookAt(CVector<3, Num> &eye, CVector<3, Num>& center, CVector<3, Num> &up)
 	{
 		double eyeX = eye[0];
 		double eyeY = eye[1];
@@ -402,7 +409,7 @@ public:
 		fx = centerX - eyeX;
 		fy = centerY - eyeY;
 		fz = centerZ - eyeZ;
-		CMatrix<4, 4, float> result;
+		CMatrix<4, 4, Num> result;
 
 		// Normalize f  
 		rlf = 1.0f / sqrt(fx * fx + fy * fy + fz * fz);
@@ -449,9 +456,10 @@ public:
 	}
 
 	//
-	static CMatrix<4, 4, float> GetViewMatrix(float x, float y, float width, float height, float zNear, float zFar)
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetViewMatrix(Num x, Num y, Num width, Num height, Num zNear, Num zFar)
 	{
-		CMatrix<4, 4, float> result;
+		CMatrix<4, 4, Num> result;
 		result[0][0] = width / 2;
 		result[1][1] = height / 2;
 		result[0][3] = x + width / 2;
@@ -463,35 +471,40 @@ public:
 	}
 
 	//
-    static CMatrix<4, 4, float> GetTranslate(const CVector<3, type> &pos)
+	template<typename Num>
+    static CMatrix<4, 4, Num> GetTranslate(const CVector<3, type> &pos)
     {
-		return GetTranslate(pos[0], pos[1], pos[2]);
+		return GetTranslate<type>(pos[0], pos[1], pos[2]);
     }
 
 	//
-    static CMatrix<4, 4, float> GetTranslate(type x, type y, type z)
+	template<typename Num>
+    static CMatrix<4, 4, Num> GetTranslate(type x, type y, type z)
     {
-        CMatrix<4, 4, float> result = CMatrix<4, 4, float>::GetUnit();
+        CMatrix<4, 4, Num> result = CMatrix<4, 4, Num>::GetUnit();
         result[0][3] = x;
         result[1][3] = y;
         result[2][3] = z;
+
         return result;
     }
 
 
-
-    static CMatrix<4, 4, float> GetScale(const CVector<3, type> &scale)
+	template<typename Num>
+    static CMatrix<4, 4, Num> GetScale(const CVector<3, type> &scale)
     {
-		CMatrix<4, 4, float> result;// = CMatrix<4, 4, float>::GetUnit();
+		CMatrix<4, 4, Num> result;// = CMatrix<4, 4, float>::GetUnit();
         result[0][0] = scale[0];
         result[1][1] = scale[1];
         result[2][2] = scale[2];
 		result[3][3] = 1;
         return result;
     }
-    static CMatrix<4, 4, float> GetScale(type x, type y, type z)
+
+	template<typename Num>
+    static CMatrix<4, 4, Num> GetScale(type x, type y, type z)
     {
-		CMatrix<4, 4, float> result;// = CMatrix<4, 4, float>::GetUnit();
+		CMatrix<4, 4, Num> result;// = CMatrix<4, 4, float>::GetUnit();
         result[0][0] = x;
         result[1][1] = y;
         result[2][2] = z;
@@ -499,12 +512,12 @@ public:
         return result;
     }
 
-
-    static CMatrix<4, 4, float> GetRotate(int label, float rotate)
+	template<typename Num>
+    static CMatrix<4, 4, Num> GetRotate(int label, float rotate)
     {
 		//rotate = rotate * 3.1415926 / 180;
 		// 与数学库函数(std::sin, std::cos)保持一致
-        CMatrix<4, 4, float> result = CMatrix<4, 4, float>::GetUnit();
+        CMatrix<4, 4, Num> result = CMatrix<4, 4, Num>::GetUnit();
         if(label == 1)
         {
             result[1][1] = result[2][2] = std::cos(rotate);
@@ -531,9 +544,10 @@ public:
     }
 
 	//
-	static CMatrix<4, 4, float> GetRotate(float angle, float x, float y, float z)
+	template<typename Num>
+	static CMatrix<4, 4, Num> GetRotate(Num angle, Num x, Num y, Num z)
 	{
-		CMatrix<4, 4, float> result;
+		CMatrix<4, 4, Num> result;
 
 		vec3f tmpLabel;
 		tmpLabel[0] = x;
@@ -604,58 +618,58 @@ public:
         return *this;
     }
 
-    template<typename Number>
-    CMatrix<N, M, type>& operator*=(CMatrix<N, M, Number> &a)
-    {
-        for(size_t i = 0; i < N; ++i)
-        {
-            for(size_t j = 0; j < M; ++j)
-            {
-                m_data[i][j] = m_data[i][j] * a.m_data[i][j];
-            }
-        }
-        return *this;
-    }
+    // template<typename Number>
+    // CMatrix<N, M, type>& operator*=(CMatrix<N, M, Number> &a)
+    // {
+        // for(size_t i = 0; i < N; ++i)
+        // {
+            // for(size_t j = 0; j < M; ++j)
+            // {
+                // m_data[i][j] = m_data[i][j] * a.m_data[i][j];
+            // }
+        // }
+        // return *this;
+    // }
 
-    template<typename Number>
-    CMatrix<N, M, type>& operator+=(CMatrix<N, M, Number> &a)
-    {
+    // template<typename Number>
+    // CMatrix<N, M, type>& operator+=(CMatrix<N, M, Number> &a)
+    // {
 
-        for(size_t i = 0; i < N; ++i)
-        {
-            for(size_t j = 0; j < M; ++j)
-            {
-                m_data[i][j] = m_data[i][j] + a.m_data[i][j];
-            }
-        }
-        return *this;
-    }
+        // for(size_t i = 0; i < N; ++i)
+        // {
+            // for(size_t j = 0; j < M; ++j)
+            // {
+                // m_data[i][j] = m_data[i][j] + a.m_data[i][j];
+            // }
+        // }
+        // return *this;
+    // }
 
-    template<typename Number>
-    CMatrix<N, M, type>& operator-=(CMatrix<N, M, Number> &a)
-    {
-        for(size_t i = 0; i < N; ++i)
-        {
-            for(size_t j = 0; j < M; ++j)
-            {
-                m_data[i][j] = m_data[i][j] - a.m_data[i][j];
-            }
-        }
-        return *this;
-    }
+    // template<typename Number>
+    // CMatrix<N, M, type>& operator-=(CMatrix<N, M, Number> &a)
+    // {
+        // for(size_t i = 0; i < N; ++i)
+        // {
+            // for(size_t j = 0; j < M; ++j)
+            // {
+                // m_data[i][j] = m_data[i][j] - a.m_data[i][j];
+            // }
+        // }
+        // return *this;
+    // }
 
-    template<typename Number>
-    CMatrix<N, M, type>& operator/=(CMatrix<N, M, Number> &a)
-    {
-        for(size_t i = 0; i < N; ++i)
-        {
-            for(size_t j = 0; j < M; ++j)
-            {
-                m_data[i][j] = m_data[i][j] / a.m_data[i][j];
-            }
-        }
-        return *this;
-    }
+    // template<typename Number>
+    // CMatrix<N, M, type>& operator/=(CMatrix<N, M, Number> &a)
+    // {
+        // for(size_t i = 0; i < N; ++i)
+        // {
+            // for(size_t j = 0; j < M; ++j)
+            // {
+                // m_data[i][j] = m_data[i][j] / a.m_data[i][j];
+            // }
+        // }
+        // return *this;
+    // }
 
     //////////////////////////////////////////////
 

@@ -2,7 +2,7 @@
 attribute vec3 pos;
 //attribute vec2 texCoord;
 
-//uniform mat4 MVP;
+//uniform mat4 projectionMatrix;
 //uniform mat4 modelMatrix;
 
 uniform vec4 param;

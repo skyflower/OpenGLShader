@@ -2,7 +2,7 @@
 attribute vec3 pos;
 attribute vec3 normal;
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 
 varying vec3 v_normal;

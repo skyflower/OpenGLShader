@@ -53,14 +53,7 @@ void CSphere::Init(float radis, int slide, int stacks)
 		return;
 	}
 	utils::CreateSphereData(radis, slide, stacks, m_data, m_pIndex);
-	CVertex *pVertex = m_data->data();
 
-	unsigned int tmpSize = m_data->size();
-	for (int i = 0; i < tmpSize; ++i)
-	{
-		memcpy(pVertex[i].mColor, pVertex[i].mPos, 3 * sizeof(float));
-		pVertex[i].mPos[2] -= 3;
-	}
 
 	InitDisplayBuffer();
 }
@@ -132,12 +125,11 @@ void CSphere::Update(float duration)
 	if (initFlag)
 	{
 		//SetScale(2, 2, 2);
-		SetTranslate(-0.5, 0, -4);
+		SetTranslate(-0.5, 0, -1);
 		initFlag = false;
-		SetRotate(0, 3.1415926, 0);
+		//SetRotate(0, 3.1415926, 0);
 	}
-	//AddRotate(0, zTranslate, zTranslate);
-	
+	AddRotate(0, zTranslate, 0);
 }
 
 GLuint CSphere::GetShaderProgram()
@@ -158,16 +150,26 @@ void CSphere::TestShader(mat4f model)
 	}
 	//Log << "TestShader Matrix...\n" << model << "\n";
 	//WriteInfo("modelMatrix = \n%s", model.FormatToString().c_str());
-	mat3f normalMatrix = model.reduceDimension();
-	normalMatrix = normalMatrix.inverse().Transposition();
+	//mat3f normalMatrix = model.reduceDimension();
+	//normalMatrix = normalMatrix.inverse().Transposition();
+	//model = model.Transposition();
+	/*mat4f viewMatrix = GetViewMatrix();
+	mat4f projectionMatrix = GetProjectionMatrix();
+	WriteInfo("viewMatrix = \n%s", viewMatrix.FormatToString().c_str());
+	WriteInfo("projectionMatrix = \n%s", projectionMatrix.FormatToString().c_str());
+	*/
+	WriteInfo("modelMatrix = \n%s", model.FormatToString().c_str());
 
+	//projectionMatrix = projectionMatrix.Transposition();
 	size_t nSize = m_data->size();
 	CVertex *pVertex = m_data->data();
-	for (size_t i = 0; i < m_data->size(); ++i)
+	for (size_t i = 0; i < m_data->size() && i < 10; ++i)
 	{
 		vec3f tmp(pVertex[i].mColor, 3);
-		vec3f tmpData = tmp * normalMatrix;
-		WriteInfo("normal vector = %s", tmpData.FormatToString().c_str());
+		vec4f tmpData(tmp, 1.0);
+		WriteInfo("pos vector = %s", tmpData.FormatToString().c_str());
+		//tmpData = tmpData * model;
+		//WriteInfo("pos * model vector = %s", tmpData.FormatToString().c_str());
 		//Log << tmpData << "\n";
 		//Log << (tmpData * model) << "\n";
 	}

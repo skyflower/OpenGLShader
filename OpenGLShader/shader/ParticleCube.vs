@@ -12,7 +12,7 @@ layout(std140, binding=0)buffer Mesh
 
 
 varying vec2 V_TexCoord;
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 
 void main()
@@ -27,6 +27,6 @@ void main()
 	vec4 fixPos = spritePosInView + vec4(vec2(texcoord * 2.0 - 1.0) * spriteSize, 0, 0);
 	V_TexCoord = texcoord;
 	
-	gl_Position = fixPos * modelMatrix;//MVP;
+	gl_Position = fixPos * modelMatrix;//projectionMatrix;
 	
 }

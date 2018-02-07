@@ -31,6 +31,7 @@
 
 #include "./test/FullScreen.h"
 #include "./test/FrameBufferTest.h"
+#include "./test/Fog.h"
 
 //std::fstream Log("log.txt", std::ios::trunc | std::ios::in | std::ios::out);
 
@@ -99,7 +100,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	WriteInfo("ScreenWidth = %d, ScreenHeight = %d", viewWidth, viewHeight);
 	
 	vec4f Perspective;
-	Perspective[0] = 45 * 3.1415927 / 180;
+	Perspective[0] = 45 * 3.1415926 / 180;
 	Perspective[1] = (double)viewWidth / (double)viewHeight;
 	Perspective[2] = 0.01f;
 	Perspective[3] = 1000.0f;
@@ -112,19 +113,47 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	OrthoVec[4] = 0.01f;
 	OrthoVec[5] = 100.0f;
 
-	mat4f IdentityMatrix = CMatrix<4, 4, float>::GetUnit();
+	//mat4f IdentityMatrix = CMatrix<4, 4, float>::GetUnit();
 	//mat4f ViewMatrix = CMatrix<4, 4, float>::GetUnit();
 	// Perspective glm  transpose
 	mat4f ProjectionMatrix = CMatrix<4, 4, float>::GetPerspective(Perspective);
 	//mat4f Trianslate = CMatrix<4, 4, float>::GetTranslate(0, 0, -10);
 	//ProjectionMatrix = ProjectionMatrix;// *Trianslate;
 	//mat4f UIProjectionMatrix = CMatrix<4, 4, float>::GetOrtho(OrthoVec);
+	glm::mat4 glmProjectionMatrix = glm::perspective(45 * 3.1415926 / 180, viewWidth / (double)viewHeight, 0.01, 1000.0);
 	//glm::mat4 glmOrthoMatrix = glm::ortho(OrthoVec[0], OrthoVec[1], OrthoVec[2], OrthoVec[3], OrthoVec[4], OrthoVec[5]);
+	//mat4f tmpTest;
+	/*glm::tvec3<float> glmTranslateVec = glm::tvec3<float>(1.3f, 4.32f, -1.0f);
+	glm::mat4 glmTranslate = glm::translate(glmTranslateVec);
+	mat4f Translate = CMatrix<4, 4, float>::GetTranslate(1.3, 4.32, -1.0);*/
+	//glm::mat4 glmNormalMatrix = glm::inverseTranspose(glmProjectionMatrix);
+	//mat4f NormalMatrix = ProjectionMatrix.inverse().Transposition();
+	//utils::OutputToFile(ProjectionMatrix, glmProjectionMatrix);
+	//utils::OutputToFile(NormalMatrix, glmNormalMatrix);
+	//mat4f inverseTranslate = Translate.inverse();// Transposition();
+	//mat4f LeftUnit = inverseTranslate * Translate;
+	//mat4f RightUnit = Translate * inverseTranslate;
+	//glmTranslate = glm::inverse(glmTranslate);
+	//glmTranslate = glm::transpose(glmTranslate);
 	
-	//glm::tvec3<float> glmTranslateVec = glm::tvec3<float>(0.0f, 0.0f, -1.0f);
-	//glm::mat4 glmTranslate = glm::translate(glmTranslateVec);
-	//mat4f Translate = CMatrix<4, 4, float>::GetTranslate(0, 0, -1.0);
-	//utils::OutputToFile(Log, Translate, glmTranslate);
+	//glm::vec4 glmPerspective = glm::vec4(45 * 3.1415926 / 180, viewWidth / (double)viewHeight, 0.01, 1000);
+	//glm::mat4 glmMatrix = glm::perspective(45 * 3.1415926f / 180, viewWidth / (float)viewHeight, 0.01f, 1000.0f);
+	//utils::OutputToFile(ProjectionMatrix, glmMatrix);
+
+
+	/*vec4f tmpTestPoint;
+	tmpTestPoint[0] = 8.7;
+	tmpTestPoint[1] = -2.57;
+	tmpTestPoint[2] = 1.7;
+	tmpTestPoint[3] = 1.0;
+
+	vec4f LeftMultiply = Translate * tmpTestPoint;
+	vec4f RightMultiply = tmpTestPoint * Translate;
+
+	WriteInfo("LeftMultiply = %s", LeftMultiply.FormatToString().c_str());
+	WriteInfo("RightMultiply = %s", RightMultiply.FormatToString().c_str());*/
+
+	//double radia = glm::radians(45.0);
 
 	//mat4f inverse = ProjectionMatrix.inverse();
 	//mat4f tmpMultiply = inverse * ProjectionMatrix;
@@ -141,7 +170,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	WriteInfo("OpenGL Version : %s", glGetString(GL_VERSION));
 	WriteInfo("GLSL Version : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	
-	//glClearColor(0.2, 0.2, 0.5, 1);
+	//glClearColor(0.16, 0.16, 0.16, 1);
 	glClearColor(0, 0, 0, 1);
 	glClearDepth(1.0);
 	glViewport(0, 0, viewWidth, viewHeight);
@@ -162,55 +191,27 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		C3DModel *&p = *(pModelVec->data() + i);
 		p->SetMatrix(viewMatrix, ProjectionMatrix);
 	}
-	//CLightTest *pLightTest = new CLightTest;
-	//pLightTest->SetMatrix(viewMatrix, ProjectionMatrix);
+	CFogTest *pFogTest = new CFogTest(0.5, 40, 40);
+	pFogTest->SetMatrix(viewMatrix, ProjectionMatrix);
+	//pFogTest->SetMatrix(viewMatrix, utils::glmToMatrix(glmProjectionMatrix, false));
+	mat4f modelMatrix = CMatrix<4, 4, float>::GetTranslate<float>(-1.0f, 0.0f, -3.0f);
+	//glm::vec3 glmTranslate(0, 0, -10.8);
+	//glm::mat4 glmModel = glm::translate(glmTranslate);
+	pFogTest->SetModelMatrix(modelMatrix);
+	//pFogTest->SetModelMatrix(utils::glmToMatrix(glmModel, false));
+	CFogTest *pFogTestTwo = new CFogTest(0.6, 40, 40);
+	mat4f modelMatrixTwo = CMatrix<4, 4, float>::GetTranslate<float>(-0.0f, 0.0f, -10.0f);
+	pFogTestTwo->SetModelMatrix(modelMatrixTwo);
+	pFogTestTwo->SetMatrix(viewMatrix, ProjectionMatrix);
 
+	CFogTest *pFogTestThree = new CFogTest(0.6, 40, 40);
+	mat4f modelMatrixThree = CMatrix<4, 4, float>::GetTranslate<float>(1.9f, 0.0f, -15.0f);
+	pFogTestThree->SetModelMatrix(modelMatrixThree);
+	pFogTestThree->SetMatrix(viewMatrix, ProjectionMatrix);
 
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 
-	CTexture *pFirstTexture = CTexture::LoadTexture("./res/image/3.bmp");
-	CTexture *pSecondTexture = CTexture::LoadTexture("./res/image/19.bmp");
-
-	//CShader *pErosionShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/erosion.fs");
-	//CShader *pDilationShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/dilation.fs");
-	//CShader *pHdrShader = new CShader("./shader/HDR/hdrLight.vs", "./shader/HDR/hdrLight.fs");
-	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gussian.fs");
-	CShader *pOriginShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/FullScreen.fs");
-	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gaussianVert.fs");
-	//CShader *pGussianShader = new CShader("./shader/ImageProcess/FullScreen.vs", "./shader/ImageProcess/gaussianVert.fs");
-	//CShader *pHdrProcessShader = new CShader("./shader/HDR/hdrProcess.vs", "./shader/HDR/hdrProcess.fs");
-	CShader *pHdrMergeShader = new CShader("./shader/HDR/hdrCombination.vs", "./shader/HDR/hdrCombination.fs");
-	CShader *pBlendShader = new CShader("./shader/ImageProcess/blend.vs", "./shader/ImageProcess/composition.fs");
-
-	//CFrameBufferTest pFrameBufferTest(viewWidth, viewHeight);
-	//pFrameBufferTest.SetShader(pGussianShader, 0);
-	//pFrameBufferTest.SetShader(pGussianShader, 1);
-
-	SIZE viewWinSize = director->GetWindowSize();
-	CFrameBuffer framebufferLeftTop;
-	framebufferLeftTop.AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, GL_RGBA, viewWinSize.cx, viewWinSize.cy);
-	framebufferLeftTop.AttachDepthBuffer("depth", viewWinSize.cx, viewWinSize.cy);
-	framebufferLeftTop.Finish();
-
-	CFrameBuffer framebufferRightTop;
-	framebufferRightTop.AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, GL_RGBA, viewWinSize.cx, viewWinSize.cy);
-	framebufferRightTop.AttachDepthBuffer("depth", viewWinSize.cx, viewWinSize.cy);
-	framebufferRightTop.Finish();
-
-	CFrameBuffer framebufferLeftBottom;
-	framebufferLeftBottom.AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, GL_RGBA, viewWinSize.cx, viewWinSize.cy);
-	framebufferLeftBottom.AttachDepthBuffer("depth", viewWinSize.cx, viewWinSize.cy);
-	framebufferLeftBottom.Finish();
-
-	CFrameBuffer framebufferRightBottom;
-	framebufferRightBottom.AttachColorBuffer("color", GL_COLOR_ATTACHMENT0, GL_RGBA, viewWinSize.cx, viewWinSize.cy);
-	framebufferRightBottom.AttachDepthBuffer("depth", viewWinSize.cx, viewWinSize.cy);
-	framebufferRightBottom.Finish();
-
-
-	CFullScreen *pFullScreen = new CFullScreen();
-	//pFullScreen->SetShader(pOriginShader);
 	
 	MSG msg;
 	
@@ -233,7 +234,6 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		double duration = uTimer.GetPassedTimeInMs();
 		uTimer.Start();
 		
-		//framebufferHDR.Bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		for (size_t i = 0; i < nSize; ++i)
@@ -242,48 +242,46 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 			p->Update(duration);
 			p->Draw();
 		}
-		//framebufferHDR.UnBind();
+
+		//pFogTest->ResetStatus();
+		
+		//pFogTest->SetTranslate(-0.6, 0, -20.5);
+		//pFogTest->Update(duration);
+		pFogTest->Draw();
+
+		pFogTestTwo->Draw();
+		pFogTestThree->Draw();
+		/*pFogTest->ResetStatus();
+		pFogTest->SetTranslate(-0.1, 0, -0.6);
+		pFogTest->Draw();
 
 
-		framebufferLeftTop.Bind();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pFullScreen->initTexture(pFirstTexture->GetTextureID());
-		pFullScreen->SetShader(pOriginShader);
-		pFullScreen->Draw();
-		framebufferLeftTop.UnBind();
-		//WriteInfo("framebufferLeftTop.GetColorBuffer(color) = %u", framebufferLeftTop.GetColorBuffer("color"));
+		pFogTest->ResetStatus();
+		pFogTest->SetTranslate(0.4, 0, -0.1);
+		pFogTest->Draw();*/
 
-		//pFrameBufferTest.SetTexture(framebufferLeftTop.GetColorBuffer("color"));
-		//pFrameBufferTest.Draw(1);
-		framebufferRightTop.Bind();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pFullScreen->initTexture(pSecondTexture->GetTextureID());
-		pFullScreen->SetShader(pOriginShader);
-		pFullScreen->Draw();
-		framebufferRightTop.UnBind();
+		/*pFogTest->ResetStatus();
+		pFogTest->SetTranslate(0, 0, -1.5);
+		pFogTest->Draw();
+		
+		
+		pFogTest->ResetStatus();
+		pFogTest->SetTranslate(0.5, 0, -2);
+		pFogTest->Draw();*/
 
-		//glClearColor(0.1, 0.4, 0.7, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		pFullScreen->initTexture(framebufferLeftTop.GetColorBuffer("color"));
-		pFullScreen->SetShader(pOriginShader);
-		pFullScreen->DrawLeftTop();
+		
+		//vec3f rotate = pFogTest->GetRotate();
+		//vec3f tranf = pFogTest->GetTranslate();
+		//WriteInfo("rotate = %s", rotate.FormatToString().c_str());
+		//WriteInfo("tranf = %s", tranf.FormatToString().c_str());
+		//pFogTest->ResetStatus();
+		//pFogTest->SetTranslate(0, 0, -8);
+		//pFogTest->Draw();
 
+		//pFogTest->ResetStatus();
+		//pFogTest->SetTranslate(0, 0, -16);
+		//pFogTest->Draw();
 
-		pFullScreen->initTexture(framebufferRightTop.GetColorBuffer("color"));
-		pFullScreen->SetShader(pOriginShader);
-		pFullScreen->DrawRightTop();
-
-		//pFullScreen->initTexture(pFrameBufferTest.GetColorBuffer());
-		//pFullScreen->SetShader(pOriginShader);
-		//pFullScreen->DrawLeftBottom();
-
-
-		pFullScreen->initTexture(framebufferLeftTop.GetColorBuffer("color"));
-		pFullScreen->SetAuxTexture(framebufferRightTop.GetColorBuffer("color"));
-		pFullScreen->SetShader(pBlendShader);
-		pFullScreen->DrawRightBottom();
-
-		pFullScreen->SetAuxTexture(-1);
 
 		director->Update(duration / CLOCKS_PER_SEC);
 		glFlush();

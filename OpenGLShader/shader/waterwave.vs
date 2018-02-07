@@ -3,7 +3,7 @@ attribute vec3 pos;
 attribute vec3 normal;
 attribute vec2 texCoord;
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 normalMatrix;
 uniform vec4 param;
 
@@ -60,5 +60,5 @@ void main()
 	vec3 ytangent = vec3( 0.0, 1.0, dy );
 	v_normal = normalize( cross( xtangent, ytangent ) );
 	
-    gl_Position = tmpPos * MVP;
+    gl_Position = tmpPos * projectionMatrix;
 }

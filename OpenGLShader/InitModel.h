@@ -139,8 +139,8 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pLightTest);
 	}
 
-	pSphere = new CSphere(0.6, 50, 50);
-	pSphere->InitTexture("./res/image/xiongxiang.jpg");
+	//pSphere = new CSphere(0.4, 50, 50);
+	//pSphere->InitTexture("./res/image/xiongxiang.jpg");
 	if (pSphere && pModelVec)
 	{
 		pModelVec->push_back(pSphere);
@@ -182,7 +182,7 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pRay);
 	}
 
-	pBloomTest = new CBloomTest;
+	//pBloomTest = new CBloomTest;
 	if (pBloomTest && pModelVec)
 	{
 		pModelVec->push_back(pBloomTest);

@@ -1,7 +1,7 @@
 
 attribute vec4 pos;
 
-//uniform mat4 MVP;
+//uniform mat4 projectionMatrix;
 
 
 void main()

@@ -4,7 +4,7 @@ attribute vec3 normal;
 attribute vec2 texCoord;
 attribute vec3 color;
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 //uniform mat4 NM;
 
@@ -19,8 +19,8 @@ void main()
 	
     V_Normal = normal * NM;
 	
-	gl_Position = vec4(pos.x, pos.y, pos.z - 1, 1.0) * modelMatrix;//MVP;
+	gl_Position = vec4(pos.x, pos.y, pos.z - 1, 1.0) * modelMatrix;//projectionMatrix;
     V_TexCoord = texCoord;
-	V_WorldPos = vec4(pos, 1.0) * modelMatrix;//MVP;
+	V_WorldPos = vec4(pos, 1.0) * modelMatrix;//projectionMatrix;
     
 }

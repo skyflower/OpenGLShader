@@ -11,7 +11,7 @@ layout(std140, binding=0)buffer Mesh
 }mesh;
 
 varying vec2 V_TexCoord;
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 
 
 void main()
@@ -24,7 +24,7 @@ void main()
 	//4.41828, 3.3137
 	vec4 fixPos = vec4(mesh.vertexes[0].pos.xyz, 1.0);
 	vec2 tmpPos = vec2(Extexcoord.x * 4.41828, Extexcoord.y * 3.3137);
-    gl_Position = (fixPos + vec4(tmpPos, 0, 1.0)) * MVP;
+    gl_Position = (fixPos + vec4(tmpPos, 0, 1.0)) * projectionMatrix;
    
 	V_TexCoord = vec2(texcoord.x, 1 - texcoord.y);
 }

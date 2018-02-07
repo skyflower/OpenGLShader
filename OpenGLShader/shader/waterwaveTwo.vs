@@ -3,7 +3,7 @@ attribute vec3 pos;
 attribute vec3 normal;
 attribute vec2 texCoord;
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 
@@ -28,5 +28,5 @@ void main()
 	v_param = param;
 	v_texcoord = vec2(texCoord.x, 1 - texCoord.y);
 	uPd = v_uPd;
-    gl_Position = tmpPos * MVP;
+    gl_Position = tmpPos * projectionMatrix;
 }

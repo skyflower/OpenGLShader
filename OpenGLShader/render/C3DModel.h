@@ -30,6 +30,7 @@ public:
 	virtual vec3f GetScale();
 	virtual vec3f GetRotate();
 	virtual vec3f GetTranslate();
+	virtual void SetModelMatrix(mat4f &modelMatrix);
 
 	void ResetStatus();
 	void SetShaderProgram(GLuint program);
@@ -38,17 +39,28 @@ public:
 	mat4f GetModel();
 	mat4f GetViewMatrix();
 	mat4f GetProjectionMatrix();
+	mat4f GetMVPMatrix();
 
 private:
-	GLuint m_nMVPLocation;
+	//GLuint m_nMVPLocation;
+	GLuint m_nProjectionMatrixLocation;
 	mat4f m_fProjectionMatrix;
 
 	GLuint m_nModelMatrixLocation;
 	GLuint m_nViewMatrixLocation;
+
+	GLuint m_nNormalMatrixLocation;
+	mat3f m_fNormalMatrix;
+
+	//GLuint m_nRotateMatrix;
+	//GLuint m_nTranslateMatrix;
+	//GLuint m_nScaleMatrix;
 	
 	mat4f m_fViewMatrix;
+	mat4f m_fModelMatrix;
 
-	vec3f m_fTrans[3];
+	vec3f m_fTrans[3];	// unused
+
 	GLuint m_nShaderProgram;
 };
 

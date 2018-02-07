@@ -1,6 +1,6 @@
 
 varying vec3 v_normal;
-varying vec3 v_pos;
+varying vec4 v_pos;
 
 varying vec4 v_lightPos;
 
@@ -37,10 +37,11 @@ vec4 specular(vec3 pointToLight, vec3 normal, vec3 eye)
 
 void main()
 {
-	vec4 lightPos = v_lightPos;
+	vec4 lightPos = v_lightPos - v_pos;
 	
-    gl_FragColor = ambient(lightPos, vec4(v_pos, 1.0)) + diffuse(lightPos.xyz, v_normal);
+    gl_FragColor = ambient(lightPos, v_pos);
+	gl_FragColor = gl_FragColor + diffuse(lightPos.xyz, v_normal);
 	
-	vec3 eye = - v_pos.xyz;
+	vec3 eye =vec3(0, 0, 0) - v_pos.xyz;
 	gl_FragColor = gl_FragColor + specular(lightPos.xyz, v_normal, eye);
 }

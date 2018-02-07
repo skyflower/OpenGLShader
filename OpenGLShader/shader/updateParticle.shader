@@ -15,7 +15,7 @@ layout(local_size_x = 128, local_size_y = 1, local_size_z = 1)in;
 uniform sampler3D U_MainTexture;
 
 varying vec2 V_TexCoord;
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 
 vec3 CalV(vec3 p)
 {

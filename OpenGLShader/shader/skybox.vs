@@ -3,7 +3,7 @@ attribute vec3 pos;
 attribute vec2 texCoord;
 attribute vec3 normal;
 
-uniform mat4 MVP;
+uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 
 varying vec2 V_TexCoord;
@@ -14,7 +14,7 @@ void main()
 {
 	int id = 0;
 	
-    gl_Position = vec4(pos, 1.0) * MVP;
+    gl_Position = vec4(pos, 1.0) * projectionMatrix;
    
 	V_TexCoord = vec2(texCoord.x, 1 - texCoord.y);
 	scopePos = (vec4(pos, 1.0) * modelMatrix).xyz;

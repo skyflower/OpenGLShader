@@ -51,6 +51,9 @@ namespace utils
 
 	double *Logistic(float a, float x, size_t N);
 
+	mat4f glmToMatrix(const glm::mat4 &hs, bool bTranspose = false);
+	glm::mat4 MatrixToglm(mat4f &matrix, bool bTranspose = false);
+
 	GLuint CreateTexture3D(int w, int h, int d);
 
 	GLuint CreateTFOProgram(const char*vsFile, const char*attrib[], int nCount, GLenum memoryFormat, const char *gsFile = nullptr);

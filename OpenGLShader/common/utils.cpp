@@ -315,20 +315,7 @@ void utils::OutputToFile(mat4f & ks, glm::mat4 & hs)
 
 void utils::TestMatrixGLM()
 {
-	glm::vec3 glmScaleVec(0.1, 0.2, 0.35);
-	glm::mat4 glmModel = glm::scale(glmScaleVec);
-	glm::vec3 glmTranslate(0.5, 0.6, 0.38);
-	glm::vec3 glmRotate(0.2, 0.9, 0.33);
-
-	glmModel = glmModel * glm::rotate(42.0f, glmRotate) *glm::translate(glmTranslate);
-
-	mat4f modelMatrix = CMatrix<4, 4, float>::GetUnit();
-	modelMatrix = CMatrix<4, 4, float>::GetScale(0.1, 0.2, 0.35) * CMatrix<4, 4, float>::GetRotate(42, 0.2, 0.9, 0.33) *
-		CMatrix<4, 4, float>::GetTranslate(0.5, 0.6, 0.38);
-
-	glmModel = glm::inverse(glmModel);
-	modelMatrix = modelMatrix.inverse();
-	utils::OutputToFile(modelMatrix, glmModel);
+	
 	//WriteInfo("=========================");
 	//mat4f translate = CMatrix<4, 4, float>::GetTranslate(0.5, 0.6, 0.38);
 	//glm::mat4 glmTranslateMatrix = glm::translate(glmTranslate);
@@ -426,6 +413,42 @@ double * utils::Logistic(float a, float x, size_t N)
 	}
 	return Array;
 
+}
+
+mat4f utils::glmToMatrix(const glm::mat4 &hs, bool bTranspose)
+{
+	glm::mat4 rh = hs;
+	if (bTranspose)
+	{
+		rh = glm::transpose(hs);
+	}
+	mat4f result;
+	for (size_t i = 0; i < 4; ++i)
+	{
+		for (size_t j = 0; j < 4; ++j)
+		{
+			result[i][j] = rh[i][j];
+		}
+	}
+	return result;
+}
+
+glm::mat4 utils::MatrixToglm(mat4f &matrix, bool bTranspose)
+{
+	mat4f tmp = matrix;
+	if (bTranspose)
+	{
+		tmp = matrix.Transposition();
+	}
+	glm::mat4 result;
+	for (size_t i = 0; i < 4; ++i)
+	{
+		for (size_t j = 0; j < 4; ++j)
+		{
+			result[i][j] = tmp[i][j];
+		}
+	}
+	return result;
 }
 
 GLuint utils::CreateTexture3D(int w, int h, int d)
@@ -664,6 +687,12 @@ void utils::CreateSphereData(float radis, int slide, int stacks, std::vector<CVe
 			dataIndex++;
 		}
 	}
+	
+	for (size_t i = 0; i < Length; ++i)
+	{
+		memcpy(pVertex[i].mColor, pVertex[i].mPos, sizeof(CVertex::mPos));
+	}
+
 }
 
 

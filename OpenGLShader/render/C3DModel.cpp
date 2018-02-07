@@ -6,15 +6,19 @@ C3DModel::C3DModel()
 {
 	m_fProjectionMatrix = CMatrix<4, 4, float>::GetUnit();
 
-	m_fTrans[0] = CVector<3, float>(0, 3); // Translate
-	m_fTrans[1] = CVector<3, float>(0, 3); // Rotate
-	m_fTrans[2] = CVector<3, float>(1, 3); // Scale
+	m_fModelMatrix = CMatrix<4, 4, float>::GetUnit();
 
-	m_nMVPLocation = -1;
+	m_nProjectionMatrixLocation = -1;
 	m_nModelMatrixLocation = -1;
 	m_nViewMatrixLocation = -1;
+	m_nNormalMatrixLocation = -1;
 
 	m_nShaderProgram = -1;
+
+	m_fNormalMatrix = CMatrix<3, 3, float>::GetUnit();
+
+	m_fViewMatrix;
+	m_fModelMatrix;
 }
 
 
@@ -99,11 +103,19 @@ vec3f C3DModel::GetTranslate()
 	return m_fTrans[0];
 }
 
+void C3DModel::SetModelMatrix(mat4f & modelMatrix)
+{
+	m_fModelMatrix = modelMatrix;
+	m_fNormalMatrix = m_fModelMatrix.reduceDimension().inverse().Transposition();
+}
+
 void C3DModel::ResetStatus()
 {
 	m_fTrans[0] = CVector<3, float>(0, 3); // Translate
 	m_fTrans[1] = CVector<3, float>(0, 3); // Rotate
 	m_fTrans[2] = CVector<3, float>(1, 3); // Scale
+	m_fModelMatrix = CMatrix<4, 4, float>::GetUnit();
+
 }
 
 void C3DModel::SetShaderProgram(GLuint program)
@@ -111,42 +123,48 @@ void C3DModel::SetShaderProgram(GLuint program)
 	m_nShaderProgram = program;
 	m_nModelMatrixLocation = glGetUniformLocation(m_nShaderProgram, "modelMatrix");
 	m_nViewMatrixLocation = glGetUniformLocation(m_nShaderProgram, "viewMatrix");
-	m_nMVPLocation = glGetUniformLocation(m_nShaderProgram, "MVP");
+	m_nProjectionMatrixLocation = glGetUniformLocation(m_nShaderProgram, "projectionMatrix");
+	m_nNormalMatrixLocation = glGetUniformLocation(m_nShaderProgram, "normalMatrix");
 }
 
 void C3DModel::SetTransformMatrix()
 {
-	mat4f tmpModel = GetModel();
-	glUniformMatrix4fv(m_nModelMatrixLocation, 1, GL_FALSE, &tmpModel[0][0]);
-	tmpModel = tmpModel * m_fViewMatrix;
-	glUniformMatrix4fv(m_nViewMatrixLocation, 1, GL_FALSE, &tmpModel[0][0]);
-	tmpModel = tmpModel * m_fProjectionMatrix;
-	glUniformMatrix4fv(m_nMVPLocation, 1, GL_FALSE, &tmpModel[0][0]);
+	//mat4f tmpModel = GetModel();
+	glUniformMatrix4fv(m_nModelMatrixLocation, 1, GL_FALSE, &m_fModelMatrix[0][0]);
+	//mat3f normalMatrix = tmpModel.reduceDimension().inverse().Transposition();
+	glUniformMatrix3fv(m_nNormalMatrixLocation, 1, GL_FALSE, &m_fNormalMatrix[0][0]);
+
+	glUniformMatrix4fv(m_nViewMatrixLocation, 1, GL_FALSE, &m_fViewMatrix[0][0]);
+	
+	glUniformMatrix4fv(m_nProjectionMatrixLocation, 1, GL_FALSE, &m_fProjectionMatrix[0][0]);
 }
 
 mat4f C3DModel::GetModel()
 {
+	return m_fModelMatrix;
+
 	mat4f tmp = CMatrix<4, 4, float>::GetUnit();
 	if (!m_fTrans[0].IsZero())
 	{
-		tmp = tmp *	CMatrix<4, 4, float>::GetTranslate(m_fTrans[0]);
+		tmp = CMatrix<4, 4, float>::GetTranslate<float>(m_fTrans[0]);
+		//tmp = tmp.Transposition();
 	}
 	
 	if (m_fTrans[1][0] != float(0.0f))
 	{
-		tmp = tmp * CMatrix<4, 4, float>::GetRotate(m_fTrans[1][0], 1, 0, 0);
+		tmp = tmp * CMatrix<4, 4, float>::GetRotate(m_fTrans[1][0], 1.0f, 0.0f, 0.0f);
 	}
 	if (m_fTrans[1][1] != float(0.0f))
 	{
-		tmp = tmp * CMatrix<4, 4, float>::GetRotate(m_fTrans[1][1], 0, 1, 0);
+		tmp = tmp * CMatrix<4, 4, float>::GetRotate(m_fTrans[1][1], 0.0f, 1.0f, 0.0f);
 	}
 	if (m_fTrans[1][2] != float(0.0f))
 	{
-		tmp = tmp * CMatrix<4, 4, float>::GetRotate(m_fTrans[1][2], 0, 0, 1);
+		tmp = tmp * CMatrix<4, 4, float>::GetRotate(m_fTrans[1][2], 0.0f, 0.0f, 1.0f);
 	}
 	if (m_fTrans[2] != CVector<3, float>(1.0f, 3))
 	{
-		tmp = tmp * CMatrix<4, 4, float>::GetScale(m_fTrans[2]);
+		tmp = tmp * CMatrix<4, 4, float>::GetScale<float>(m_fTrans[2]);
 	}
 	
 	//tmp = tmp * m_fMVPMatrix;
@@ -161,4 +179,11 @@ mat4f C3DModel::GetViewMatrix()
 mat4f C3DModel::GetProjectionMatrix()
 {
 	return m_fProjectionMatrix;
+}
+
+mat4f C3DModel::GetMVPMatrix()
+{
+	mat4f tmp = GetModel();
+	tmp = tmp * m_fViewMatrix * m_fProjectionMatrix;
+	return tmp;
 }
