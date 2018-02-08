@@ -171,7 +171,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	WriteInfo("GLSL Version : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	
 	//glClearColor(0.16, 0.16, 0.16, 1);
-	glClearColor(0, 0, 0, 1);
+	glClearColor(0.5, 0.5, 0.5, 1);
 	glClearDepth(1.0);
 	glViewport(0, 0, viewWidth, viewHeight);
 	glEnable(GL_BLEND);

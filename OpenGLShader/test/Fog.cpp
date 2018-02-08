@@ -67,7 +67,9 @@ void CFogTest::InitDisplayBuffer()
 	m_nVertexBufferObj = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertex) * m_data->size(), m_data->data(), GL_STATIC_DRAW);
 	m_nIndexBufObj = utils::CreateBufferObject(GL_ELEMENT_ARRAY_BUFFER, m_pIndex->size() * sizeof(unsigned int), m_pIndex->data());
 	
-	m_pShader = new CShader("./shader/Fog/fog.vs", "./shader/Fog/fog.fs");
+	//m_pShader = new CShader("./shader/Fog/fog.vs", "./shader/Fog/fogLinear.fs");
+	m_pShader = new CShader("./shader/Fog/fog.vs", "./shader/Fog/fogExp.fs");
+
 	
 	SetVertexAttrib(VERTEXATTRIB);
 	

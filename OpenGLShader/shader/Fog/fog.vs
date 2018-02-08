@@ -14,6 +14,8 @@ varying vec4 v_eyePos;
 varying float v_fogBegin;
 varying float v_fogEnd;
 varying vec3 v_fogColor;
+varying float v_Attention;
+varying float v_FogGradient;
 
 
 void main()
@@ -30,5 +32,7 @@ void main()
 	v_eyePos = vec4(pos, 1.0) * modelMatrix * viewMatrix;
 	v_fogBegin = 0;
 	v_fogEnd = 16;
-	v_fogColor = vec3(0.1, 0.4, 0.7);
+	v_fogColor = vec3(0.5, 0.5, 0.5);
+	v_Attention = 0.1;
+	v_FogGradient = 3;
 }
