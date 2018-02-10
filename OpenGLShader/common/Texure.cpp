@@ -7,6 +7,9 @@ std::unordered_map<std::string, std::pair<unsigned int, CTexture*>> *CTexture::m
 CTexture::CTexture()
 {
 	m_TextureID = -1;
+	m_nWidth = 0;
+	m_nHeight = 0;
+	m_nTexType = -1;
 }
 
 
@@ -25,6 +28,7 @@ GLuint CTexture::InitTextureByData(const unsigned char * pData, size_t width, si
 {
 	GLuint textureID = -1;
 	glGenTextures(1, &textureID);
+	
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -52,12 +56,17 @@ void CTexture::Bind(bool flag)
 {
 	if ((m_TextureID != -1) && glIsTexture(m_TextureID) && (flag == true))
 	{
-		glBindTexture(GL_TEXTURE_2D, m_TextureID);
+		glBindTexture(m_nTexType, m_TextureID);
 	}
 	else
 	{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(m_nTexType, 0);
 	}
+}
+
+void CTexture::UnBind()
+{
+	glBindTexture(m_nTexType, 0);
 }
 
 //void CTexture::SetShaderProgram(GLuint program, const char * name)
@@ -90,11 +99,76 @@ CTexture * CTexture::LoadTexture(const char * filepath)
 	}
 
 	CTexture *pTexture = new CTexture;
+	pTexture->m_nTexType = GL_TEXTURE_2D;
 	if (pTexture->InitByFilePath(filepath))
 	{
 		return pTexture;
 	}
 	return nullptr;
+}
+
+CTexture * CTexture::LoadCubeMapTexture(const char * PosX, const char * NegX, const char * PosY, const char * NegY, const char * PosZ, const char * NegZ)
+{
+	CTexture* pTexture = new CTexture();
+	pTexture->m_nTexType = GL_TEXTURE_CUBE_MAP;
+	glGenTextures(1, &pTexture->m_TextureID);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, pTexture->m_TextureID);
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_GENERATE_MIPMAP, GL_TRUE);
+
+	const char *tmpDir[] = { PosX, NegX, PosY, NegY, PosZ, NegZ };
+	GLenum tmpTexture[] = { GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_X, GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z };
+	std::string tmpName;
+	for (size_t i = 0; i < 6; ++i)
+	{
+		tmpName = tmpName + tmpDir[i];
+		int width = 0;
+		int height = 0;
+		int iChannel = 0;
+		unsigned char *content = SOIL_load_image(tmpDir[i], &width, &height, &iChannel, 4);
+		if (content == nullptr)
+		{
+			continue;
+		}
+		if (iChannel == 3)
+		{
+			glTexImage2D(tmpTexture[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, content);
+		}
+		else if (iChannel == 4)
+		{
+			glTexImage2D(tmpTexture[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, content);
+		}
+		if (pTexture->m_nWidth == 0)
+		{
+			pTexture->m_nWidth = width;
+		}
+		if (pTexture->m_nHeight == 0)
+		{
+			pTexture->m_nHeight = height;
+		}
+		SOIL_free_image_data(content);
+		content = nullptr;
+	}
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	
+	if (m_pCacheTexture == nullptr)
+	{
+		m_pCacheTexture = new std::unordered_map<std::string, std::pair<unsigned int, CTexture*>>;
+	}
+	pTexture->m_strPath = tmpName;
+	m_pCacheTexture->insert(std::make_pair(tmpName, std::make_pair(1, pTexture)));
+
+	return pTexture;
 }
 
 void CTexture::UnLoadTexture(const CTexture * pTexture)
@@ -142,6 +216,7 @@ CTexture* CTexture::CreateTextureFromData(const unsigned char * pData, size_t wi
 	}
 	CTexture *pTexture = new CTexture();
 	pTexture->m_TextureID = pTexture->InitTextureByData(pData, width, height, colorType);
+	pTexture->m_nTexType = GL_TEXTURE_2D;
 	pTexture->m_nWidth = width;
 	pTexture->m_nHeight = height;
 	pTexture->m_strPath = tmp;
@@ -167,7 +242,6 @@ bool CTexture::InitByFilePath(const char * filepath)
 	}
 	std::string tmp(filepath);
 	
-	//CTexture *pTexture = new CTexture;
 	int iBits;
 	unsigned char *data = SOIL_load_image(filepath, &m_nWidth, &m_nHeight, &iBits, 4);
 	if (data == NULL)

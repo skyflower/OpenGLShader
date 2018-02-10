@@ -171,7 +171,7 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 	WriteInfo("GLSL Version : %s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	
 	//glClearColor(0.16, 0.16, 0.16, 1);
-	glClearColor(0.5, 0.5, 0.5, 1);
+	glClearColor(0.0, 0.0, 0.0, 1);
 	glClearDepth(1.0);
 	glViewport(0, 0, viewWidth, viewHeight);
 	glEnable(GL_BLEND);
@@ -191,23 +191,8 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		C3DModel *&p = *(pModelVec->data() + i);
 		p->SetMatrix(viewMatrix, ProjectionMatrix);
 	}
-	CFogTest *pFogTest = new CFogTest(0.5, 40, 40);
-	pFogTest->SetMatrix(viewMatrix, ProjectionMatrix);
-	//pFogTest->SetMatrix(viewMatrix, utils::glmToMatrix(glmProjectionMatrix, false));
-	mat4f modelMatrix = CMatrix<4, 4, float>::GetTranslate<float>(-1.0f, 0.0f, -3.0f);
-	//glm::vec3 glmTranslate(0, 0, -10.8);
-	//glm::mat4 glmModel = glm::translate(glmTranslate);
-	pFogTest->SetModelMatrix(modelMatrix);
-	//pFogTest->SetModelMatrix(utils::glmToMatrix(glmModel, false));
-	CFogTest *pFogTestTwo = new CFogTest(0.6, 40, 40);
-	mat4f modelMatrixTwo = CMatrix<4, 4, float>::GetTranslate<float>(-0.0f, 0.0f, -10.0f);
-	pFogTestTwo->SetModelMatrix(modelMatrixTwo);
-	pFogTestTwo->SetMatrix(viewMatrix, ProjectionMatrix);
 
-	CFogTest *pFogTestThree = new CFogTest(0.6, 40, 40);
-	mat4f modelMatrixThree = CMatrix<4, 4, float>::GetTranslate<float>(1.9f, 0.0f, -15.0f);
-	pFogTestThree->SetModelMatrix(modelMatrixThree);
-	pFogTestThree->SetMatrix(viewMatrix, ProjectionMatrix);
+	
 
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
@@ -235,52 +220,15 @@ INT __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, LPSTR argv, i
 		uTimer.Start();
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		mat4f viewMatrix = director->GetViewMatrix();
 		
 		for (size_t i = 0; i < nSize; ++i)
 		{
 			C3DModel *&p = *(pModelVec->data() + i);
+			p->SetMatrix(viewMatrix, ProjectionMatrix);
 			p->Update(duration);
 			p->Draw();
 		}
-
-		//pFogTest->ResetStatus();
-		
-		//pFogTest->SetTranslate(-0.6, 0, -20.5);
-		//pFogTest->Update(duration);
-		pFogTest->Draw();
-
-		pFogTestTwo->Draw();
-		pFogTestThree->Draw();
-		/*pFogTest->ResetStatus();
-		pFogTest->SetTranslate(-0.1, 0, -0.6);
-		pFogTest->Draw();
-
-
-		pFogTest->ResetStatus();
-		pFogTest->SetTranslate(0.4, 0, -0.1);
-		pFogTest->Draw();*/
-
-		/*pFogTest->ResetStatus();
-		pFogTest->SetTranslate(0, 0, -1.5);
-		pFogTest->Draw();
-		
-		
-		pFogTest->ResetStatus();
-		pFogTest->SetTranslate(0.5, 0, -2);
-		pFogTest->Draw();*/
-
-		
-		//vec3f rotate = pFogTest->GetRotate();
-		//vec3f tranf = pFogTest->GetTranslate();
-		//WriteInfo("rotate = %s", rotate.FormatToString().c_str());
-		//WriteInfo("tranf = %s", tranf.FormatToString().c_str());
-		//pFogTest->ResetStatus();
-		//pFogTest->SetTranslate(0, 0, -8);
-		//pFogTest->Draw();
-
-		//pFogTest->ResetStatus();
-		//pFogTest->SetTranslate(0, 0, -16);
-		//pFogTest->Draw();
 
 
 		director->Update(duration / CLOCKS_PER_SEC);

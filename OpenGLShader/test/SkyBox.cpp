@@ -4,31 +4,31 @@
 
 CSkyBox::CSkyBox()
 {
-	for (size_t i = 0; i < TEXTURE_COUNT; ++i)
-	{
-		m_pTexture[i] = nullptr;
-	}
-
 	m_pShader = nullptr;
 	m_pSphereData = nullptr;
 	m_pSphereIndex = nullptr;
 	m_nSphereBuffer = -1;
 	m_nSphereIndex = -1;
 	m_pVertex = nullptr;
+	m_pCubeTexture = nullptr;
+	m_pBoxShader = nullptr;
 	m_nVertexBuffer = -1;
+	m_nCubicVertexCount = 0;
 	Init();
 }
 
 
 CSkyBox::~CSkyBox()
 {
-	for (size_t i = 0; i < TEXTURE_COUNT; ++i)
+	if (m_pBoxShader != nullptr)
 	{
-		if (m_pTexture[i] != nullptr)
-		{
-			CTexture::UnLoadTexture(m_pTexture[i]);
-			m_pTexture[i] = nullptr;
-		}
+		delete m_pBoxShader;
+		m_pBoxShader = nullptr;
+	}
+	if (m_pCubeTexture != nullptr)
+	{
+		CTexture::UnLoadTexture(m_pCubeTexture);
+		m_pCubeTexture = nullptr;
 	}
 	if (m_pShader != nullptr)
 	{
@@ -70,99 +70,59 @@ CSkyBox::~CSkyBox()
 
 void CSkyBox::InitTexture(const char * fileDir)
 {
-	char fileName[TEXTURE_COUNT][50] = { "right.tga", "left.tga", "up.tga", "down.tga", "forward.tga", "backward.tga" };
-	for (size_t i = 0; i < TEXTURE_COUNT; ++i)
+	char fileName[6][50] = { "right.tga", "left.tga", "up.tga", "down.tga", "forward.tga", "backward.tga" };
+	
+	std::string strFileDir(fileDir);
+	if (strFileDir.find('/') != std::string::npos)
 	{
-		char tmpFilePath[255] = { 0 };
-		memcpy_s(tmpFilePath, sizeof(tmpFilePath), fileDir, strlen(fileDir));
-		strcat_s(tmpFilePath, fileName[i]);
-		m_pTexture[i] = CTexture::LoadTexture(tmpFilePath);
+		if (strFileDir.back() != '/')
+		{
+			strFileDir = strFileDir + '/';
+		}
 	}
+	else
+	{
+		if (strFileDir.back() != '\\')
+		{
+			strFileDir = strFileDir + '\\';
+		}
+	}
+	std::string strPosX = strFileDir + fileName[0];
+	std::string strNegX = strFileDir + fileName[1];
+	std::string strPosY = strFileDir + fileName[2];
+	std::string strNegY = strFileDir + fileName[3];
+	std::string strPosZ = strFileDir + fileName[4];
+	std::string strNegZ = strFileDir + fileName[5];
+	m_pCubeTexture = CTexture::LoadCubeMapTexture(strPosX.c_str(), 
+		strNegX.c_str(), strPosY.c_str(), strNegY.c_str(), 
+		strPosZ.c_str(), strNegZ.c_str());
+
 	//SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
 }
 
 void CSkyBox::Draw()
 {
-	glDisable(GL_BLEND);
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE);
-	glEnable(GL_DEPTH_TEST);
-	glUseProgram(m_pShader->GetProgram());
-	
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	
-	//glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBuffer);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_nSphereBuffer);
-	SetTransformMatrix();
-	SetSphereVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
-	
-	/*for (size_t i = 0; i < TEXTURE_COUNT; ++i)
-	{
-		if (m_pTexture[i])
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			m_pTexture[i]->Bind();
-			glUniform1i(glGetUniformLocation(m_pShader->GetProgram(), "texSampler"), i);
-		}
-		glDrawArrays(GL_QUADS, 4 * i, 4);
-
-		if (m_pTexture[i])
-		{
-			
-			m_pTexture[i]->Bind(false);
-		}
-	}*/
-	char *tmpFix[] = { "One", "Two", "Thr", "Fou", "Fiv", "Six" };
-	for (size_t i = 0; i < TEXTURE_COUNT; ++i)
-	{
-		if (m_pTexture[i])
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			m_pTexture[i]->Bind();
-			char tmpName[20] = "tex";
-			strcat_s(tmpName, tmpFix[i]);
-			glUniform1i(glGetUniformLocation(m_pShader->GetProgram(), tmpName), i);
-		}
-	}
-	//glDrawArrays(GL_QUADS, 0, POINT_COUNT);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
-	
-	//GLuint tmpPosLocation = glGetAttribLocation(m_pShader->GetProgram(), "pos");
-	//glEnableVertexAttribArray(tmpPosLocation);
-	//glVertexAttribPointer(tmpPosLocation, 3, GL_FLOAT, GL_FALSE, sizeof(CVertex), (GLvoid*)0);
-
-	//GLuint tmpNormalLocation = glGetAttribLocation(m_pShader->GetProgram(), "normal");
-	//glEnableVertexAttribArray(tmpNormalLocation);
-	//glVertexAttribPointer(tmpNormalLocation, 4, GL_FLOAT, GL_FALSE, sizeof(CVertex), (GLvoid*)(3 * sizeof(float)));
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nSphereIndex);
-
-	glDrawElements(GL_TRIANGLES, m_pSphereIndex->size(), GL_UNSIGNED_INT, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	
-	glUseProgram(0);
-	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
-	glDisable(GL_TEXTURE);
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_TEXTURE);
+	//glDisable(GL_DEPTH_TEST);
+	DrawSkyBox();
+	DrawSphere();
 }
 
 void CSkyBox::Update(float Duration)
 {
-	static float speed = 0.0005;
+	static float speed = 0.0002;
 	double zTranslate = Duration * speed;
 	static bool initFlag = true;
 	if (initFlag)
 	{
 		//SetScale(2, 2, 2);
-		SetTranslate(0, 0, -1);
+		//SetTranslate(0, 0, -1);
 		initFlag = false;
 	}
-	AddRotate(0, zTranslate, 0);
+	//mat4f modelMatrix = GetModel();
+	//modelMatrix = modelMatrix * CMatrix<4, 4, float>::GetRotate<float>(zTranslate, 0.3, 1, 0);
+	//SetModelMatrix(modelMatrix);
+	//AddRotate(0, zTranslate, 0);
 }
 
 GLuint CSkyBox::GetShaderProgram()
@@ -176,18 +136,18 @@ GLuint CSkyBox::GetShaderProgram()
 
 void CSkyBox::Init()
 {
-	m_pShader = new CShader("./shader/skybox.vs", "./shader/skybox.fs");
-	SetShaderProgram(m_pShader->GetProgram());
-	size_t Length = 0;
-	m_pVertex = utils::CreateCubicData(0.6, Length);
-	
-	InitSphere(2.8, 50, 50);
+	m_pVertex = utils::CreateCubicData(0.8, m_nCubicVertexCount);
+	m_nVertexBuffer = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertexData) * m_nCubicVertexCount, m_pVertex);
 
-	m_nVertexBuffer = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertexData) * POINT_COUNT, m_pVertex);
+	m_pBoxShader = new CShader("./shader/SkyBox/cubic.vs", "./shader/SkyBox/cubic.fs");
+	SetVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
+
+
+	m_pShader = new CShader("./shader/SkyBox/skybox.vs", "./shader/SkyBox/skybox.fs");
 	SetSphereVertexAttrib(CDrawable::AttribType::VERTEXATTRIB);
 
+	InitSphere(0.3, 50, 50);
 	m_nSphereBuffer = utils::CreateBufferObject(GL_ARRAY_BUFFER, sizeof(CVertex) * m_pSphereData->size(), m_pSphereData->data());
-
 	m_nSphereIndex = utils::CreateBufferObject(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * m_pSphereIndex->size(), m_pSphereIndex->data());
 
 }
@@ -196,19 +156,19 @@ void CSkyBox::SetVertexAttrib(AttribType type)
 {
 	if (type == CDrawable::AttribType::VERTEXATTRIB)
 	{
-		if (m_pShader)
+		if (m_pBoxShader)
 		{
 			const char *tmpName[] = { "pos", "texCoord", "normal" };
-			m_pShader->SetShaderAttrib(3, tmpName);
+			m_pBoxShader->SetShaderAttrib(3, tmpName);
 		}
 	}
 	else if (type == CDrawable::AttribType::ATTRIBPOINTER)
 	{
-		if (m_pShader)
+		if (m_pBoxShader)
 		{
 			size_t count[] = { 3, 2, 3 };
 			GLuint offset[] = { 0, sizeof(float) * 6, sizeof(float) * 3 };
-			m_pShader->SetAttribPointer(count, GL_FLOAT, GL_FALSE, sizeof(CVertexData), offset);
+			m_pBoxShader->SetAttribPointer(count, GL_FLOAT, GL_FALSE, sizeof(CVertexData), offset);
 		}
 	}
 }
@@ -227,11 +187,72 @@ void CSkyBox::SetSphereVertexAttrib(AttribType type)
 	{
 		if (m_pShader)
 		{
-			size_t count[] = { 3, 3 };
+			size_t count[] = { 3, 4 };
 			GLuint offset[] = { 0, sizeof(float) * 3 };
 			m_pShader->SetAttribPointer(count, GL_FLOAT, GL_FALSE, sizeof(CVertex), offset);
 		}
 	}
+}
+
+void CSkyBox::DrawSkyBox()
+{
+	mat4f model = CMatrix<4, 4, float>::GetUnit();
+	SetModelMatrix(model);
+	glEnable(GL_BLEND);
+	
+	glDisable(GL_DEPTH_TEST);
+	SetShaderProgram(m_pBoxShader->GetProgram());
+	glUseProgram(m_pBoxShader->GetProgram());
+	glEnable(GL_TEXTURE_CUBE_MAP);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_pCubeTexture->GetTextureID());
+	glUniform1i(m_pBoxShader->GetLocation("texSampler"), 0);
+	glBindBuffer(GL_ARRAY_BUFFER, m_nVertexBuffer);
+	SetTransformMatrix();
+	SetVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
+
+	glDrawArrays(GL_QUADS, 0, m_nCubicVertexCount);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+	glDisable(GL_TEXTURE_CUBE_MAP);
+	glDisable(GL_BLEND);
+}
+
+void CSkyBox::DrawSphere()
+{
+	mat4f model = CMatrix<4, 4, float>::GetTranslate<float>(0.0f, 0.0f, -1.0f);
+	SetModelMatrix(model);
+	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_CUBE_MAP);
+	glEnable(GL_DEPTH_TEST);
+	SetShaderProgram(m_pShader->GetProgram());
+	glUseProgram(m_pShader->GetProgram());
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_nSphereBuffer);
+	SetTransformMatrix();
+	SetSphereVertexAttrib(CDrawable::AttribType::ATTRIBPOINTER);
+
+	glActiveTexture(GL_TEXTURE0);
+	m_pCubeTexture->Bind();
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_pCubeTexture->GetTextureID());
+	glUniform1i(glGetUniformLocation(m_pShader->GetProgram(), "texSampler"), 0);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_nSphereIndex);
+
+	glDrawElements(GL_TRIANGLES, m_pSphereIndex->size(), GL_UNSIGNED_INT, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	
+	m_pCubeTexture->Bind(false);
+	glUseProgram(0);
+	
+	glDisable(GL_TEXTURE_CUBE_MAP);
+	glDisable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+
 }
 
 
@@ -241,17 +262,8 @@ void CSkyBox::InitSphere(float radis, int slide, int stacks)
 
 	if ((m_pSphereData == nullptr) || (m_pSphereIndex == nullptr))
 	{
+		WriteInfo("Create sphere Failed");
 		return;
-	}
-	
-	
-	CVertex *pVertex = m_pSphereData->data();
-
-	unsigned int tmpSize = m_pSphereData->size();
-	for (int i = 0; i < tmpSize; ++i)
-	{
-		memcpy(pVertex[i].mColor, pVertex[i].mPos, 3 * sizeof(float));
-		pVertex[i].mPos[2] -= 5;
 	}
 }
 

@@ -169,10 +169,12 @@ bool InitModel(std::vector<C3DModel*> *&pModelVec, CVector<4, float> &Perspectiv
 		pModelVec->push_back(pGround);
 	}
 
-	//pSkyBox = new CSkyBox;
-	//pSkyBox->InitTexture("./res/image/skybox/");
+	pSkyBox = new CSkyBox;
+	pSkyBox->InitTexture("./res/image/skybox/");
 	if (pSkyBox && pModelVec)
 	{
+		//mat4f model = CMatrix<4, 4, float>::GetTranslate<float>(0.0f, 0.0f, -3.0f);
+		//pSkyBox->SetModelMatrix(model);
 		pModelVec->push_back(pSkyBox);
 	}
 

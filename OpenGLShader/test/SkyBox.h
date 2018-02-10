@@ -19,15 +19,14 @@ private:
 	void InitSphere(float, int, int);
 	void SetVertexAttrib(AttribType type);
 	void SetSphereVertexAttrib(AttribType type);
+	void DrawSkyBox();
+	void DrawSphere();
 
-	enum
-	{
-		TEXTURE_COUNT = 6,
-		POINT_COUNT = 24
-	};
 
-	CTexture* m_pTexture[TEXTURE_COUNT];
 	CShader* m_pShader;
+	CShader* m_pBoxShader;
+
+	CTexture* m_pCubeTexture;
 	
 	std::vector<CVertex>* m_pSphereData;
 	std::vector<unsigned int>* m_pSphereIndex;
@@ -35,6 +34,7 @@ private:
 	GLuint m_nSphereIndex;
 
 	CVertexData *m_pVertex;
+	size_t m_nCubicVertexCount;
 	GLuint m_nVertexBuffer;
 };
 

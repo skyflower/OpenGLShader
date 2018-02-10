@@ -690,6 +690,7 @@ void utils::CreateSphereData(float radis, int slide, int stacks, std::vector<CVe
 	
 	for (size_t i = 0; i < Length; ++i)
 	{
+		memset(pVertex[i].mColor, 0, sizeof(CVertex::mColor));
 		memcpy(pVertex[i].mColor, pVertex[i].mPos, sizeof(CVertex::mPos));
 	}
 

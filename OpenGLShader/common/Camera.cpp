@@ -146,7 +146,7 @@ void CCamera::SetRotateView(bool flag)
 
 mat4f CCamera::GetViewMatrix()
 {
-	CMatrix<4, 4, float> result = CMatrix<4, 4, float>::GetLookAt(m_fPosition, m_fDestination, m_fUpward);
+	CMatrix<4, 4, float> result = CMatrix<4, 4, float>::GetLookAtTwo(m_fPosition, m_fDestination, m_fUpward);
 	return result;
 }
 

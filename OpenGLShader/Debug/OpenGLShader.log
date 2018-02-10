@@ -1,4 +1,4 @@
-﻿  main.cpp
+﻿  SkyBox.cpp
 d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4521: “UnCopyable”: 指定了多个复制构造函数
 d:\cache\visualstudiocache\openglshader\openglshader\common\uncopyable.h(12): warning C4522: “UnCopyable”: 指定了多个赋值运算符
   OpenGLShader.vcxproj -> D:\Cache\VisualStudioCache\OpenGLShader\Debug\OpenGLShader.exe

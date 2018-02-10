@@ -17,8 +17,7 @@ C3DModel::C3DModel()
 
 	m_fNormalMatrix = CMatrix<3, 3, float>::GetUnit();
 
-	m_fViewMatrix;
-	m_fModelMatrix;
+	m_fViewMatrix = CMatrix<4, 4, float>::GetUnit();
 }
 
 
